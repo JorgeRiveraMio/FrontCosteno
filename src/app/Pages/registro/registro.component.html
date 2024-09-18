@@ -1,53 +1,74 @@
 <app-header></app-header>
-<main class=" d-flex justify-content-center align-items-center container " >
- 
-    <div class="cards mb-5 mt-5  d-flex justify-content-center align-items-center " >
-        
-           <form class="m-5 " style="color: black;"  [formGroup]="registerForm" >
-            <h2 style="font-size: 50px;">REGISTRATÉ AQUI</h2>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">DNI</label>
-              <div class="input-group mb-3">
-                <input formControlName="dni"  type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button (click)="consultarDni()" class="btn btn-outline-secondary" type="button" id="button-addon2">Consultar</button>
-              </div>
-            
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Nombre</label>
-              <input   formControlName="nombres" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-             
-            </div>
-          
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Apellido</label>
-                <input    formControlName="apellidos" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              
-              </div>
-              
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Correo electrónico</label>
-                <input    formControlName="correo"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              
-              </div>
-               
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Contraseña</label>
-                <input   formControlName="password"      type="password" class="form-control" id="exampleInputPassword1">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Confirmar contraseña</label>
-                <input  formControlName="confirmarPassword"   type="password" class="form-control" id="exampleInputPassword1">
-              </div>
-              
-            <button (click)="registrar()" type="submit"  class="btn btn-primary ">REGISTRAR USUARIO</button>
-          </form>
-          <div  >  
-            <img  src="../../../assets/Contenido/fondo.png" alt="" >
-          </div>
-        
-    </div>
-      
-</main>
-<app-footer></app-footer>
 
+<main class="d-flex justify-content-center align-items-center container">
+  <div class="cards mb-5 mt-5 d-flex justify-content-center align-items-center">
+    <form class="m-5" style="color: black;" [formGroup]="registerForm" (ngSubmit)="registrar()">
+      <h2 style="font-size: 50px;">REGÍSTRATE AQUÍ</h2>
+
+      <!-- DNI -->
+      <div class="mb-3">
+        <label for="dni" class="form-label mt-3" style="color: black;">DNI</label>
+        <div class="input-group mb-3">
+          <input formControlName="dni" id="dni" type="text" class="form-control" placeholder="" [ngClass]="{'is-invalid': dni.invalid && dni.touched}">
+          <button (click)="consultarDni()" class="btn btn-outline-secondary" type="button">Consultar</button>
+        </div>
+        <!-- Mostrar mensaje de error si el DNI es inválido -->
+        <div *ngIf="dni.invalid && dni.touched" class="text-danger">
+          El DNI debe ser un número de 8 dígitos.
+        </div>
+      </div>
+
+      <!-- Nombres -->
+      <div class="mb-3">
+        <label for="nombres" class="form-label mt-3" style="color: black;">Nombre</label>
+        <input formControlName="nombres" id="nombres" type="text" class="form-control">
+      </div>
+
+      <!-- Apellidos -->
+      <div class="mb-3">
+        <label for="apellidos" class="form-label mt-3" style="color: black;">Apellido</label>
+        <input formControlName="apellidos" id="apellidos" type="text" class="form-control">
+      </div>
+
+      <!-- Correo electrónico -->
+      <div class="mb-3">
+        <label for="correo" class="form-label mt-3" style="color: black;">Correo electrónico</label>
+        <input formControlName="correo" id="correo" type="email" class="form-control" [ngClass]="{'is-invalid': correo.invalid && correo.touched}">
+        <!-- Mostrar mensaje de error si el correo es inválido -->
+        <div *ngIf="correo.invalid && correo.touched" class="text-danger">
+          Ingresa un correo electrónico válido.
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label mt-3" style="color: black;">Contraseña</label>
+        <input formControlName="password" id="password" type="password" class="form-control" [ngClass]="{'is-invalid': password.invalid && password.touched}">
+        <!-- Mostrar mensaje de error si la contraseña es inválida -->
+        <div *ngIf="password.invalid && password.touched" class="text-danger">
+          La contraseña debe tener al menos 6 caracteres.
+        </div>
+      </div>
+
+      <!-- Confirmar contraseña -->
+      <div class="mb-3">
+        <label for="confirmarPassword" class="form-label mt-3" style="color: black;">Confirmar contraseña</label>
+        <input formControlName="confirmarPassword" id="confirmarPassword" type="password" class="form-control"
+               [ngClass]="{'is-invalid': confirmarPassword.invalid && confirmarPassword.touched || registerForm.errors?.['mismatch']}">
+        <!-- Mostrar mensaje de error si las contraseñas no coinciden -->
+        <div *ngIf="confirmarPassword.invalid && confirmarPassword.touched || registerForm.errors?.['mismatch']" class="text-danger">
+          Las contraseñas no coinciden.
+        </div>
+      </div>
+
+      <!-- Botón de registro -->
+      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">REGISTRAR USUARIO</button>
+    </form>
+
+    <div>
+      <img src="../../../assets/Contenido/fondo.png" alt="">
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>
