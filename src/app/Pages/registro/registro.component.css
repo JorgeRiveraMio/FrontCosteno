@@ -1,0 +1,16 @@
+*{
+    text-decoration: none;
+}
+main{
+    min-height: 80vh;
+    
+}
+img{
+    width: 500px;
+    height: 700px;
+    margin: 35px ;
+    border-radius: 25px;
+}
+.cards{
+    border: solid 1px #dedede;
+}

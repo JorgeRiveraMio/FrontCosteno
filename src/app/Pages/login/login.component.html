@@ -1,0 +1,49 @@
+<app-header></app-header>
+<main class=" d-flex justify-content-center align-items-center" >
+    <div class="card mb-5 mt-5 " style="width: 700px; height: 600px;">
+       
+        <form class="m-5" style="color: black;" [formGroup]="formLogin">
+          <p style="color: #ee0b0b;" class="text-danger">{{loginError}}</p>
+            <h2 style="font-size: 50px;">INICIAR SESION</h2>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Email address</label>
+              <input formControlName="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie más.</div>
+
+              <div *ngIf="email.invalid && (email.dirty || email.touched)"
+              class="text-danger">
+              <div *ngIf="email.errors?.['required']" style="color: #ee0b0b;">
+                  El Email es requerido.
+              </div>
+              <div *ngIf="email.errors?.['email']" style="color: #ee0b0b;">
+                  El Email debe tener un formato válido.
+              </div>
+
+          </div>
+
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Password</label>
+              <input  formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+              <div *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="text-danger">
+            <div *ngIf="password.errors?.['required']" style="color: #ee0b0b;">
+                El Password es requerido.
+            </div>
+            </div> 
+          
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label " for="exampleCheck1" style="color: black;">Check me out</label>
+            </div>
+            <button (click)="login()" type="submit" class="btn btn-primary ">INICIAR SESION</button>
+            <div class="d-flex mt-3" > 
+                <p style="color: #000;" class="me-3">¿No tienes cuenta?</p>
+                 <a style="color: blue;"  (click)="registrarse()" >Registrate</a>
+            </div>
+           
+          </form>
+      </div>
+</main>
+<app-footer></app-footer>

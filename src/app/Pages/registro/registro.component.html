@@ -1,0 +1,53 @@
+<app-header></app-header>
+<main class=" d-flex justify-content-center align-items-center container " >
+ 
+    <div class="cards mb-5 mt-5  d-flex justify-content-center align-items-center " >
+        
+           <form class="m-5 " style="color: black;"  [formGroup]="registerForm" >
+            <h2 style="font-size: 50px;">REGISTRATÉ AQUI</h2>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">DNI</label>
+              <div class="input-group mb-3">
+                <input formControlName="dni"  type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button (click)="consultarDni()" class="btn btn-outline-secondary" type="button" id="button-addon2">Consultar</button>
+              </div>
+            
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Nombre</label>
+              <input   formControlName="nombres" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+             
+            </div>
+          
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Apellido</label>
+                <input    formControlName="apellidos" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              
+              </div>
+              
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Correo electrónico</label>
+                <input    formControlName="correo"  type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              
+              </div>
+               
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Contraseña</label>
+                <input   formControlName="password"      type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Confirmar contraseña</label>
+                <input  formControlName="confirmarPassword"   type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              
+            <button (click)="registrar()" type="submit"  class="btn btn-primary ">REGISTRAR USUARIO</button>
+          </form>
+          <div  >  
+            <img  src="../../../assets/Contenido/fondo.png" alt="" >
+          </div>
+        
+    </div>
+      
+</main>
+<app-footer></app-footer>
+

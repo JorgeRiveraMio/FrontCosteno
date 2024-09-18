@@ -1,0 +1,8 @@
+main{
+    background-image: url("../../../assets/Contenido/fondo.png");
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 80vh;
+    /* background-attachment:fixed ; */
+}

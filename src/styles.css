@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+*{
+    color: white;
+}
+select{
+    height: 80px;
+}
+select option{
+    color: black;
+}
+
+
+.ng-valid:not(form).ng-touched{
+    border-left: 5px solid #42a948;
+}
+.ng-invalid:not(form).ng-touched{
+    border-left: 5px solid #a94442;
+}
