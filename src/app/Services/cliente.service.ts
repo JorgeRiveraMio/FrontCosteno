@@ -13,7 +13,17 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  registrar(cliente: Cliente): Observable<ResponseApi> {
-    return this.http.post<ResponseApi>(`${this.apiUrl}/guardar`, cliente);
+  // registrar(cliente: Cliente): Observable<ResponseApi> {
+  //   return this.http.post<ResponseApi>(`${this.apiUrl}/guardar`, cliente);
+  // }
+
+  enviarCodigo(cliente: Cliente): Observable<ResponseApi> {
+    return this.http.post<ResponseApi>(`${this.apiUrl}/enviarCodigo`, cliente);
   }
+  validarCodigo(email: string, codigo: string): Observable<any> {
+   
+    const body = { email, codigo };  // Construimos el objeto JSON con los datos
+    return this.http.post<ResponseApi>(`${this.apiUrl}/validarCodigo`, body);
+  }
+  
 }

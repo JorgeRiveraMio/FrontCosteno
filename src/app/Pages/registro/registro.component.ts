@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ClienteService } from '../../Services/cliente.service';
 import { Cliente } from '../../Interfaces/Cliente';
 import { DniService } from '../../Services/dni.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro',
@@ -73,15 +74,27 @@ export class RegistroComponent {
         password: this.registerForm.value.password ?? '',
         estadoCliente: { idEstadoCliente: 1, estado: 'Activo' } // Ajusta según corresponda
       };
-
-      this.clienteService.registrar(formData).subscribe({
+      // registra antiguo
+      // this.clienteService.registrar(formData).subscribe({
+      //   next: (response) => {
+      //     console.log('Registro exitoso:', response);
+      //     // Redirige al login después del registro exitoso
+      //     this.router.navigate(['/login']);
+      //   },
+      //   error: (error) => {
+      //     console.error('Error al registrar cliente', error);
+      //     this.errorMessage = 'Error al registrar cliente';
+      //   }
+      // });
+      this.clienteService.enviarCodigo(formData).subscribe({
         next: (response) => {
-          console.log('Registro exitoso:', response);
+          console.log('Codigo enviado correctamente:', response);
           // Redirige al login después del registro exitoso
-          this.router.navigate(['/login']);
+            this.validarCodigo();
+          // this.router.navigate(['/login']);
         },
         error: (error) => {
-          console.error('Error al registrar cliente', error);
+          console.error('Error Codigo :', error);
           this.errorMessage = 'Error al registrar cliente';
         }
       });
@@ -111,4 +124,48 @@ export class RegistroComponent {
       );
     }
   }
+
+  validarCodigo() {
+    Swal.fire({
+        title: "Ingresa el código de verificación",
+        input: "text",
+        inputAttributes: {
+            autocapitalize: "off"
+        },
+        showCancelButton: true,
+        confirmButtonText: "Verificar",
+        showLoaderOnConfirm: true,
+        preConfirm: async (codigo) => {
+            try {
+                // Llamamos a tu servicio para validar el código
+                const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
+                return response;  // Si la verificación es exitosa, se retorna la respuesta
+            } catch (error) {
+                // Mostrar el mensaje de error directamente
+                console.log(error)
+                Swal.showValidationMessage(`
+       Codigo incorrecto: ${error}
+      `);
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "¡Código validado!",
+                text: result.value.message,
+                icon: "success"
+            }).then(() => {
+              // Navegar a la ruta /login
+              this.router.navigate(['/login']);
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire({
+                title: "Validación cancelada",
+                icon: "error"
+            });
+        }
+    });
+}
+
 }
