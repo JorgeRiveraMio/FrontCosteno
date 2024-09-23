@@ -9,6 +9,8 @@ import { error } from 'console';
 
 
 import { CommonModule } from '@angular/common';
+import { LoginService } from '../../Services/login.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent  {
   loginError:string="";
   public formBuild=inject(FormBuilder);
   private router = inject(Router);
+  private loginService=inject(LoginService);
   formLogin = this.formBuild.group({
     username: ['',[Validators.required,Validators.email] ],
     password: ['', Validators.required]
@@ -34,7 +37,24 @@ export class LoginComponent  {
   }
 
   login(){
-   
+   if(this.formLogin.valid){
+    const {username,password}=this.formLogin.value
+    this.loginService.login(username ?? '',password ?? '' ).subscribe(
+      {
+        next:(response)=>{
+             // Aquí obtienes el token
+             console.log('Token JWT:', response.token);
+             // Guarda el token en sessionStorage o localStorage si es necesario
+             sessionStorage.setItem('token', response.token);
+             // Redirigir a otra página si es necesario
+             this.router.navigate(['/']);
+        },
+        error:(error)=>{
+          console.error('Error durante el login', error);
+        }
+      }
+    )
+   }
   }
   registrarse(){
     this.router.navigate(['registro']);
