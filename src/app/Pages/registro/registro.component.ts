@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { ClienteService } from '../../Services/cliente.service';
 import { Cliente } from '../../Interfaces/Cliente';
 import { DniService } from '../../Services/dni.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule],
+  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css']
 })
@@ -22,99 +23,89 @@ export class RegistroComponent {
   private clienteService = inject(ClienteService);
   private dniService = inject(DniService);
 
-  // Añadir la propiedad para manejar mensajes de error
   errorMessage: string = '';
 
   registerForm = this.formBuild.group({
-    dni: ['', Validators.required],
+    dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
     apellidos: ['', Validators.required],
     nombres: ['', Validators.required],
     correo: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     confirmarPassword: ['', Validators.required]
-  });
+  }, { validators: this.passwordsMatchValidator });
 
-  get dni() {
-    return this.registerForm.controls.dni;
+  // Validadores personalizados
+  passwordsMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmarPassword = form.get('confirmarPassword')?.value;
+    return password === confirmarPassword ? null : { mismatch: true };
   }
 
+  // Getter para facilitar el acceso a los controles del formulario
+  get dni() {
+    return this.registerForm.get('dni');
+  }
+  
   get nombres() {
-    return this.registerForm.controls.nombres;
+    return this.registerForm.get('nombres');
   }
 
   get apellidos() {
-    return this.registerForm.controls.apellidos;
+    return this.registerForm.get('apellidos');
   }
 
   get correo() {
-    return this.registerForm.controls.correo;
+    return this.registerForm.get('correo');
   }
 
   get password() {
-    return this.registerForm.controls.password;
+    return this.registerForm.get('password');
   }
 
   get confirmarPassword() {
-    return this.registerForm.controls.confirmarPassword;
+    return this.registerForm.get('confirmarPassword');
   }
 
   registrar() {
     if (this.registerForm.valid) {
       const formData: Cliente = {
-        idPersona: 0, // Ajusta estos valores según corresponda       
-        numDocumento: Number(this.registerForm.value.dni),
-        nombres: this.registerForm.value.nombres ?? '',
-        apellidos: this.registerForm.value.apellidos ?? '',
+        idPersona: 0,
+        numDocumento: Number(this.dni?.value),
+        nombres: this.nombres?.value ?? '',
+        apellidos: this.apellidos?.value ?? '',
         estadoCivil: '',
         direccion: '',
         numTel: '',
-        fechaNac: new Date(), // Ajusta según corresponda
+        fechaNac: new Date(),
         fechaCreacion: new Date(),
-        correo: this.registerForm.value.correo ?? '',
-        password: this.registerForm.value.password ?? '',
-        estadoCliente: { idEstadoCliente: 1, estado: 'Activo' } // Ajusta según corresponda
+        correo: this.correo?.value ?? '',
+        password: this.password?.value ?? '',
+        estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
       };
-      // registra antiguo
-      // this.clienteService.registrar(formData).subscribe({
-      //   next: (response) => {
-      //     console.log('Registro exitoso:', response);
-      //     // Redirige al login después del registro exitoso
-      //     this.router.navigate(['/login']);
-      //   },
-      //   error: (error) => {
-      //     console.error('Error al registrar cliente', error);
-      //     this.errorMessage = 'Error al registrar cliente';
-      //   }
-      // });
+
       this.clienteService.enviarCodigo(formData).subscribe({
         next: (response) => {
-          console.log('Codigo enviado correctamente:', response);
-          // Redirige al login después del registro exitoso
-            this.validarCodigo();
-          // this.router.navigate(['/login']);
+          console.log('Código enviado correctamente:', response);
+          this.validarCodigo();
         },
         error: (error) => {
-          console.error('Error Codigo :', error);
+          console.error('Error al enviar el código:', error);
           this.errorMessage = 'Error al registrar cliente';
         }
       });
-    }else{
-      console.log('formulario no valido')
+    } else {
+      console.log('Formulario no válido');
     }
-    
   }
 
   consultarDni() {
     const dniValue = this.dni?.value ?? '';
-    let dniVacio = !dniValue || dniValue.trim() === '';
-
-    if (!dniVacio) {
+    if (dniValue.trim()) {
       this.dniService.consultarDni(dniValue).subscribe(
         (data) => {
-          // Llenar campos del formulario con los datos recibidos
           this.registerForm.patchValue({
             nombres: data.nombres ?? '',
-            apellidos: data.apellidoPaterno + " " + data.apellidoMaterno,
+            apellidos: `${data.apellidoPaterno} ${data.apellidoMaterno}`
           });
         },
         (error) => {
@@ -125,94 +116,42 @@ export class RegistroComponent {
     }
   }
 
-//   validarCodigo() {
-//     Swal.fire({
-//         title: "Ingresa el código de verificación",
-//         input: "text",
-//         inputAttributes: {
-//             autocapitalize: "off"
-//         },
-//         showCancelButton: true,
-//         confirmButtonText: "Verificar",
-//         showLoaderOnConfirm: true,
-//         preConfirm: async (codigo) => {
-//             try {
-//                 // Llamamos a tu servicio para validar el código
-//                 const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
-//                 return response;  // Si la verificación es exitosa, se retorna la respuesta
-//             } catch (error) {
-//                 // Mostrar el mensaje de error directamente
-//                 console.log(error)
-//                 Swal.showValidationMessage(`
-//        Codigo incorrecto: ${error}
-//       `);
-//             }
-//         },
-//         allowOutsideClick: () => !Swal.isLoading()
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             Swal.fire({
-//                 title: "¡Código validado!",
-//                 text: result.value.message,
-//                 icon: "success"
-//             }).then(() => {
-//               // Navegar a la ruta /login
-//               this.router.navigate(['/login']);
-//           });
-//         } else if (result.dismiss === Swal.DismissReason.cancel) {
-//             Swal.fire({
-//                 title: "Validación cancelada",
-//                 icon: "error"
-//             });
-//         }
-//     });
-// }
-validarCodigo() {
-  // Mostrar el SweetAlert inmediatamente
-  Swal.fire({
-      title: "Ingresa el código de verificación",
-      input: "text",
-      inputAttributes: {
-          autocapitalize: "off"
-      },
+  validarCodigo() {
+    Swal.fire({
+      title: 'Ingresa el código de verificación',
+      input: 'text',
+      inputAttributes: { autocapitalize: 'off' },
       showCancelButton: true,
-      confirmButtonText: "Verificar",
+      confirmButtonText: 'Verificar',
       allowOutsideClick: () => !Swal.isLoading()
-  }).then(async (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-          const codigo = result.value;
-          // Mostrar un loading mientras validas el código
-          Swal.fire({
-              title: 'Validando...',
-              didOpen: () => {
-                  Swal.showLoading();
-              }
-          });
+        const codigo = result.value;
+        Swal.fire({
+          title: 'Validando...',
+          didOpen: () => Swal.showLoading()
+        });
 
-          try {
-              const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
-              Swal.fire({
-                  title: "¡Código validado!",
-                  text: response.message,
-                  icon: "success"
-              }).then(() => {
-                  this.router.navigate(['/login']);
-              });
-          } catch (error) {
-              Swal.fire({
-                  title: "Código incorrecto",
-                  text: this.errorMessage,
-                  icon: "error"
-              });
-          }
+        try {
+          const response = await this.clienteService.validarCodigo(this.correo?.value ?? '', codigo).toPromise();
+          Swal.fire({
+            title: '¡Código validado!',
+            text: response.message,
+            icon: 'success'
+          }).then(() => this.router.navigate(['/login']));
+        } catch (error) {
+          Swal.fire({
+            title: 'Código incorrecto',
+            text: this.errorMessage,
+            icon: 'error'
+          });
+        }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire({
-              title: "Validación cancelada",
-              icon: "error"
-          });
+        Swal.fire({
+          title: 'Validación cancelada',
+          icon: 'error'
+        });
       }
-  });
-}
-
-
+    });
+  }
 }
