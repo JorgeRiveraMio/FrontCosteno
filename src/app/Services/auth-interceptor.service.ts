@@ -11,8 +11,9 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
-     const token = this.loginService.getToken(); // Aquí estás llamando a getToken()
-   // const token = localStorage.getItem; // Aquí estás llamando a getToken()
+ 
+   
+    const token = localStorage.getItem('token'); // Aquí estás llamando a getToken()
 
 
     // Verifica que el token no sea null
@@ -26,6 +27,8 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     return next.handle(authReq);
   }
+  
+
 }
   export const authInterceptorProviders = [
     {

@@ -24,6 +24,7 @@ export class LoginComponent  {
   public formBuild=inject(FormBuilder);
   private router = inject(Router);
   private loginService=inject(LoginService);
+  public usuario:any;
   formLogin = this.formBuild.group({
     username: ['',[Validators.required,Validators.email] ],
     password: ['', Validators.required]
@@ -36,57 +37,54 @@ export class LoginComponent  {
     return this.formLogin.controls.password;
   }
 
-  // login(){
-  //  if(this.formLogin.valid){
-  //   const {username,password}=this.formLogin.value
-  //   this.loginService.login(username ?? '',password ?? '' ).subscribe(
-  //     {
-  //       next:(response)=>{
-  //            console.log('Respuesta completa:', response); // Agrega esta línea para ver toda la respuesta
-  //            // Aquí obtienes el token
-  //             console.log('Token JWT:', response.token);
-  //            // Guarda el token en sessionStorage o localStorage si es necesario
-  //           // sessionStorage.setItem('token',response.token);
-  //           this.loginService.loginUser(response.token)
-  //             // Verifica que el token se haya almacenado correctamente
-  //             //console.log('Token almacenado en sessionStorage:', sessionStorage.getItem('token'));
-  //            // Redirigir a otra página si es necesario
-  //            console.log(this.loginService.getToken())
-  //            this.router.navigate(['/']);
-  //       },
-  //       error:(error)=>{
-  //         console.error('Error durante el login', error);
-  //       }
-  //     }
-  //   )
-  //  }
-  // }
+  login(){
+   if(this.formLogin.valid){
+  
+    const {username,password}=this.formLogin.value
+    this.loginService.login(username ?? '',password ?? '' ).subscribe(
+      {
+        next:(response)=>{
+             console.log('Respuesta completa:', response); // Agrega esta línea para ver toda la respuesta
+             // Aquí obtienes el token
+              console.log('Token JWT:', response.token);
+             // Guarda el token en sessionStorage o localStorage si es necesario
+       
+            this.loginService.loginUser(response.token)
+           
+             console.log(this.loginService.getToken())
 
-  //opcion 2
-  login() {
-    if (this.formLogin.valid) {
-      const { username, password } = this.formLogin.value;
-      this.loginService.login(username ?? '', password ?? '').subscribe({
-        next: (response) => {
-          console.log('Respuesta completa:', response); // Ver toda la respuesta
-  
-          // Asegúrate de que el token esté presente en la respuesta
-          if (response.token) {
-            console.log('Token JWT:', response.token);
-            this.loginService.loginUser(response.token); // Llama al método para almacenar el token
-          } else {
-            console.error('Token no encontrado en la respuesta');
-          }
-  
-          // Redirigir a otra página si es necesario
-          this.router.navigate(['/']);
+             this.loginService.getCurrentUser().subscribe((user: any) => {
+              this.loginService.setUser(user);
+              console.log(user);
+              this.usuario=user; 
+               const roles = this.usuario.authorities.map((auth: any) => auth.authority); // Accede a los roles    const roles = this.usuario.authorities.map(auth => auth.authority); // Accede a los roles
+              console.log(roles);
+              
+               if(roles == "cliente"){
+                this.loginService.setUserRole("cliente");
+                this.router.navigate(['/']);
+                this.loginService.loginStatusSubject.next(true);
+              }
+              else if(roles == "empleado"){
+                this.loginService.setUserRole("empleado");
+                this.router.navigate(['/']);
+                this.loginService.loginStatusSubject.next(true);
+              }
+              else{
+              this.loginService.logout();
+              }
+            })
+             
         },
-        error: (error) => {
+        error:(error)=>{
           console.error('Error durante el login', error);
-        },
-      });
-    }
+        }
+      }
+    )
+   }
   }
+
+
   registrarse(){
     this.router.navigate(['registro']);
   }
