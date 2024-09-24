@@ -125,47 +125,94 @@ export class RegistroComponent {
     }
   }
 
-  validarCodigo() {
-    Swal.fire({
-        title: "Ingresa el código de verificación",
-        input: "text",
-        inputAttributes: {
-            autocapitalize: "off"
-        },
-        showCancelButton: true,
-        confirmButtonText: "Verificar",
-        showLoaderOnConfirm: true,
-        preConfirm: async (codigo) => {
-            try {
-                // Llamamos a tu servicio para validar el código
-                const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
-                return response;  // Si la verificación es exitosa, se retorna la respuesta
-            } catch (error) {
-                // Mostrar el mensaje de error directamente
-                console.log(error)
-                Swal.showValidationMessage(`
-       Codigo incorrecto: ${error}
-      `);
-            }
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: "¡Código validado!",
-                text: result.value.message,
-                icon: "success"
-            }).then(() => {
-              // Navegar a la ruta /login
-              this.router.navigate(['/login']);
+//   validarCodigo() {
+//     Swal.fire({
+//         title: "Ingresa el código de verificación",
+//         input: "text",
+//         inputAttributes: {
+//             autocapitalize: "off"
+//         },
+//         showCancelButton: true,
+//         confirmButtonText: "Verificar",
+//         showLoaderOnConfirm: true,
+//         preConfirm: async (codigo) => {
+//             try {
+//                 // Llamamos a tu servicio para validar el código
+//                 const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
+//                 return response;  // Si la verificación es exitosa, se retorna la respuesta
+//             } catch (error) {
+//                 // Mostrar el mensaje de error directamente
+//                 console.log(error)
+//                 Swal.showValidationMessage(`
+//        Codigo incorrecto: ${error}
+//       `);
+//             }
+//         },
+//         allowOutsideClick: () => !Swal.isLoading()
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             Swal.fire({
+//                 title: "¡Código validado!",
+//                 text: result.value.message,
+//                 icon: "success"
+//             }).then(() => {
+//               // Navegar a la ruta /login
+//               this.router.navigate(['/login']);
+//           });
+//         } else if (result.dismiss === Swal.DismissReason.cancel) {
+//             Swal.fire({
+//                 title: "Validación cancelada",
+//                 icon: "error"
+//             });
+//         }
+//     });
+// }
+validarCodigo() {
+  // Mostrar el SweetAlert inmediatamente
+  Swal.fire({
+      title: "Ingresa el código de verificación",
+      input: "text",
+      inputAttributes: {
+          autocapitalize: "off"
+      },
+      showCancelButton: true,
+      confirmButtonText: "Verificar",
+      allowOutsideClick: () => !Swal.isLoading()
+  }).then(async (result) => {
+      if (result.isConfirmed) {
+          const codigo = result.value;
+          // Mostrar un loading mientras validas el código
+          Swal.fire({
+              title: 'Validando...',
+              didOpen: () => {
+                  Swal.showLoading();
+              }
           });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire({
-                title: "Validación cancelada",
-                icon: "error"
-            });
-        }
-    });
+
+          try {
+              const response = await this.clienteService.validarCodigo(this.registerForm.value.correo ?? '', codigo).toPromise();
+              Swal.fire({
+                  title: "¡Código validado!",
+                  text: response.message,
+                  icon: "success"
+              }).then(() => {
+                  this.router.navigate(['/login']);
+              });
+          } catch (error) {
+              Swal.fire({
+                  title: "Código incorrecto",
+                  text: this.errorMessage,
+                  icon: "error"
+              });
+          }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+              title: "Validación cancelada",
+              icon: "error"
+          });
+      }
+  });
 }
+
 
 }
