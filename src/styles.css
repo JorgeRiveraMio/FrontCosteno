@@ -2,6 +2,8 @@
 
 *{
     color: white;
+    text-decoration: none;
+    list-style: none;
 }
 select{
     height: 80px;

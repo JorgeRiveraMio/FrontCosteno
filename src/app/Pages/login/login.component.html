@@ -4,9 +4,9 @@
        
         <form class="m-5" style="color: black;" [formGroup]="formLogin">
           <p style="color: #ee0b0b;" class="text-danger">{{loginError}}</p>
-            <h2 style="font-size: 50px;">INICIAR SESION</h2>
+            <h2 style="font-size: 50px;">INICIAR SESIÓN</h2>
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Email address</label>
+              <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Correo electrónico</label>
               <input formControlName="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
               <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie más.</div>
 
@@ -23,7 +23,7 @@
 
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Password</label>
+              <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Contraseña</label>
               <input  formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
               <div *ngIf="password.invalid && (password.dirty || password.touched)"
             class="text-danger">
@@ -33,11 +33,8 @@
             </div> 
           
             </div>
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label " for="exampleCheck1" style="color: black;">Check me out</label>
-            </div>
-            <button (click)="login()" type="submit" class="btn btn-primary ">INICIAR SESION</button>
+        
+            <button (click)="login()" type="submit" class="btn btn-primary ">INICIAR SESIÓN</button>
             <div class="d-flex mt-3" > 
                 <p style="color: #000;" class="me-3">¿No tienes cuenta?</p>
                  <a style="color: blue;"  (click)="registrarse()" >Registrate</a>

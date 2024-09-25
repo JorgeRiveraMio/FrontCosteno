@@ -15,10 +15,8 @@ export class AuthInterceptorService implements HttpInterceptor {
    
     const token = localStorage.getItem('token'); // Aquí estás llamando a getToken()
 
-
     // Verifica que el token no sea null
-    console.log('Token recuperado en el interceptor:', token); // Verifica que este no sea null
-    // console.log('Token recuperado en el interceptor con session:',sessionStorage.getItem('token'));
+    console.log('Token recuperado en el interceptor:', token); // Verifica que este no sea null   
     if (token) {
       authReq = authReq.clone({
         setHeaders: { Authorization: `Bearer ${token}` }

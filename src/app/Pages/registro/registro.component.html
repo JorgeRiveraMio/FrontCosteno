@@ -9,11 +9,11 @@
       <div class="mb-3">
         <label for="dni" class="form-label mt-3" style="color: black;">DNI</label>
         <div class="input-group mb-3">
-          <input formControlName="dni" id="dni" type="text" class="form-control" placeholder="" [ngClass]="{'is-invalid': dni.invalid && dni.touched}">
+          <input formControlName="dni" id="dni" type="text" class="form-control" placeholder="" [ngClass]="{'is-invalid': dni?.invalid && dni?.touched}">
           <button (click)="consultarDni()" class="btn btn-outline-secondary" type="button">Consultar</button>
         </div>
         <!-- Mostrar mensaje de error si el DNI es inválido -->
-        <div *ngIf="dni.invalid && dni.touched" class="text-danger">
+        <div *ngIf="dni?.invalid && dni?.touched" class="text-danger">
           El DNI debe ser un número de 8 dígitos.
         </div>
       </div>
@@ -33,9 +33,9 @@
       <!-- Correo electrónico -->
       <div class="mb-3">
         <label for="correo" class="form-label mt-3" style="color: black;">Correo electrónico</label>
-        <input formControlName="correo" id="correo" type="email" class="form-control" [ngClass]="{'is-invalid': correo.invalid && correo.touched}">
+        <input formControlName="correo" id="correo" type="email" class="form-control" [ngClass]="{'is-invalid': correo?.invalid && correo?.touched}">
         <!-- Mostrar mensaje de error si el correo es inválido -->
-        <div *ngIf="correo.invalid && correo.touched" class="text-danger">
+        <div *ngIf="correo?.invalid && correo?.touched" class="text-danger">
           Ingresa un correo electrónico válido.
         </div>
       </div>
@@ -43,9 +43,9 @@
       <!-- Contraseña -->
       <div class="mb-3">
         <label for="password" class="form-label mt-3" style="color: black;">Contraseña</label>
-        <input formControlName="password" id="password" type="password" class="form-control" [ngClass]="{'is-invalid': password.invalid && password.touched}">
+        <input formControlName="password" id="password" type="password" class="form-control" [ngClass]="{'is-invalid': password?.invalid && password?.touched}">
         <!-- Mostrar mensaje de error si la contraseña es inválida -->
-        <div *ngIf="password.invalid && password.touched" class="text-danger">
+        <div *ngIf="password?.invalid && password?.touched" class="text-danger">
           La contraseña debe tener al menos 6 caracteres.
         </div>
       </div>
@@ -54,9 +54,9 @@
       <div class="mb-3">
         <label for="confirmarPassword" class="form-label mt-3" style="color: black;">Confirmar contraseña</label>
         <input formControlName="confirmarPassword" id="confirmarPassword" type="password" class="form-control"
-               [ngClass]="{'is-invalid': confirmarPassword.invalid && confirmarPassword.touched || registerForm.errors?.['mismatch']}">
+               [ngClass]="{'is-invalid': confirmarPassword?.invalid && confirmarPassword?.touched || registerForm.errors?.['mismatch']}">
         <!-- Mostrar mensaje de error si las contraseñas no coinciden -->
-        <div *ngIf="confirmarPassword.invalid && confirmarPassword.touched || registerForm.errors?.['mismatch']" class="text-danger">
+        <div *ngIf="confirmarPassword?.invalid && confirmarPassword?.touched || registerForm.errors?.['mismatch']" class="text-danger">
           Las contraseñas no coinciden.
         </div>
       </div>

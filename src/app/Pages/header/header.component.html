@@ -31,7 +31,7 @@
                             <li *ngIf="!isLogged; "  ><a  routerLink="/login" class="dropdown-item">Inicia Sesión</a></li>
                             <li  *ngIf="!isLogged; " ><a   routerLink="/registro" class="dropdown-item">Regístrate</a></li> 
                             <li  *ngIf="isLogged; "><a class="dropdown-item">Mi perfil</a></li>  
-                            <li  *ngIf="isLogged; " ><a class="dropdown-item">Cerrar Sesion</a></li>                             
+                            <li  *ngIf="isLogged; " ><a (click)="logout()" class="dropdown-item">Cerrar Sesion</a></li>                             
                         </ul>
                     </div>
                 </div>

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { error } from 'console';
 import { LoginService } from '../../Services/login.service';
+
 
 
 @Component({
@@ -16,18 +17,26 @@ export class HeaderComponent {
  
   nombreUsuario: string | null = null;
   loginService= inject(LoginService);
+  router =inject(Router);
   isLogged: boolean = false;
   constructor(){
     this.isLogged =this.loginService.isLoggedIn()
- // Obtener los datos del usuario
-  const data = this.loginService.getUser();
-  if (data != null) {
+    //Obtener los datos del usuario
+
+    const data = this.loginService.getUser();
+    if (data != null) {
     // Aquí puedes realizar alguna acción con los datos del usuario
-    this.nombreUsuario =this.getFirstName( data.nombres); // Por ejemplo, asignar el nombre del usuario
-  }
-     }
-  
-     private getFirstName(fullName: string): string {
-      return fullName.split(' ')[0]; // Dividir por espacio y tomar el primer elemento
+      this.nombreUsuario =this.getFirstName( data.nombres); 
     }
+  }
+  
+  private getFirstName(fullName: string): string {
+      return fullName.split(' ')[0]; // Dividir por espacio y tomar el primer elemento
+  }
+
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(['/login']);  
+  }
+  
 }
