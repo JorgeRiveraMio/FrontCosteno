@@ -4,6 +4,7 @@ import { LoginComponent } from './Pages/login/login.component';
 import { RegistroComponent } from './Pages/registro/registro.component';
 import { PerfilComponent } from './Pages/perfil/perfil.component';
 import { BusesComponent } from './Pages/buses/buses.component';
+import { RutasComponent } from './Pages/rutas/rutas.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,11 @@ export const routes: Routes = [
     {
         path:"buses",
         component: BusesComponent
+    },
+
+    {
+        path:"rutas",
+        component: RutasComponent
     }
 
 ];
