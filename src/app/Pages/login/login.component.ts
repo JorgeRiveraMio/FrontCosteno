@@ -6,11 +6,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '../../Interfaces/Login';
 import { error } from 'console';
-
-
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../Services/login.service';
-import { response } from 'express';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +35,7 @@ export class LoginComponent  {
   }
 
   login(){
-   if(this.formLogin.valid){
+    if(this.formLogin.valid){
   
     const {username,password}=this.formLogin.value
     this.loginService.login(username ?? '',password ?? '' ).subscribe(
