@@ -22,7 +22,7 @@ export class RegistroComponent {
   private router = inject(Router);
   private clienteService = inject(ClienteService);
   private dniService = inject(DniService);
-
+  cooldownBotton: boolean = false; 
   errorMessage: string = '';
 
   registerForm = this.formBuild.group({
@@ -66,8 +66,35 @@ export class RegistroComponent {
     return this.registerForm.get('confirmarPassword');
   }
 
+  
+  consultarDni() {
+    const dniValue = this.dni?.value ?? '';
+    if (dniValue.trim()) {
+      this.dniService.consultarDni(dniValue).subscribe(
+        (data) => {
+          this.registerForm.patchValue({
+            nombres: data.nombres ?? '',
+            apellidos: `${data.apellidoPaterno} ${data.apellidoMaterno}`
+          });
+        },
+        (error) => {
+          console.error('Error al consultar DNI', error);
+          this.errorMessage = 'No se pudo consultar el DNI. Intente nuevamente.';
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error al consultar DNI",
+           
+          });
+        }
+      );
+    }
+  }
   registrar() {
+    
     if (this.registerForm.valid) {
+      this.cooldownBotton=true;
+  
       const formData: Cliente = {
         idPersona: 0,
         numDocumento: Number(this.dni?.value),
@@ -82,37 +109,23 @@ export class RegistroComponent {
         password: this.password?.value ?? '',
         estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
       };
-
+      this.pantallaCarga();
       this.clienteService.enviarCodigo(formData).subscribe({
         next: (response) => {
           console.log('Código enviado correctamente:', response);
-          this.validarCodigo();
+          Swal.close();
+      
+        
         },
         error: (error) => {
           console.error('Error al enviar el código:', error);
           this.errorMessage = 'Error al registrar cliente';
+        },complete:()=>{
+          this.cooldownBotton=false;
         }
       });
     } else {
       console.log('Formulario no válido');
-    }
-  }
-
-  consultarDni() {
-    const dniValue = this.dni?.value ?? '';
-    if (dniValue.trim()) {
-      this.dniService.consultarDni(dniValue).subscribe(
-        (data) => {
-          this.registerForm.patchValue({
-            nombres: data.nombres ?? '',
-            apellidos: `${data.apellidoPaterno} ${data.apellidoMaterno}`
-          });
-        },
-        (error) => {
-          console.error('Error al consultar DNI', error);
-          this.errorMessage = 'No se pudo consultar el DNI. Intente nuevamente.';
-        }
-      );
     }
   }
 
@@ -134,11 +147,13 @@ export class RegistroComponent {
 
         try {
           const response = await this.clienteService.validarCodigo(this.correo?.value ?? '', codigo).toPromise();
+
           Swal.fire({
             title: '¡Código validado!',
             text: response.message,
             icon: 'success'
           }).then(() => this.router.navigate(['/login']));
+       
         } catch (error) {
           Swal.fire({
             title: 'Código incorrecto',
@@ -154,4 +169,36 @@ export class RegistroComponent {
       }
     });
   }
+  
+  pantallaCarga(){
+    let timerInterval: NodeJS.Timeout;
+
+    Swal.fire({
+      title: "Enviando el codigo de verificación",
+      timer: 5000,
+      timerProgressBar: true,
+      allowOutsideClick: false, // Deshabilita el cierre al hacer clic fuera
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup()?.querySelector("b") as HTMLElement;
+    
+        if (timer) {
+          timerInterval = setInterval(() => {
+            const timerLeft = Swal.getTimerLeft(); // Guardar el valor en una variable
+            if (timerLeft !== undefined) { // Verificar que no sea undefined
+              timer.textContent = `${Math.ceil(timerLeft / 1000)} segundos`;
+            }
+          }, 100);
+        }
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+
+}
 }

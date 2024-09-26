@@ -28,10 +28,11 @@
                             <span    class="user-name text-white"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li *ngIf="!isLogged; "  ><a  routerLink="/login" class="dropdown-item">Inicia Sesión</a></li>
-                            <li  *ngIf="!isLogged; " ><a   routerLink="/registro" class="dropdown-item">Regístrate</a></li> 
-                            <li  *ngIf="isLogged; "><a class="dropdown-item">Mi perfil</a></li>  
-                            <li  *ngIf="isLogged; " ><a (click)="logout()" class="dropdown-item">Cerrar Sesion</a></li>                             
+                            <li *ngIf="!isLogged"><a routerLink="/login" class="dropdown-item">Inicia sesión</a></li>
+                            <li *ngIf="!isLogged"><a routerLink="/registro" class="dropdown-item">Regístrate</a></li>
+                            <li *ngIf="isLogged"><a  routerLink="/perfil"class="dropdown-item">Mi perfil</a></li>
+                            <li *ngIf="isLogged"><a (click)="logout()" class="dropdown-item">Cerrar sesión</a></li>
+                                                       
                         </ul>
                     </div>
                 </div>
