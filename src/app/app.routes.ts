@@ -3,35 +3,29 @@ import { PrincipalComponent } from './Pages/principal/principal.component';
 import { LoginComponent } from './Pages/login/login.component';
 import { RegistroComponent } from './Pages/registro/registro.component';
 import { PerfilComponent } from './Pages/perfil/perfil.component';
-import { BusesComponent } from './Pages/buses/buses.component';
-import { RutasComponent } from './Pages/rutas/rutas.component';
+import { MenusComponent } from './Pages/menus/menus.component';
 
 export const routes: Routes = [
     {
-        path:"",
-        component:PrincipalComponent
+        path: '',
+        component: PrincipalComponent
     },
     {
-        path:"login",
-        component:LoginComponent
+        path: 'login',
+        component: LoginComponent
     },
     {
-        path:"registro",
-        component:RegistroComponent
+        path: 'registro',
+        component: RegistroComponent
     },
     {
-        path:"perfil",
+        path: 'perfil',
         component: PerfilComponent
     },
-    
-    {
-        path:"buses",
-        component: BusesComponent
-    },
-
-    {
-        path:"rutas",
-        component: RutasComponent
-    }
-
+    { path: 'menus/buses', component: MenusComponent },
+    { path: 'menus/rutas', component: MenusComponent },
+    { path: 'menus/viajes', component: MenusComponent },
+    { path: 'menus/choferes', component: MenusComponent },
+    { path: 'menus/terminales', component: MenusComponent },
+    { path: '', redirectTo: '/menus/buses', pathMatch: 'full' }, 
 ];

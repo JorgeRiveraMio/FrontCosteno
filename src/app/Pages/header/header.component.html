@@ -32,10 +32,12 @@
                 </div>
                 <!-- Opciones para el administrador -->
                 <div *ngIf="isAdmin" class="d-flex align-items-center">
-                    <a routerLink="../buses" class="nav-link text-white">Buses</a>
-                    <a routerLink="../rutas" class="nav-link text-white">Rutas</a>
-                    <a routerLink="../viajes" class="nav-link text-white">Viajes</a>
-                </div>
+                    <a class="nav-link text-white" (click)="cambiarVista('buses')">Buses</a>
+                    <a class="nav-link text-white" (click)="cambiarVista('rutas')">Rutas</a>
+                    <a class="nav-link text-white" (click)="cambiarVista('viajes')">Viajes</a>
+                    <a class="nav-link text-white" (click)="cambiarVista('choferes')">Choferes</a>
+                    <a class="nav-link text-white" (click)="cambiarVista('terminales')">Terminales</a>
+                  </div>
             </div>
         </nav>
     </div>

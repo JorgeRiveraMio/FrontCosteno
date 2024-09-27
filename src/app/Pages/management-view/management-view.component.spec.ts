@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RutasComponent } from './rutas.component';
+import { ManagementViewComponent } from './management-view.component';
 
-describe('RutasComponent', () => {
-  let component: RutasComponent;
-  let fixture: ComponentFixture<RutasComponent>;
+describe('ManagementViewComponent', () => {
+  let component: ManagementViewComponent;
+  let fixture: ComponentFixture<ManagementViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RutasComponent]
+      imports: [ManagementViewComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RutasComponent);
+    fixture = TestBed.createComponent(ManagementViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,5 +21,3 @@ describe('RutasComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

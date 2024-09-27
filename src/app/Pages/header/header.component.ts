@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../Services/login.service';
 
@@ -16,6 +16,9 @@ export class HeaderComponent {
   loginService = inject(LoginService);
   router = inject(Router);
   isLogged: boolean = false;
+
+  // Emitir el evento de cambio de vista al componente padre (MenusComponent)
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
     this.isLogged = this.loginService.isLoggedIn();
@@ -34,5 +37,10 @@ export class HeaderComponent {
   logout() {
     this.loginService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // Método para cambiar la vista y emitir el evento
+  cambiarVista(view: string): void {
+    this.viewChange.emit(view); // Emitir el nombre de la vista seleccionada
   }
 }

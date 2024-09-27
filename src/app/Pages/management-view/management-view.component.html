@@ -1,0 +1,24 @@
+<div class="custom-container mt-0">
+    <h2>{{ title }}</h2>
+
+    <!-- Botón para abrir el modal -->
+    <button class="btn btn-success" (click)="openModal()">Crear {{ title }}</button>
+
+    <ul class="list-group mt-3">
+        <li *ngFor="let item of items" class="list-group-item d-flex justify-content-between align-items-center">
+            <ng-container *ngIf="item.placa; else routeTemplate">
+                {{ item.nombre }} ({{ item.placa }})
+            </ng-container>
+            <ng-template #routeTemplate>
+                {{ item.nombre }} ({{ item.origen }} - {{ item.destino }})
+            </ng-template>
+            <span>
+                <button (click)="editItem.emit(item)" class="btn btn-primary btn-sm">Editar</button>
+                <button (click)="deleteItem.emit(item)" class="btn btn-danger btn-sm">Eliminar</button>
+            </span>
+        </li>
+    </ul>
+</div>
+
+<!-- Asegúrate de incluir el componente del modal aquí -->
+<app-modal (busCreated)="addItem.emit($event)"></app-modal>
