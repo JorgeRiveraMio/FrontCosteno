@@ -1,3 +1,4 @@
+// modal.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -7,14 +8,20 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule]
 })
 export class ModalComponent {
   @Input() title: string = ''; // Título del modal
   @Input() formFields: any[] = []; // Campos del formulario
+  @Input() currentView: string = ''; // Vista actual para contexto
   @Output() itemCreated = new EventEmitter<any>(); // Evento para emitir el item creado
-  newItem: any = {}; // Objeto para el nuevo elemento
 
+  // Definir newItem como un objeto dinámico para evitar errores de tipo
+  newItem: { [key: string]: any } = {}; 
+
+  ngOnChanges() {
+    console.log('Form Fields:', this.formFields);
+  }
   // Método para manejar la creación de un nuevo elemento
   agregarItem() {
     if (this.isValid()) {

@@ -16,8 +16,9 @@
 
     <!-- Modal para crear la entidad correspondiente -->
     <app-modal 
-        title="Crear {{ currentView | titlecase }}" 
+        [title]="'Crear ' + (currentView | titlecase)"
         [formFields]="getFormFields(currentView)" 
+        [currentView]="currentView"
         (itemCreated)="handleItemCreated($event)">
     </app-modal>
 </div>

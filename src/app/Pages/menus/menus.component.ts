@@ -16,6 +16,7 @@ import { Bus, Ruta, Viaje, Chofer, Terminal } from '../../Interfaces/Vistas';
 })
 export class MenusComponent implements OnInit {
   currentView: string = 'buses';  // Vista por defecto
+  
 
   // Usar las interfaces para definir los datos de cada entidad
   buses: Array<Bus> = [
@@ -34,42 +35,33 @@ export class MenusComponent implements OnInit {
     { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', geolocalizacionLatitud: -12.1203, geolocalizacionLongitud: -77.0302 }
   ];
 
-  // Campos del formulario para cada tipo de entidad
-  busFormFields = [
-    { name: 'placa', label: 'Placa', type: 'text', required: true },
-    { name: 'modelo', label: 'Modelo', type: 'text', required: true },
-    { name: 'asientosPiso1', label: 'Asientos Piso 1', type: 'number', required: true },
-    { name: 'asientosPiso2', label: 'Asientos Piso 2', type: 'number', required: true },
-    { name: 'tipoAsiento', label: 'Tipo de Asiento', type: 'text', required: true },
-    { name: 'estadoBus', label: 'Estado del Bus', type: 'text', required: true }
-  ];
-
-  routeFormFields = [
-    { name: 'distanciaKm', label: 'Distancia en Km', type: 'number', required: true },
-    { name: 'duracionAproximada', label: 'Duración Aproximada', type: 'text', required: true },
-    { name: 'estadoRuta', label: 'Estado de la Ruta', type: 'text', required: true }
-  ];
-
-  tripFormFields = [
-    { name: 'fechaHoraSalida', label: 'Fecha y Hora de Salida', type: 'datetime-local', required: true },
-    { name: 'fechaHoraLlegada', label: 'Fecha y Hora de Llegada', type: 'datetime-local', required: true },
-    { name: 'estadoViaje', label: 'Estado del Viaje', type: 'text', required: true }
-  ];
-
-  driverFormFields = [
-    { name: 'liceConducir', label: 'Licencia de Conducir', type: 'text', required: true },
-    { name: 'fechaLincencia', label: 'Fecha de la Licencia', type: 'date', required: true },
-    { name: 'estadoChofer', label: 'Estado del Chofer', type: 'text', required: true }
-  ];
-
-  terminalFormFields = [
-    { name: 'nombre', label: 'Nombre', type: 'text', required: true },
-    { name: 'direccion', label: 'Dirección', type: 'text', required: true },
-    { name: 'departamento', label: 'Departamento', type: 'text', required: true },
-    { name: 'provincia', label: 'Provincia', type: 'text', required: true },
-    { name: 'distrito', label: 'Distrito', type: 'text', required: true },
-    { name: 'geolocalizacionLatitud', label: 'Geolocalización (Latitud)', type: 'number', required: true },
-    { name: 'geolocalizacionLongitud', label: 'Geolocalización (Longitud)', type: 'number', required: true }
+  formFields = [
+    { name: 'placa', label: 'Placa', type: 'text', required: true, entity: 'buses' },
+    { name: 'modelo', label: 'Modelo', type: 'text', required: true, entity: 'buses' },
+    { name: 'asientosPiso1', label: 'Asientos Piso 1', type: 'number', required: true, entity: 'buses' },
+    { name: 'asientosPiso2', label: 'Asientos Piso 2', type: 'number', required: true, entity: 'buses' },
+    { name: 'tipoAsiento', label: 'Tipo de Asiento', type: 'text', required: true, entity: 'buses' },
+    { name: 'estadoBus', label: 'Estado del Bus', type: 'text', required: true, entity: 'buses' },
+    
+    { name: 'distanciaKm', label: 'Distancia en Km', type: 'number', required: true, entity: 'rutas' },
+    { name: 'duracionAproximada', label: 'Duración Aproximada', type: 'text', required: true, entity: 'rutas' },
+    { name: 'estadoRuta', label: 'Estado de la Ruta', type: 'text', required: true, entity: 'rutas' },
+    
+    { name: 'fechaHoraSalida', label: 'Fecha y Hora de Salida', type: 'datetime-local', required: true, entity: 'viajes' },
+    { name: 'fechaHoraLlegada', label: 'Fecha y Hora de Llegada', type: 'datetime-local', required: true, entity: 'viajes' },
+    { name: 'estadoViaje', label: 'Estado del Viaje', type: 'text', required: true, entity: 'viajes' },
+    
+    { name: 'liceConducir', label: 'Licencia de Conducir', type: 'text', required: true, entity: 'choferes' },
+    { name: 'fechaLincencia', label: 'Fecha de la Licencia', type: 'date', required: true, entity: 'choferes' },
+    { name: 'estadoChofer', label: 'Estado del Chofer', type: 'text', required: true, entity: 'choferes' },
+    
+    { name: 'nombre', label: 'Nombre', type: 'text', required: true, entity: 'terminales' },
+    { name: 'direccion', label: 'Dirección', type: 'text', required: true, entity: 'terminales' },
+    { name: 'departamento', label: 'Departamento', type: 'text', required: true, entity: 'terminales' },
+    { name: 'provincia', label: 'Provincia', type: 'text', required: true, entity: 'terminales' },
+    { name: 'distrito', label: 'Distrito', type: 'text', required: true, entity: 'terminales' },
+    { name: 'geolocalizacionLatitud', label: 'Geolocalización (Latitud)', type: 'number', required: true, entity: 'terminales' },
+    { name: 'geolocalizacionLongitud', label: 'Geolocalización (Longitud)', type: 'number', required: true, entity: 'terminales' }
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -88,24 +80,27 @@ export class MenusComponent implements OnInit {
 
   openModal(view: string): void {
     this.currentView = view; // Cambiar a vista según el tipo de entidad
-    // Aquí podrías agregar cualquier lógica necesaria para abrir el modal
+    const modalElement = document.getElementById('crearBusModal');
+    
+    if (modalElement) {
+        const modal = new (window as any).bootstrap.Modal(modalElement);
+        
+        // Asegúrate de que estás pasando los formFields correctamente
+        const modalComponent = modalElement.querySelector('app-modal') as any;
+        modalComponent.formFields = this.getFormFields(view);
+        
+        console.log('Form Fields for Modal:', modalComponent.formFields); // Verifica los campos
+        modal.show();
+    } else {
+        console.error('El modal no se encontró en el DOM.');
+    }
   }
+  
 
   getFormFields(view: string) {
-    switch (view) {
-      case 'buses':
-        return this.busFormFields;
-      case 'rutas':
-        return this.routeFormFields;
-      case 'viajes':
-        return this.tripFormFields;
-      case 'choferes':
-        return this.driverFormFields;
-      case 'terminales':
-        return this.terminalFormFields;
-      default:
-        return [];
-    }
+    const fields = this.formFields.filter(field => field.entity === view);
+    console.log('Fields for view:', view, fields);
+    return fields;
   }
   
   getItems(view: string) {
