@@ -1,50 +1,20 @@
-<app-header (viewChange)="setView($event)"></app-header> 
+<app-header (viewChange)="setView($event)"></app-header>
 
 <div class="container mt-4">
     <div class="custom-header">
         <h1 class="text-center mb-0">{{ currentView | titlecase }}</h1>
     </div>
 
-    <app-management-view *ngIf="currentView === 'buses'"
-                            [title]="'Gestión de Buses'"                     
-                            [items]="buses"
-                            (addItem)="openBusModal()"
-                            (editItem)="seleccionarBus($event)"
-                            (deleteItem)="eliminarBus($event)">
+    <!-- Componente de gestión para la vista actual -->
+    <app-management-view *ngIf="['buses', 'rutas', 'viajes', 'choferes', 'terminales'].includes(currentView)"
+                        [title]="'Gestión de ' + currentView | titlecase"
+                        [items]="getItems(currentView)"
+                        (addItem)="openModal(currentView)"
+                        (editItem)="seleccionarEntidad($event, currentView)"
+                        (deleteItem)="eliminarEntidad($event, currentView)">
     </app-management-view>
 
-    <app-management-view *ngIf="currentView === 'rutas'"
-                            [title]="'Gestión de Rutas'"                  
-                            [items]="rutas"
-                            (addItem)="openRouteModal()"
-                            (editItem)="seleccionarRuta($event)"
-                            (deleteItem)="eliminarRuta($event)">
-    </app-management-view>
-
-    <app-management-view *ngIf="currentView === 'viajes'"
-                            [title]="'Gestión de Viajes'"                    
-                            [items]="viajes"
-                            (addItem)="openTripModal()"
-                            (editItem)="seleccionarViaje($event)"
-                            (deleteItem)="eliminarViaje($event)">
-    </app-management-view>
-
-    <app-management-view *ngIf="currentView === 'choferes'"
-                            [title]="'Gestión de Choferes'"                   
-                            [items]="choferes"
-                            (addItem)="openDriverModal()"
-                            (editItem)="seleccionarChofer($event)"
-                            (deleteItem)="eliminarChofer($event)">
-    </app-management-view>
-
-    <app-management-view *ngIf="currentView === 'terminales'"
-                            [title]="'Gestión de Terminales'"                    
-                            [items]="terminales"
-                            (addItem)="openTerminalModal()"
-                            (editItem)="seleccionarTerminal($event)"
-                            (deleteItem)="eliminarTerminal($event)">
-    </app-management-view>
-
+    <!-- Modal para crear la entidad correspondiente -->
     <app-modal 
         title="Crear {{ currentView | titlecase }}" 
         [formFields]="getFormFields(currentView)" 

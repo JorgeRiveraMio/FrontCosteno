@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ManagementViewComponent } from '../management-view/management-view.component';
 import { ModalComponent } from '../modal/modal.component';
+import { Bus, Ruta, Viaje, Chofer, Terminal } from '../../Interfaces/Vistas';
 
 @Component({
   selector: 'app-menus',
@@ -15,40 +16,60 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class MenusComponent implements OnInit {
   currentView: string = 'buses';  // Vista por defecto
-  buses: Array<any> = [{ placa: 'PLUS005', nombre: 'BUS 01', capacidadPiso1: 15, capacidadPiso2: 12, disponible: 'SI' }];
-  rutas: Array<any> = [{ nombre: 'Ruta 1', origen: 'Ciudad A', destino: 'Ciudad B' }];
-  viajes: Array<any> = [{ id: 'V001', bus: 'BUS 01', ruta: 'Ruta 1', fecha: '2024-09-27' }];
-  choferes: Array<any> = [{ nombre: 'Juan Pérez', licencia: 'LIC1234' }];
-  terminales: Array<any> = [{ nombre: 'Terminal Central', ciudad: 'Ciudad A' }, { nombre: 'Terminal Norte', ciudad: 'Ciudad B' }];
 
+  // Usar las interfaces para definir los datos de cada entidad
+  buses: Array<Bus> = [
+    { placa: 'PLUS005', modelo: 'Mercedes-Benz', asientosPiso1: 15, asientosPiso2: 12, tipoAsiento: 'Reclinable', estadoBus: 'Disponible' }
+  ];
+  rutas: Array<Ruta> = [
+    { distanciaKm: 150, duracionAproximada: '3h 30min', estadoRuta: 'Activa' }
+  ];
+  viajes: Array<Viaje> = [
+    { fechaHoraSalida: '2024-09-27 09:00', fechaHoraLlegada: '2024-09-27 12:30', estadoViaje: 'Programado' }
+  ];
+  choferes: Array<Chofer> = [
+    { liceConducir: 'LIC1234', fechaLincencia: '2023-01-15', estadoChofer: 'Activo' }
+  ];
+  terminales: Array<Terminal> = [
+    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', geolocalizacionLatitud: -12.1203, geolocalizacionLongitud: -77.0302 }
+  ];
+
+  // Campos del formulario para cada tipo de entidad
   busFormFields = [
     { name: 'placa', label: 'Placa', type: 'text', required: true },
-    { name: 'nombre', label: 'Nombre', type: 'text', required: true },
-    { name: 'capacidadPiso1', label: 'Capacidad Piso 1', type: 'number', required: true },
-    { name: 'capacidadPiso2', label: 'Capacidad Piso 2', type: 'number', required: true }
+    { name: 'modelo', label: 'Modelo', type: 'text', required: true },
+    { name: 'asientosPiso1', label: 'Asientos Piso 1', type: 'number', required: true },
+    { name: 'asientosPiso2', label: 'Asientos Piso 2', type: 'number', required: true },
+    { name: 'tipoAsiento', label: 'Tipo de Asiento', type: 'text', required: true },
+    { name: 'estadoBus', label: 'Estado del Bus', type: 'text', required: true }
   ];
 
   routeFormFields = [
-    { name: 'nombre', label: 'Nombre', type: 'text', required: true },
-    { name: 'origen', label: 'Origen', type: 'text', required: true },
-    { name: 'destino', label: 'Destino', type: 'text', required: true }
+    { name: 'distanciaKm', label: 'Distancia en Km', type: 'number', required: true },
+    { name: 'duracionAproximada', label: 'Duración Aproximada', type: 'text', required: true },
+    { name: 'estadoRuta', label: 'Estado de la Ruta', type: 'text', required: true }
   ];
 
   tripFormFields = [
-    { name: 'id', label: 'ID', type: 'text', required: true },
-    { name: 'bus', label: 'Bus', type: 'text', required: true },
-    { name: 'ruta', label: 'Ruta', type: 'text', required: true },
-    { name: 'fecha', label: 'Fecha', type: 'date', required: true }
+    { name: 'fechaHoraSalida', label: 'Fecha y Hora de Salida', type: 'datetime-local', required: true },
+    { name: 'fechaHoraLlegada', label: 'Fecha y Hora de Llegada', type: 'datetime-local', required: true },
+    { name: 'estadoViaje', label: 'Estado del Viaje', type: 'text', required: true }
   ];
 
   driverFormFields = [
-    { name: 'nombre', label: 'Nombre', type: 'text', required: true },
-    { name: 'licencia', label: 'Licencia', type: 'text', required: true }
+    { name: 'liceConducir', label: 'Licencia de Conducir', type: 'text', required: true },
+    { name: 'fechaLincencia', label: 'Fecha de la Licencia', type: 'date', required: true },
+    { name: 'estadoChofer', label: 'Estado del Chofer', type: 'text', required: true }
   ];
 
   terminalFormFields = [
     { name: 'nombre', label: 'Nombre', type: 'text', required: true },
-    { name: 'ciudad', label: 'Ciudad', type: 'text', required: true }
+    { name: 'direccion', label: 'Dirección', type: 'text', required: true },
+    { name: 'departamento', label: 'Departamento', type: 'text', required: true },
+    { name: 'provincia', label: 'Provincia', type: 'text', required: true },
+    { name: 'distrito', label: 'Distrito', type: 'text', required: true },
+    { name: 'geolocalizacionLatitud', label: 'Geolocalización (Latitud)', type: 'number', required: true },
+    { name: 'geolocalizacionLongitud', label: 'Geolocalización (Longitud)', type: 'number', required: true }
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -65,24 +86,9 @@ export class MenusComponent implements OnInit {
     this.router.navigate([`/menus/${view}`]); // Navegar a la nueva ruta
   }
 
-  openBusModal(): void {
-    this.currentView = 'buses'; // Cambiar a vista de buses
-  }
-
-  openRouteModal(): void {
-    this.currentView = 'rutas'; // Cambiar a vista de rutas
-  }
-
-  openTripModal(): void {
-    this.currentView = 'viajes'; // Cambiar a vista de viajes
-  }
-
-  openDriverModal(): void {
-    this.currentView = 'choferes'; // Cambiar a vista de choferes
-  }
-
-  openTerminalModal(): void {
-    this.currentView = 'terminales'; // Cambiar a vista de terminales
+  openModal(view: string): void {
+    this.currentView = view; // Cambiar a vista según el tipo de entidad
+    // Aquí podrías agregar cualquier lógica necesaria para abrir el modal
   }
 
   getFormFields(view: string) {
@@ -97,6 +103,23 @@ export class MenusComponent implements OnInit {
         return this.driverFormFields;
       case 'terminales':
         return this.terminalFormFields;
+      default:
+        return [];
+    }
+  }
+  
+  getItems(view: string) {
+    switch (view) {
+      case 'buses':
+        return this.buses;
+      case 'rutas':
+        return this.rutas;
+      case 'viajes':
+        return this.viajes;
+      case 'choferes':
+        return this.choferes;
+      case 'terminales':
+        return this.terminales;
       default:
         return [];
     }
@@ -122,64 +145,76 @@ export class MenusComponent implements OnInit {
     }
   }
 
-  seleccionarBus(bus: any): void {
-    // Código para seleccionar bus
-  }
-
-  eliminarBus(bus: any): void {
-    const index = this.buses.findIndex(b => b.placa === bus.placa);
-    if (index !== -1) {
-      this.buses.splice(index, 1);  // Elimina el bus de la lista
+  seleccionarEntidad(entidad: any, tipo: string): void {
+    switch (tipo) {
+      case 'buses':
+        console.log('Bus seleccionado:', entidad);
+        break;
+      case 'rutas':
+        console.log('Ruta seleccionada:', entidad);
+        break;
+      case 'viajes':
+        console.log('Viaje seleccionado:', entidad);
+        break;
+      case 'choferes':
+        console.log('Chofer seleccionado:', entidad);
+        break;
+      case 'terminales':
+        console.log('Terminal seleccionada:', entidad);
+        break;
     }
   }
 
-  seleccionarRuta(ruta: any): void {
-    // Código para seleccionar ruta
-  }
-
-  eliminarRuta(ruta: any): void {
-    const index = this.rutas.findIndex(r => r.nombre === ruta.nombre);
-    if (index !== -1) {
-      this.rutas.splice(index, 1);  // Elimina la ruta de la lista
+  eliminarEntidad(entidad: any, tipo: string): void {
+    switch (tipo) {
+      case 'buses':
+        this.buses = this.buses.filter(bus => bus.placa !== entidad.placa);
+        break;
+      case 'rutas':
+        this.rutas = this.rutas.filter(ruta => ruta.distanciaKm !== entidad.distanciaKm);
+        break;
+      case 'viajes':
+        this.viajes = this.viajes.filter(viaje => viaje.fechaHoraSalida !== entidad.fechaHoraSalida);
+        break;
+      case 'choferes':
+        this.choferes = this.choferes.filter(chofer => chofer.liceConducir !== entidad.liceConducir);
+        break;
+      case 'terminales':
+        this.terminales = this.terminales.filter(terminal => terminal.nombre !== entidad.nombre);
+        break;
     }
   }
 
-  seleccionarViaje(viaje: any): void {
-    // Código para seleccionar viaje
-  }
-
-  eliminarViaje(viaje: any): void {
-    const index = this.viajes.findIndex(v => v.id === viaje.id);
-    if (index !== -1) {
-      this.viajes.splice(index, 1);  // Elimina el viaje de la lista
+  buscarEntidad(busqueda: string, tipo: string): Array<any> {
+    switch (tipo) {
+      case 'buses':
+        return this.buses.filter(bus =>
+          bus.placa.toLowerCase().includes(busqueda.toLowerCase()) ||
+          bus.modelo.toLowerCase().includes(busqueda.toLowerCase())
+        );
+      case 'rutas':
+        return this.rutas.filter(ruta =>
+          ruta.duracionAproximada.toLowerCase().includes(busqueda.toLowerCase()) ||
+          ruta.estadoRuta.toLowerCase().includes(busqueda.toLowerCase())
+        );
+      case 'viajes':
+        return this.viajes.filter(viaje =>
+          viaje.estadoViaje.toLowerCase().includes(busqueda.toLowerCase())
+        );
+      case 'choferes':
+        return this.choferes.filter(chofer =>
+          chofer.liceConducir.toLowerCase().includes(busqueda.toLowerCase()) ||
+          chofer.estadoChofer.toLowerCase().includes(busqueda.toLowerCase())
+        );
+      case 'terminales':
+        return this.terminales.filter(terminal =>
+          terminal.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+          terminal.departamento.toLowerCase().includes(busqueda.toLowerCase()) ||
+          terminal.provincia.toLowerCase().includes(busqueda.toLowerCase()) ||
+          terminal.distrito.toLowerCase().includes(busqueda.toLowerCase())
+        );
+      default:
+        return [];
     }
-  }
-
-  seleccionarChofer(chofer: any): void {
-    // Código para seleccionar chofer
-  }
-
-  eliminarChofer(chofer: any): void {
-    const index = this.choferes.findIndex(c => c.licencia === chofer.licencia);
-    if (index !== -1) {
-      this.choferes.splice(index, 1);  // Elimina el chofer de la lista
-    }
-  }
-
-  seleccionarTerminal(terminal: any): void {
-    // Código para seleccionar terminal
-  }
-
-  eliminarTerminal(terminal: any): void {
-    const index = this.terminales.findIndex(t => t.nombre === terminal.nombre);
-    if (index !== -1) {
-      this.terminales.splice(index, 1);  // Elimina la terminal de la lista
-    }
-  }
-
-  buscarBus(busqueda: string): Array<any> {
-    return this.buses.filter(bus =>
-      bus.placa.toLowerCase().includes(busqueda.toLowerCase()) ||
-      bus.nombre.toLowerCase().includes(busqueda.toLowerCase()));
   }
 }

@@ -2,13 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-modal',
   standalone: true,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
-  imports: [CommonModule, FormsModule, ModalComponent],
+  imports: [CommonModule, FormsModule],
 })
 export class ModalComponent {
   @Input() title: string = ''; // Título del modal
@@ -29,5 +28,10 @@ export class ModalComponent {
   // Método para validar si todos los campos requeridos están llenos
   isValid(): boolean {
     return this.formFields.every(field => field.required ? !!this.newItem[field.name] : true);
+  }
+
+  // Método para llenar el formulario con datos existentes (en caso de editar)
+  fillForm(item: any) {
+    this.newItem = { ...item }; // Rellenar newItem con los datos del item pasado
   }
 }
