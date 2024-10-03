@@ -70,11 +70,13 @@ export class MenusComponent implements OnInit {
     this.route.url.subscribe(urlSegments => {
       const path = urlSegments.map(segment => segment.path).join('/');
       this.currentView = path.split('/').pop() || ''; // Establecer la vista actual
+      console.log('Vista actual:', this.currentView);
     });
   }
 
   setView(view: string): void {
     this.currentView = view; // Establecer la vista actual
+    console.log('Vista actualizada:', this.currentView);
     this.router.navigate([`/menus/${view}`]); // Navegar a la nueva ruta
   }
 

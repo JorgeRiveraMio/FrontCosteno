@@ -9,7 +9,6 @@
               <label for="exampleInputEmail1" class="form-label  mt-3" style="color: black;">Correo electrónico</label>
               <input formControlName="username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
               <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie más.</div>
-
               <div *ngIf="email.invalid && (email.dirty || email.touched)"
               class="text-danger">
               <div *ngIf="email.errors?.['required']" style="color: #ee0b0b;">
@@ -18,9 +17,7 @@
               <div *ngIf="email.errors?.['email']" style="color: #ee0b0b;">
                   El correo electrónico debe tener un formato válido.
               </div>
-
           </div>
-
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Contraseña</label>
@@ -30,17 +27,13 @@
             <div *ngIf="password.errors?.['required']" style="color: #ee0b0b;">
                 La contraseña es requerida.
             </div>
-            </div> 
-          
-            </div>
-        
+            </div>           
+            </div>        
             <button (click)="login()" type="submit" class="btn btn-primary ">INICIAR SESIÓN</button>
             <div class="d-flex mt-3" > 
                 <p style="color: #000;" class="me-3">¿No tienes cuenta?</p>
                 <a style="color: blue; cursor: pointer;" (click)="registrarse()">¡Regístrate!</a>
-
-            </div>
-           
+            </div>           
           </form>
       </div>
 </main>

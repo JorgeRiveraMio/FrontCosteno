@@ -17,8 +17,6 @@ export class HeaderComponent {
   router = inject(Router);
   isLogged: boolean = false;
 
-  // Emitir el evento de cambio de vista al componente padre (MenusComponent)
-  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
     this.isLogged = this.loginService.isLoggedIn();
@@ -26,7 +24,10 @@ export class HeaderComponent {
     const data = this.loginService.getUser();
     if (data != null) {
       this.nombreUsuario = this.getFirstName(data.nombres);
-      this.isAdmin = data.rol === 'admin'; // Suponiendo que el rol se almacena aquí
+      this.isAdmin = (this.loginService.getUserRole() === 'administrador') ? true : false;
+
+
+      console.log(data.rol + ' ' + this.loginService.getUserRole());
     }
   }
 
@@ -38,9 +39,12 @@ export class HeaderComponent {
     this.loginService.logout();
     this.router.navigate(['/login']);
   }
+  // Emitir el evento de cambio de vista al componente padre (MenusComponent)
+  @Output() viewChange: EventEmitter<string> = new EventEmitter<string>();
 
   // Método para cambiar la vista y emitir el evento
   cambiarVista(view: string): void {
     this.viewChange.emit(view); // Emitir el nombre de la vista seleccionada
+    //console.log(view);
   }
 }

@@ -7,11 +7,8 @@ import {   Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-
   private apiUrl = appsettingsCliente.apiUrl ;
   public loginStatusSubject = new Subject<boolean>();
- 
-
   constructor(private http: HttpClient) { 
   
   }
@@ -20,8 +17,6 @@ export class LoginService {
     const body ={correo,password}
     return this.http.post(`${this.apiUrl}/ingresar`,body);
   }
-
-
 
   public getCurrentUser() {
     return this.http.get(`${this.apiUrl}/actual-usuario`);
@@ -32,8 +27,7 @@ export class LoginService {
     return true;
   }
   public setUser(user: any) {
-    localStorage.setItem('user', JSON.stringify(user));
-   
+    localStorage.setItem('user', JSON.stringify(user));  
     
   }
   public getUser() {
@@ -46,9 +40,7 @@ export class LoginService {
         return null;
       }
     }
-
-    return null;
-   
+    return null;   
   }
 
   public isLoggedIn(): boolean {
@@ -73,7 +65,6 @@ export class LoginService {
   public setUserRole(role: string) {
     localStorage.setItem('role', role);
   }
-
   public getUserRole() {
     return localStorage.getItem('role');
   }

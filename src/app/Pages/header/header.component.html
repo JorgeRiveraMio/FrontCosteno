@@ -9,7 +9,24 @@
                 <a class="navbar-brand ms-2" *ngIf="!isAdmin">
                     <h2 class="mt-2 text-white">COSTEÑO EXPRESS</h2>
                 </a>
-
+                      <!-- Opciones para el administrador -->
+                      <!-- <div *ngIf="isAdmin" class="d-flex align-items-center justify-content-between">
+                        <a class="nav-link text-white" (click)="cambiarVista('buses')">Buses</a>
+                        <a class="nav-link text-white" (click)="cambiarVista('rutas')">Rutas</a>
+                        <a class="nav-link text-white" (click)="cambiarVista('viajes')">Viajes</a>
+                        <a class="nav-link text-white" (click)="cambiarVista('choferes')">Choferes</a>
+                        <a class="nav-link text-white" (click)="cambiarVista('terminales')">Terminales</a>
+                    </div> -->
+                    <div *ngIf="isAdmin" class="d-flex align-items-center justify-content-between">
+                        <a class="nav-link text-white fw-bold text-uppercase me-3 fs-5" routerLink="/menus/buses">Buses</a>
+                        <a class="nav-link text-white fw-bold text-uppercase me-3 fs-5" routerLink="/menus/rutas">Rutas</a>
+                        <a class="nav-link text-white fw-bold text-uppercase me-3 fs-5" routerLink="/menus/viajes">Viajes</a>
+                        <a class="nav-link text-white fw-bold text-uppercase me-3 fs-5" routerLink="/menus/choferes">Choferes</a>
+                        <a class="nav-link text-white fw-bold text-uppercase me-3 fs-5" routerLink="/menus/terminales">Terminales</a>
+                    </div>                   
+                    
+                    
+               
                 <div class="d-flex align-items-center justify-content-between">
                     <a class="nav-link active">
                         <i class="bi bi-person-circle text-white" style="font-size: 35px;"></i>
@@ -27,17 +44,11 @@
                             <li *ngIf="!isLogged"><a routerLink="/registro" class="dropdown-item">Regístrate</a></li>
                             <li *ngIf="isLogged"><a routerLink="/perfil" class="dropdown-item">Mi perfil</a></li>
                             <li *ngIf="isLogged"><a (click)="logout()" class="dropdown-item">Cerrar sesión</a></li>
+                          
                         </ul>
                     </div>
                 </div>
-                <!-- Opciones para el administrador -->
-                <div *ngIf="isAdmin" class="d-flex align-items-center">
-                    <a class="nav-link text-white" (click)="cambiarVista('buses')">Buses</a>
-                    <a class="nav-link text-white" (click)="cambiarVista('rutas')">Rutas</a>
-                    <a class="nav-link text-white" (click)="cambiarVista('viajes')">Viajes</a>
-                    <a class="nav-link text-white" (click)="cambiarVista('choferes')">Choferes</a>
-                    <a class="nav-link text-white" (click)="cambiarVista('terminales')">Terminales</a>
-                </div>
+           
             </div>
         </nav>
     </div>

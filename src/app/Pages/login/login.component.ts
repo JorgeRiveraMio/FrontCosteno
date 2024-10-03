@@ -21,7 +21,7 @@ export class LoginComponent  {
   public formBuild=inject(FormBuilder);
   private router = inject(Router);
   private loginService=inject(LoginService);
-  public usuario:any;
+  public usuario:any;  
   formLogin = this.formBuild.group({
     username: ['',[Validators.required,Validators.email] ],
     password: ['', Validators.required]
@@ -44,26 +44,25 @@ export class LoginComponent  {
              console.log('Respuesta completa:', response); // Agrega esta línea para ver toda la respuesta
              // Aquí obtienes el token
               console.log('Token JWT:', response.token);
-             // Guarda el token en sessionStorage o localStorage si es necesario
-       
+             // Guarda el token en sessionStorage o localStorage si es necesario       
             this.loginService.loginUser(response.token)
            
              console.log(this.loginService.getToken())
 
              this.loginService.getCurrentUser().subscribe((user: any) => {
-              this.loginService.setUser(user);
-              console.log(user);
-              this.usuario=user; 
-               const roles = this.usuario.authorities.map((auth: any) => auth.authority); // Accede a los roles    const roles = this.usuario.authorities.map(auth => auth.authority); // Accede a los roles
-              console.log(roles);
+                this.loginService.setUser(user);
+                console.log(user);
+                this.usuario=user; 
+                const roles = this.usuario.authorities.map((auth: any) => auth.authority); // Accede a los roles    const roles = this.usuario.authorities.map(auth => auth.authority); // Accede a los roles
+                console.log(roles);
               
                if(roles == "cliente"){
                 this.loginService.setUserRole("cliente");
                 this.router.navigate(['/']);
                 this.loginService.loginStatusSubject.next(true);
               }
-              else if(roles == "empleado"){
-                this.loginService.setUserRole("empleado");
+              else if(roles == "administrador"){
+                this.loginService.setUserRole("administrador");
                 this.router.navigate(['/']);
                 this.loginService.loginStatusSubject.next(true);
               }
