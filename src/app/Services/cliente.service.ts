@@ -22,4 +22,7 @@ export class ClienteService {
     return this.http.post<ResponseApi>(`${this.apiUrl}/validarCodigo`, body);
   }
   
+  actualizarCliente(id:number, cliente: Cliente): Observable<ResponseApi> {
+    return this.http.put<ResponseApi>(`${this.apiUrl}/${id}`, cliente);
+  }
 }
