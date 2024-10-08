@@ -1,0 +1,32 @@
+<app-header></app-header>
+<main class="d-flex justify-content-center align-items-center">
+    <div class="card mb-5 mt-5  d-flex flex-column align-items-center justify-content-center" style="width: 700px; height: 600px;">
+        <form class="m-5" style="color: black;"  [formGroup]="contrasenaForm">
+           
+            <h2 style="font-size: 50px;">Cambiar Contraseña</h2> <!-- Corregido aquí -->
+            <!-- Contraseña -->
+            <div class="mb-3">
+                <label for="password" class="form-label mt-3" style="color: black;">Nueva Contraseña</label>
+                <input formControlName="password" id="password" type="password" class="form-control" [ngClass]="{'is-invalid': password?.invalid && password?.touched}">
+                <!-- Mostrar mensaje de error si la contraseña es inválida -->
+                <div *ngIf="password?.invalid && password?.touched" class="text-danger">
+                    La contraseña debe tener al menos 6 caracteres.
+                </div>
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="mb-3">
+                <label for="confirmarPassword" class="form-label mt-3" style="color: black;">Confirmar Nueva contraseña</label>
+                <input formControlName="confirmarPassword" id="confirmarPassword" type="password" class="form-control"
+                    [ngClass]="{'is-invalid': confirmarPassword?.invalid && confirmarPassword?.touched || contrasenaForm.errors?.['mismatch']}">
+                <!-- Mostrar mensaje de error si las contraseñas no coinciden -->
+                <div *ngIf="confirmarPassword?.invalid && confirmarPassword?.touched || contrasenaForm.errors?.['mismatch']" class="text-danger">
+                    Las contraseñas no coinciden.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+              
+        </form>
+    </div>
+</main>
+<app-footer></app-footer>

@@ -4,6 +4,7 @@ import { LoginComponent } from './Pages/login/login.component';
 import { RegistroComponent } from './Pages/registro/registro.component';
 import { PerfilComponent } from './Pages/perfil/perfil.component';
 import { MenusComponent } from './Pages/menus/menus.component';
+import { NuevaContrasenaComponent } from './Pages/nueva-contrasena/nueva-contrasena.component';
 
 export const routes: Routes = [
     {
@@ -13,6 +14,10 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'nuevaContrasena',
+        component: NuevaContrasenaComponent
     },
     {
         path: 'registro',

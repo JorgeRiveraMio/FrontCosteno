@@ -6,6 +6,8 @@ import { ClienteService } from '../../Services/cliente.service';
 import { Router } from '@angular/router';
 import { Cliente } from '../../Interfaces/Cliente';
 import { LoginService } from '../../Services/login.service';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-perfil',
@@ -19,14 +21,41 @@ export class PerfilComponent {
   public formBuild = inject(FormBuilder);
   private router = inject(Router);
   private clienteService = inject(ClienteService);
-  loginService = inject(LoginService);
-  
+  private loginService = inject(LoginService);
+  private datePipe=inject(DatePipe);
+  public fechaCreacionFormateada: string | null = null;
+  data = this.loginService.getUser();
+
+
+
+  public fechaCreacion = this.data?.fechaCreacion ?? null;
+  ngOnInit() {
+
+    // Formatear la fecha de creación cuando el componente se inicializa
+    if (this.data) {
+      //cargar datos en mi perfil en caso exista
+      // let  estadoCivil=this.data.estadoCivil
+      // let   direccion=this.data.direccion
+      // let  numTel=this.data.numero
+      //   let fechaNac= new Date( this.data.fechaNacimiento)      
+      // let password=this.data.contrasena
+
+      fechaCreacion:this.data.fechaCreacion,
+     
+      this.fechaCreacionFormateada = this.datePipe.transform(this.fechaCreacion, 'MMMM d, y');
+    }
+  }
   perfilForm = this.formBuild.group({
-    estadoCivil: ['', Validators.required],
-    direccion: ['', Validators.required],
-    numero: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Solo números
-    fechaNacimiento: ['', Validators.required],
-    contrasena: ['', [Validators.required, Validators.minLength(6)]], // Mínimo 6 caracteres
+    // estadoCivil: ['', Validators.required],
+    // direccion: ['', Validators.required],
+    // numero: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Solo números
+    // fechaNacimiento: ['', Validators.required],
+    // contrasena: ['', [Validators.required, Validators.minLength(6)]], // Mínimo 6 caracteres
+    estadoCivil: [this.data?.estadoCivil || '', Validators.required],
+    direccion: [this.data?.direccion || '', Validators.required],
+    numero: [this.data?.numTel || '', [Validators.required, Validators.pattern('[0-9]*')]], // Solo números
+    fechaNacimiento: [new Date(this.data?.fechaNac )|| '', Validators.required],
+    // contrasena: ['', [Validators.required, Validators.minLength(6)]], 
   });
   get estadoCivil() {
     return this.perfilForm.get('estadoCivil');
@@ -44,31 +73,31 @@ export class PerfilComponent {
     return this.perfilForm.get('fechaNacimiento');
   }
 
-  get contrasena() {
-    return this.perfilForm.get('contrasena');
-  }
+  // get contrasena() {
+  //   return this.perfilForm.get('contrasena');
+  // }
 
   actualizar(){
-    const data = this.loginService.getUser();
-    console.log(data);
+  
+    console.log(this.data);
     if(this.perfilForm.valid){
-     
+       
        const formData: Cliente = {      
-        idPersona: data.idPersona,
-        numDocumento: data.numDocumento,
-        nombres:  data.nombres ,
-        apellidos: data.apellidos ,
+        idPersona:this. data.idPersona,
+        numDocumento: this.data.numDocumento,
+        nombres:  this.data.nombres ,
+        apellidos: this.data.apellidos ,
         estadoCivil: this.estadoCivil?.value ?? '',
         direccion:this.direccion?.value ?? '',
         numTel:this.numero?.value ?? '',
         fechaNac: new Date( this.fechaNacimiento?.value ?? ''),
-        fechaCreacion:data.fechaCreacion,
-        correo:data.correo,
-        password:this.contrasena?.value ?? '',
+        fechaCreacion:this.data.fechaCreacion,
+        correo:this.data.correo,
+        password:this.data.contrasena,
         estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
        
        };
-       this.clienteService.actualizarCliente(data.idPersona, formData).subscribe({
+       this.clienteService.actualizarCliente(this.data.idPersona, formData).subscribe({
         next: (response) => {
           console.log('Cliente actualizado correctamente:', response);
           this.router.navigate(['/perfil']);
