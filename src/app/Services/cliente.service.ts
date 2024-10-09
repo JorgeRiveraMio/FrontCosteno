@@ -25,4 +25,8 @@ export class ClienteService {
   actualizarCliente(id:number, cliente: Cliente): Observable<ResponseApi> {
     return this.http.put<ResponseApi>(`${this.apiUrl}/${id}`, cliente);
   }
+  
+  actualizarContrasena(password:string,correo:string): Observable<ResponseApi> {
+    return this.http.put<ResponseApi>(`${this.apiUrl}/cambiarContrasena`, {password,correo});
+  }
 }

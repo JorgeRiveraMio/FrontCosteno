@@ -109,6 +109,7 @@ export class RegistroComponent {
         password: this.password?.value ?? '',
         estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
       };
+
       this.pantallaCarga();
       this.clienteService.enviarCodigo(formData).subscribe({
         next: (response) => {
@@ -118,6 +119,12 @@ export class RegistroComponent {
         
         },
         error: (error) => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Correo ya esta registrado",
+           
+          });
           console.error('Error al enviar el código:', error);
           this.errorMessage = 'Error al registrar cliente';
         },complete:()=>{
@@ -201,4 +208,5 @@ export class RegistroComponent {
     });
 
 }
+
 }

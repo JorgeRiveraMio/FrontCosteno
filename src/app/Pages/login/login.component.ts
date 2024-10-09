@@ -8,6 +8,7 @@ import { Login } from '../../Interfaces/Login';
 import { error } from 'console';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../Services/login.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -73,7 +74,13 @@ export class LoginComponent  {
              
         },
         error:(error)=>{
-          console.error('Error durante el login', error);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Contraseña Incorrecta",
+           
+          });
+          //console.error('Error durante el login', error);
         }
       }
     )
@@ -83,5 +90,9 @@ export class LoginComponent  {
 
   registrarse(){
     this.router.navigate(['registro']);
+  }
+  cambiarContrasena(){
+    const email = this.formLogin.get('username')?.value;
+    this.router.navigate(['nuevaContrasena', { email }]); 
   }
 }

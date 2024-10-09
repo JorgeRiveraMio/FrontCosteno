@@ -22,6 +22,10 @@
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label  mt-3" style="color: black;">Contraseña</label>
               <input  formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
+              <div class="d-flex mt-2" > 
+                <p style="color: #000;" class="me-3">¿Olvidaste tu contraseña?</p>
+                <a style="color: blue; cursor: pointer;" (click)="cambiarContrasena()">¡Cambiar!</a>
+            </div>     
               <div *ngIf="password.invalid && (password.dirty || password.touched)"
             class="text-danger">
             <div *ngIf="password.errors?.['required']" style="color: #ee0b0b;">
@@ -30,7 +34,7 @@
             </div>           
             </div>        
             <button (click)="login()" type="submit" class="btn btn-primary ">INICIAR SESIÓN</button>
-            <div class="d-flex mt-3" > 
+            <div class="d-flex mt-2" > 
                 <p style="color: #000;" class="me-3">¿No tienes cuenta?</p>
                 <a style="color: blue; cursor: pointer;" (click)="registrarse()">¡Regístrate!</a>
             </div>           
