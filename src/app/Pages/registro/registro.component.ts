@@ -114,7 +114,9 @@ export class RegistroComponent {
       this.clienteService.enviarCodigo(formData).subscribe({
         next: (response) => {
           console.log('Código enviado correctamente:', response);
+          
           Swal.close();
+          this.validarCodigo();
       
         
         },
