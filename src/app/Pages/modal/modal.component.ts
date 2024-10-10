@@ -16,13 +16,13 @@ export class ModalComponent {
   @Input() formFields: any[] = []; // Campos del formulario
   @Input() currentView: string = ''; // Vista actual para contexto
   @Output() itemCreated = new EventEmitter<any>(); // Evento para emitir el item creado
-
+  
   // Definir newItem como un objeto dinámico para evitar errores de tipo
   newItem: { [key: string]: any } = {}; 
   private terminalService = inject(TerminalService);
 
   ngOnChanges() {
-    console.log('Form Fields:', this.formFields);
+    // console.log('Form Fields:', this.formFields);
   }
   // Método para manejar la creación de un nuevo elemento
   agregarItem() {

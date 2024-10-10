@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { ManagementViewComponent } from '../management-view/management-view.component';
 import { ModalComponent } from '../modal/modal.component';
-import { Bus, Ruta, Viaje, Chofer, Terminal } from '../../Interfaces/Vistas';
+// import { Bus, Ruta, Viaje, Chofer, Terminal } from '../../Interfaces/Vistas';
+import { Bus, Ruta, Viaje, Chofer } from '../../Interfaces/Vistas';
+import { TerminalService } from '../../Services/terminal.service';
+import { Terminal } from '../../Interfaces/Terminal';
+
 
 @Component({
   selector: 'app-menus',
@@ -17,6 +21,7 @@ import { Bus, Ruta, Viaje, Chofer, Terminal } from '../../Interfaces/Vistas';
 export class MenusComponent implements OnInit {
   currentView: string = 'buses';  // Vista por defecto
   
+  terminalService =inject(TerminalService);
 
   // Usar las interfaces para definir los datos de cada entidad
   buses: Array<Bus> = [
@@ -31,9 +36,12 @@ export class MenusComponent implements OnInit {
   choferes: Array<Chofer> = [
     { liceConducir: 'LIC1234', fechaLincencia: '2023-01-15', estadoChofer: 'Activo' }
   ];
+  // terminales: Array<Terminal> = [
+  //    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', geolocalizacionLatitud: -12.1203, geolocalizacionLongitud: -77.0302 }
+  // ];
   terminales: Array<Terminal> = [
-    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', geolocalizacionLatitud: -12.1203, geolocalizacionLongitud: -77.0302 }
-  ];
+    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', coordenadaLatitud: -12.1203, coordenadaLongitud: -77.0302 }
+ ];
 
   formFields = [
     { name: 'placa', label: 'Placa', type: 'text', required: true, entity: 'buses' },
@@ -64,20 +72,25 @@ export class MenusComponent implements OnInit {
     { name: 'geolocalizacionLongitud', label: 'Geolocalización (Longitud)', type: 'number', required: true, entity: 'terminales' }
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {
+     //this.listarTerminal();
+  }
 
   ngOnInit(): void {
+//  this.listarTerminal();
+   
     this.route.url.subscribe(urlSegments => {
       const path = urlSegments.map(segment => segment.path).join('/');
       this.currentView = path.split('/').pop() || ''; // Establecer la vista actual
       console.log('Vista actual:', this.currentView);
+      
     });
   }
 
   setView(view: string): void {
     this.currentView = view; // Establecer la vista actual
     console.log('Vista actualizada:', this.currentView);
-    this.router.navigate([`/menus/${view}`]); // Navegar a la nueva ruta
+    // this.router.navigate([`/menus/${view}`]); // Navegar a la nueva ruta
   }
 
   openModal(view: string): void {
@@ -214,4 +227,20 @@ export class MenusComponent implements OnInit {
         return [];
     }
   }
+  listarTerminal() {
+    this.terminalService.listarTerminales().subscribe(
+      (response) => {
+        if (response && response.length) {
+          console.log('Terminales encontrados:', response); // Mostrar los terminales en la consola
+          // this.terminales = response; // Asignar los terminales recibidos si es necesario
+        } else {
+          console.log('No se encontraron terminales.');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los terminales:', error);
+      }
+    );
+  }
+  
 }

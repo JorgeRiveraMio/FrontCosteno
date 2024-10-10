@@ -3,6 +3,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../Services/login.service';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -47,4 +48,5 @@ export class HeaderComponent {
     this.viewChange.emit(view); // Emitir el nombre de la vista seleccionada
     //console.log(view);
   }
+  
 }

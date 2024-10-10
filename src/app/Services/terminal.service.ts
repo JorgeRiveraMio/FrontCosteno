@@ -18,7 +18,10 @@ export class TerminalService {
     return this.http.post<ResponseApi>(`${this.apiUrl}/registrar`, terminal);
   }
   
-  listarTerminal():Observable<ResponseApi>{
-    return this.http.get<ResponseApi>(`${this.apiUrl}/listar`);
+  // listarTerminal():Observable<any>{
+  //   return this.http.get<any>(`${this.apiUrl}/listar`);
+  // }
+  listarTerminales(): Observable<Terminal[]> {
+    return this.http.get<Terminal[]>(`${this.apiUrl}/listar`);
   }
 }
