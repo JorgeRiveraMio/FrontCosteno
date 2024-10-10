@@ -1,10 +1,10 @@
 export interface Terminal{
-    // idTerminal: number;         
+   idTerminal: number;         
     nombre: string;             
     direccion: string;          
     departamento: string;       
     provincia: string;           
     distrito: string;            
-    coordenadaLatitud?: number;
-    coordenadaLongitud?: number;
+    coordenadaLatitud?: string;
+    coordenadaLongitud?: string;
 }

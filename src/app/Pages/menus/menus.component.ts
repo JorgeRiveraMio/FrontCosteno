@@ -39,9 +39,9 @@ export class MenusComponent implements OnInit {
   // terminales: Array<Terminal> = [
   //    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', geolocalizacionLatitud: -12.1203, geolocalizacionLongitud: -77.0302 }
   // ];
-  terminales: Array<Terminal> = [
-    { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', coordenadaLatitud: -12.1203, coordenadaLongitud: -77.0302 }
- ];
+//   terminales: Array<Terminal> = [
+//     { nombre: 'Terminal Central', direccion: 'Av. Principal 123', departamento: 'Lima', provincia: 'Lima', distrito: 'Miraflores', coordenadaLatitud: 'Miraflores', coordenadaLongitud: 'Miraflores'}
+//  ];
 
   formFields = [
     { name: 'placa', label: 'Placa', type: 'text', required: true, entity: 'buses' },
@@ -129,7 +129,7 @@ export class MenusComponent implements OnInit {
       case 'choferes':
         return this.choferes;
       case 'terminales':
-        return this.terminales;
+        // return this.terminales;
       default:
         return [];
     }
@@ -150,7 +150,7 @@ export class MenusComponent implements OnInit {
         this.choferes.push(item);
         break;
       case 'terminales':
-        this.terminales.push(item);
+        // this.terminales.push(item);
         break;
     }
   }
@@ -190,7 +190,7 @@ export class MenusComponent implements OnInit {
         this.choferes = this.choferes.filter(chofer => chofer.liceConducir !== entidad.liceConducir);
         break;
       case 'terminales':
-        this.terminales = this.terminales.filter(terminal => terminal.nombre !== entidad.nombre);
+        // this.terminales = this.terminales.filter(terminal => terminal.nombre !== entidad.nombre);
         break;
     }
   }
@@ -217,12 +217,12 @@ export class MenusComponent implements OnInit {
           chofer.estadoChofer.toLowerCase().includes(busqueda.toLowerCase())
         );
       case 'terminales':
-        return this.terminales.filter(terminal =>
-          terminal.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-          terminal.departamento.toLowerCase().includes(busqueda.toLowerCase()) ||
-          terminal.provincia.toLowerCase().includes(busqueda.toLowerCase()) ||
-          terminal.distrito.toLowerCase().includes(busqueda.toLowerCase())
-        );
+        // return this.terminales.filter(terminal =>
+        //   terminal.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+        //   terminal.departamento.toLowerCase().includes(busqueda.toLowerCase()) ||
+        //   terminal.provincia.toLowerCase().includes(busqueda.toLowerCase()) ||
+        //   terminal.distrito.toLowerCase().includes(busqueda.toLowerCase())
+        // );
       default:
         return [];
     }
