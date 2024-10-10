@@ -1,7 +1,8 @@
 // modal.component.ts
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TerminalService } from '../../Services/terminal.service';
 
 @Component({
   selector: 'app-modal',
@@ -18,6 +19,7 @@ export class ModalComponent {
 
   // Definir newItem como un objeto dinámico para evitar errores de tipo
   newItem: { [key: string]: any } = {}; 
+  private terminalService = inject(TerminalService);
 
   ngOnChanges() {
     console.log('Form Fields:', this.formFields);
@@ -31,6 +33,20 @@ export class ModalComponent {
       alert('Por favor completa todos los campos requeridos.'); // Mensaje de error
     }
   }
+ // Método que se ejecuta cuando se crea un nuevo item desde el modal
+ agregarTerminal(newTerminal: any) {
+  this.terminalService.registrarTerminal(newTerminal).subscribe(
+    (response) => {
+      // Manejar la respuesta del servidor
+      console.log('Terminal guardada:', response);
+      // Aquí puedes mostrar un mensaje de éxito o actualizar la vista
+    },
+    (error) => {
+      // Manejar errores
+      console.error('Error al guardar la terminal:', error);
+    }
+  );
+}
 
   // Método para validar si todos los campos requeridos están llenos
   isValid(): boolean {
@@ -41,4 +57,5 @@ export class ModalComponent {
   fillForm(item: any) {
     this.newItem = { ...item }; // Rellenar newItem con los datos del item pasado
   }
+
 }

@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form (ngSubmit)="agregarItem()" #itemForm="ngForm">
+                <form (ngSubmit)="agregarTerminal(newItem)" #itemForm="ngForm">
                     <div class="mb-3" *ngFor="let field of formFields">  
                         <label [for]="field.name" class="form-label">{{ field.label }}:</label>
                         <input 

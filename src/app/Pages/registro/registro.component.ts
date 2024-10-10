@@ -159,7 +159,7 @@ export class RegistroComponent {
 
           Swal.fire({
             title: '¡Código validado!',
-            text: response.message,
+            text: 'El ingreso del codigo es correcto',
             icon: 'success'
           }).then(() => this.router.navigate(['/login']));
        

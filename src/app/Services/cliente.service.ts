@@ -16,7 +16,7 @@ export class ClienteService {
   enviarCodigo(cliente: Cliente): Observable<ResponseApi> {
     return this.http.post<ResponseApi>(`${this.apiUrl}/enviarCodigo`, cliente);
   }
-  validarCodigo(email: string, codigo: string): Observable<any> {
+  validarCodigo(email: string, codigo: string): Observable<ResponseApi> {
    
     const body = { email, codigo };  // Construimos el objeto JSON con los datos
     return this.http.post<ResponseApi>(`${this.apiUrl}/validarCodigo`, body);
