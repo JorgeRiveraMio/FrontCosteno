@@ -1,0 +1,117 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <div class="custom-header">
+        <h1 class="text-center mb-0">Chofer</h1>
+    </div>
+    <div class="custom-container mt-0">
+        <h2 style="color: black;">Registro de Chofer</h2>
+
+        <!-- Botón para abrir el modal -->
+        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#choferModal">
+            Crear Chofer
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="choferModal" tabindex="-1" aria-labelledby="choferModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="choferModalLabel" style="color: black;">Nuevo Chofer</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="choferForm">
+                            <!-- Datos de Persona -->
+                            <div class="mb-3">
+                                <label for="numDocumento" class="col-form-label">Número de Documento:</label>
+                                <input type="text" class="form-control" id="numDocumento" formControlName="numDocumento">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nombres" class="col-form-label">Nombres:</label>
+                                <input type="text" class="form-control" id="nombres" formControlName="nombres">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellidos" class="col-form-label">Apellidos:</label>
+                                <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                            </div>
+                            <div class="mb-3">
+                                <label for="estadoCivil" class="col-form-label">Estado Civil:</label>
+                                <input type="text" class="form-control" id="estadoCivil" formControlName="estadoCivil">
+                            </div>
+                            <div class="mb-3">
+                                <label for="direccion" class="col-form-label">Dirección:</label>
+                                <input type="text" class="form-control" id="direccion" formControlName="direccion">
+                            </div>
+                            <div class="mb-3">
+                                <label for="numTel" class="col-form-label">Número de Teléfono:</label>
+                                <input type="text" class="form-control" id="numTel" formControlName="numTel">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaNac" class="col-form-label">Fecha de Nacimiento:</label>
+                                <input type="date" class="form-control" id="fechaNac" formControlName="fechaNac">
+                            </div>
+                            <!-- Datos específicos de Chofer -->
+                            <div class="mb-3">
+                                <label for="fechaLicencia" class="col-form-label">Fecha de Licencia:</label>
+                                <input type="date" class="form-control" id="fechaLicencia" formControlName="fechaLicencia">
+                            </div>
+                            <div class="mb-3">
+                                <label for="licenciaConducir" class="col-form-label">Licencia de Conducir:</label>
+                                <input type="text" class="form-control" id="licenciaConducir" formControlName="licenciaConducir">
+                            </div>
+                            <div class="mb-3">
+                                <label for="estado" class="col-form-label">Estado:</label>
+                                <select class="form-select" id="estado" formControlName="estado">
+                                    <option [value]="true">Activo</option>
+                                    <option [value]="false">Inactivo</option>
+                                </select>
+                            </div>
+                            <div *ngIf="choferForm.invalid" class="text-danger">
+                                Por favor, completa todos los campos requeridos correctamente.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="choferForm.invalid" (click)="guardar()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Teléfono</th>
+                    <th>Fecha Licencia</th>
+                    <th>Licencia</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí puedes iterar sobre los datos de los choferes -->
+                <tr *ngFor="let chofer of choferes">
+                    <td>{{ chofer.numDocumento }}</td>
+                    <td>{{ chofer.nombres }}</td>
+                    <td>{{ chofer.apellidos }}</td>
+                    <td>{{ chofer.numTel }}</td>
+                    <td>{{ chofer.fechaLicencia }}</td>
+                    <td>{{ chofer.licenciaConducir}}</td>
+                    <td>{{ chofer.estado ? 'Activo' : 'Inactivo' }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#choferModal" (click)="editar(chofer.idPersona)">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="darDeBaja(chofer.idPersona)">
+                            Dar de baja
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

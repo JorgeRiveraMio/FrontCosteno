@@ -1,5 +1,5 @@
 export interface Terminal{
-   idTerminal: number;         
+    idTerminal: number;         
     nombre: string;             
     direccion: string;          
     departamento: string;       

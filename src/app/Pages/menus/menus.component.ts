@@ -73,12 +73,12 @@ export class MenusComponent implements OnInit {
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {
-     //this.listarTerminal();
+    //this.listarTerminal();
   }
 
   ngOnInit(): void {
-//  this.listarTerminal();
-   
+    //  this.listarTerminal();
+        
     this.route.url.subscribe(urlSegments => {
       const path = urlSegments.map(segment => segment.path).join('/');
       this.currentView = path.split('/').pop() || ''; // Establecer la vista actual
