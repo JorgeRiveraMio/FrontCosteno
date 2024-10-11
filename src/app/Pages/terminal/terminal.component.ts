@@ -5,7 +5,7 @@ import { TerminalService } from '../../Services/terminal.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Terminal } from '../../Interfaces/Terminal';
 import bootstrap from 'bootstrap';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-terminal',
   standalone: true,
@@ -18,12 +18,26 @@ export class TerminalComponent implements OnInit {
 private formBuild = inject(FormBuilder);
   terminals: Terminal[] = [];
   idEditado: number | null = null;
-  ngOnInit(): void {
-    this.listar()
+  filtro:string="activo";
+
+  cambiarFiltro(filtro:string	){
+    this.filtro=filtro;
+    console.log(this.filtro)
+    this.listar(this.filtro)
+  
   }
-  listar() {
+  ngOnInit(): void {
+    this.listar(this.filtro)
+  }
+  listar(filtro:string) {
     this.terminalService.listarTerminales().subscribe((data: Terminal[]) => {
-      this.terminals = data;
+      if (filtro === 'activo') {
+        this.terminals = data.filter(terminal => terminal.estado === 'activo');
+      } else if (filtro === 'inactivo') {
+        this.terminals = data.filter(terminal => terminal.estado === 'inactivo');
+      } else {
+        this.terminals = data; // En caso de que el filtro no sea válido
+      }
       console.log(this.terminals); // Mover aquí para asegurarte de que muestre los datos correctos
     }, error => {
       console.error('Error al listar las terminales:', error); // Manejar el error
@@ -54,7 +68,8 @@ terminalForm = this.formBuild.group({
        provincia: this.terminalForm.get('provincia')?.value ?? '',
        distrito: this.terminalForm.get('distrito')?.value ?? '',
        coordenadaLatitud: this.terminalForm.get('coordenadaLatitud')?.value ?? '',
-       coordenadaLongitud: this.terminalForm.get('coordenadaLongitud')?.value ?? ''
+       coordenadaLongitud: this.terminalForm.get('coordenadaLongitud')?.value ?? '',
+        estado:'activo'
    }
       if(this.idEditado != null){
         console.log(this.idEditado)
@@ -62,7 +77,8 @@ terminalForm = this.formBuild.group({
           this.terminalService.actualizarTerminal(this.idEditado,formData).subscribe({
         next: (response) => {
           console.log('Terminal actualizado correctamente', response);
-          this.listar()
+          this.listar(this.filtro)
+          this.alertaCorrecto()
         },
         error: (error) => {
           console.error('Error al actualizar el terminal', error);
@@ -75,7 +91,8 @@ terminalForm = this.formBuild.group({
      this.terminalService.registrarTerminal(formData).subscribe({
        next: (response) => {
          console.log('Se registro correctamente', response);    
-         this.listar()  
+         this.listar(this.filtro)  
+         this.alertaCorrecto()
        },
        error: (error) => {
          console.error('No se registro correctamente', error);
@@ -108,5 +125,26 @@ terminalForm = this.formBuild.group({
     });
 
   
+}
+actualizarEstado(id:number){
+  this.terminalService.actualizarEstado(id).subscribe({
+    next: (response) => {
+      console.log('Estado actualizado correctamente', response);
+      this.listar(this.filtro)
+      this.alertaCorrecto()
+    },
+    error: (error) => {
+      console.error('Error al actualizar el estado', error);
+    }
+  });
+}
+alertaCorrecto(){
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Se realizo correctamente",
+    showConfirmButton: false,
+    timer: 1500
+  });  
 }
 }

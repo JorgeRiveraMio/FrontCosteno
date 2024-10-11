@@ -12,15 +12,17 @@ export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
  
-   
-    const token = localStorage.getItem('token'); // Aquí estás llamando a getToken()
+     // Verifica que estamos en el entorno del navegador
+     if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token'); // Aquí estás llamando a getToken()
 
-    // Verifica que el token no sea null
-    console.log('Token recuperado en el interceptor:', token); // Verifica que este no sea null   
-    if (token) {
-      authReq = authReq.clone({
-        setHeaders: { Authorization: `Bearer ${token}` }
-      });
+      // Verifica que el token no sea null
+      console.log('Token recuperado en el interceptor:', token); // Verifica que este no sea null   
+      if (token) {
+        authReq = authReq.clone({
+          setHeaders: { Authorization: `Bearer ${token}` }
+        });
+      }
     }
 
     return next.handle(authReq);

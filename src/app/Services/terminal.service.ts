@@ -26,4 +26,8 @@ export class TerminalService {
   buscarTerminal(id:number): Observable<Terminal>{
     return this.http.get<Terminal>(`${this.apiUrl}/buscar/${id}`);
   }
+  actualizarEstado(id:number): Observable<ResponseApi>{
+    return this.http.put<ResponseApi>(`${this.apiUrl}/actualizarEstado/${id}`,null);
+  }
+
 }
