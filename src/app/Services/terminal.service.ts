@@ -17,11 +17,13 @@ export class TerminalService {
   registrarTerminal(terminal: Terminal):Observable<ResponseApi>{
     return this.http.post<ResponseApi>(`${this.apiUrl}/registrar`, terminal);
   }
-  
-  // listarTerminal():Observable<any>{
-  //   return this.http.get<any>(`${this.apiUrl}/listar`);
-  // }
   listarTerminales(): Observable<Terminal[]> {
     return this.http.get<Terminal[]>(`${this.apiUrl}/listar`);
+  }
+  actualizarTerminal(id:number, terminal:Terminal): Observable<ResponseApi>{
+    return this.http.put<ResponseApi>(`${this.apiUrl}/${id}`, terminal);
+  }
+  buscarTerminal(id:number): Observable<Terminal>{
+    return this.http.get<Terminal>(`${this.apiUrl}/buscar/${id}`);
   }
 }

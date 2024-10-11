@@ -55,7 +55,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="listar()">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                         <button type="submit" class="btn btn-primary" [disabled]="terminalForm.invalid" (click)="guardar()">Guardar</button>
                     </div>
                 </div>
@@ -82,7 +82,10 @@
                     <td>{{ item.provincia }}</td>
                     <td>{{ item.distrito }}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm">Editar</button>
+                        <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#terminalModal" (click)="editar(item.idTerminal)">
+                            Editar
+                        </button>
+                        <!-- <button id="terminalModal" class="btn btn-primary btn-sm">Editar</button> -->
                         <button class="btn btn-danger btn-sm">Eliminar</button>
                     </td>
                 </tr>
