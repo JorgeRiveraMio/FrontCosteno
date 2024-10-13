@@ -7,6 +7,7 @@ import { MenusComponent } from './Pages/menus/menus.component';
 import { NuevaContrasenaComponent } from './Pages/nueva-contrasena/nueva-contrasena.component';
 import { TerminalComponent } from './Pages/terminal/terminal.component';
 import { ChoferComponent } from './Pages/chofer/chofer.component';
+import { RutaComponent } from './Pages/ruta/ruta.component';
 
 export const routes: Routes = [
     {
@@ -30,9 +31,9 @@ export const routes: Routes = [
         component: PerfilComponent
     },
     // { path: 'menus/buses', component: MenusComponent },
-    // { path: 'menus/rutas', component: MenusComponent },
+    { path: 'menus/rutas', component: RutaComponent },
     // { path: 'menus/viajes', component: MenusComponent },
-    // { path: 'menus/choferes', component: MenusComponent },
+ 
     { path: 'menus/choferes', component: ChoferComponent },
     { path: 'menus/terminales', component: TerminalComponent }
     // { path: '', redirectTo: '/menus/buses', pathMatch: 'full' }, 

@@ -14,6 +14,5 @@ import { LoginService } from '../../Services/login.service';
 })
 export class PrincipalComponent  {
 
-  
 
 }
