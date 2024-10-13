@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { appsettingsCliente } from '../settings/appsettings';
 import { HttpClient } from '@angular/common/http';
-import { Ruta } from '../Interfaces/Ruta';
+import { Ruta, RutaDTO } from '../Interfaces/Ruta';
 import { ResponseApi } from '../Interfaces/ResponseApi';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -10,17 +10,20 @@ import { Observable } from 'rxjs/internal/Observable';
   providedIn: 'root'
 })
 export class RutaService {
+  patchValue(arg0: { origen: (string | ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors | null))[]; destino: (string | ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors | null))[]; distancia: (string | ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors | null))[]; duracion: (string | ((control: import("@angular/forms").AbstractControl) => import("@angular/forms").ValidationErrors | null))[]; }) {
+    throw new Error('Method not implemented.');
+  }
 
   private apiUrl = appsettingsCliente.apiUrl + "/ruta";
 
   constructor(private http: HttpClient) { }
-  registrarRuta(ruta:Ruta):Observable<ResponseApi>{
+  registrarRuta(ruta:RutaDTO):Observable<ResponseApi>{
     return this.http.post<ResponseApi>(`${this.apiUrl}/registrar`, ruta);
   }
   listarRutas(): Observable<Ruta[]> {
     return this.http.get<Ruta[]>(`${this.apiUrl}/listar`);
   }
-  actualizarRuta(id:number, ruta:Ruta): Observable<ResponseApi>{
+  actualizarRuta(id:number, ruta:RutaDTO): Observable<ResponseApi>{
     return this.http.put<ResponseApi>(`${this.apiUrl}/${id}`, ruta);
   }
   buscarRuta(id:number): Observable<Ruta>{
