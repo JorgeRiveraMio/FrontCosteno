@@ -30,7 +30,7 @@ export class ChoferService {
     return this.http.get<Chofer>(`${this.apiUrl}/buscar/${id}`);
   }
 
-  cambiarEstadoChofer(id: number, nuevoEstado: boolean): Observable<any> {
-    return this.http.put(`/chofer/cambiar-estado/${id}/${nuevoEstado}`, {});
-}
+  actualizarEstado(id:number): Observable<ResponseApi>{
+    return this.http.put<ResponseApi>(`${this.apiUrl}/actualizarEstado/${id}`,null);
+  }
 }

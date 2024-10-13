@@ -5,6 +5,7 @@ import { ChoferService } from '../../Services/chofer.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Chofer } from '../../Interfaces/Chofer';
 import bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-chofer',
@@ -19,15 +20,27 @@ export class ChoferComponent implements OnInit {
   
   choferes: Chofer[] = [];
   idEditado: number | null = null;
+  filtro:string="activo";
 
+  cambiarFiltro(filtro:string	){
+    this.filtro=filtro;
+    console.log(this.filtro)
+    this.listar(this.filtro)
+  }
   ngOnInit(): void {
-    this.listar();
+    this.listar(this.filtro);
   }
 
-  listar() {
+  listar(filtro: string) {
     this.choferService.listarChoferes().subscribe((data: Chofer[]) => {
-      this.choferes = data;
-      console.log(this.choferes); // Asegúrate de que muestre los datos correctamente
+      if (filtro === 'activo') {
+        this.choferes = data.filter(Chofer => Chofer.estado === true); // estado como booleano
+      } else if (filtro === 'inactivo') {
+        this.choferes = data.filter(Chofer => Chofer.estado === false); // estado como booleano
+      } else {
+        this.choferes = data; // En caso de que el filtro no sea válido
+      }
+      console.log(this.choferes);
     }, error => {
       console.error('Error al listar los choferes:', error); // Manejar el error
     });
@@ -68,7 +81,7 @@ export class ChoferComponent implements OnInit {
         this.choferService.actualizarChofer(this.idEditado, formData).subscribe({
           next: (response) => {
             console.log('Chofer actualizado correctamente', response);
-            this.listar();  // Volver a listar los choferes
+            this.listar(this.filtro);  // Volver a listar los choferes
           },
           error: (error) => {
             console.error('Error al actualizar el chofer', error);
@@ -79,7 +92,7 @@ export class ChoferComponent implements OnInit {
         this.choferService.registrarChofer(formData).subscribe({
           next: (response) => {
             console.log('Chofer registrado correctamente', response);
-            this.listar();  // Volver a listar los choferes
+            this.listar(this.filtro);  // Volver a listar los choferes
           },
           error: (error) => {
             console.error('Error al registrar el chofer', error);
@@ -127,16 +140,25 @@ export class ChoferComponent implements OnInit {
   }
   
 
-  darDeBaja(id: number) {
-    const nuevoEstado = false; // Cambiar a inactivo
-    this.choferService.cambiarEstadoChofer(id, nuevoEstado).subscribe({
+  actualizarEstado(id: number) {
+    this.choferService.actualizarEstado(id).subscribe({
         next: (response) => {
-            console.log(response);
-            this.listar(); // Vuelve a listar los choferes para reflejar el cambio
+            console.log('Estado actualizado correctamente', response);
+            this.listar(this.filtro); // Volver a listar los choferes después de actualizar
+            this.alertaCorrecto(); // Mostrar mensaje de éxito
         },
         error: (error) => {
-            console.error('Error al cambiar el estado del chofer', error);
+            console.error('Error al actualizar el estado', error);
         }
     });
-}
+  }
+  alertaCorrecto(){
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Se realizo correctamente",
+      showConfirmButton: false,
+      timer: 1500
+    });  
+  }
 }
