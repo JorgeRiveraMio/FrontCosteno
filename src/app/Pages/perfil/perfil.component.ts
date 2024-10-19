@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Cliente } from '../../Interfaces/Cliente';
 import { LoginService } from '../../Services/login.service';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -33,29 +34,27 @@ export class PerfilComponent {
 
     // Formatear la fecha de creación cuando el componente se inicializa
     if (this.data) {
-      //cargar datos en mi perfil en caso exista
-      // let  estadoCivil=this.data.estadoCivil
-      // let   direccion=this.data.direccion
-      // let  numTel=this.data.numero
-      //   let fechaNac= new Date( this.data.fechaNacimiento)      
-      // let password=this.data.contrasena
-
-      fechaCreacion:this.data.fechaCreacion,
+       
+   
+        this.perfilForm.patchValue({
+          estadoCivil: this.data.estadoCivil || '',
+          direccion: this.data.direccion || '',
+          numero: this.data.numTel || '',
+          fechaNacimiento: new Date(this.data.fechaNac) || ''
+      });
+      
+      fechaCreacion:this.data.fechaCreacion
      
       this.fechaCreacionFormateada = this.datePipe.transform(this.fechaCreacion, 'MMMM d, y');
     }
   }
   perfilForm = this.formBuild.group({
-    // estadoCivil: ['', Validators.required],
-    // direccion: ['', Validators.required],
-    // numero: ['', [Validators.required, Validators.pattern('[0-9]*')]], // Solo números
-    // fechaNacimiento: ['', Validators.required],
-    // contrasena: ['', [Validators.required, Validators.minLength(6)]], // Mínimo 6 caracteres
+ 
     estadoCivil: [this.data?.estadoCivil || '', Validators.required],
     direccion: [this.data?.direccion || '', Validators.required],
     numero: [this.data?.numTel || '', [Validators.required, Validators.pattern('[0-9]*')]], // Solo números
     fechaNacimiento: [new Date(this.data?.fechaNac )|| '', Validators.required],
-    // contrasena: ['', [Validators.required, Validators.minLength(6)]], 
+
   });
   get estadoCivil() {
     return this.perfilForm.get('estadoCivil');
@@ -73,9 +72,7 @@ export class PerfilComponent {
     return this.perfilForm.get('fechaNacimiento');
   }
 
-  // get contrasena() {
-  //   return this.perfilForm.get('contrasena');
-  // }
+
 
   actualizar(){
   
@@ -97,9 +94,17 @@ export class PerfilComponent {
         estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
        
        };
+       //se actualiza el token
        this.clienteService.actualizarCliente(this.data.idPersona, formData).subscribe({
         next: (response) => {
           console.log('Cliente actualizado correctamente:', response);
+          this.mensajeCorrecto()
+            this.loginService.getCurrentUser().subscribe((user: any) => {
+               this.loginService.setUser(user);
+              console.log("nueva data");
+              console.log(user);
+          
+          })
           this.router.navigate(['/perfil']);
         },
         error: (error) => {
@@ -112,5 +117,15 @@ export class PerfilComponent {
   logout() {
     this.loginService.logout();
     this.router.navigate(['/login']);
+  }
+
+  mensajeCorrecto(){
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Se actualizo correctamente",
+      showConfirmButton: false,
+      timer: 1500
+    });
   }
 }

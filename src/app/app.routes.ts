@@ -3,7 +3,6 @@ import { PrincipalComponent } from './Pages/principal/principal.component';
 import { LoginComponent } from './Pages/login/login.component';
 import { RegistroComponent } from './Pages/registro/registro.component';
 import { PerfilComponent } from './Pages/perfil/perfil.component';
-import { MenusComponent } from './Pages/menus/menus.component';
 import { NuevaContrasenaComponent } from './Pages/nueva-contrasena/nueva-contrasena.component';
 import { TerminalComponent } from './Pages/terminal/terminal.component';
 import { ChoferComponent } from './Pages/chofer/chofer.component';
