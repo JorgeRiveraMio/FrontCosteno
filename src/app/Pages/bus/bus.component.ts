@@ -77,32 +77,51 @@ export class BusComponent {
 }
 
   guardar() {
-  if (this.busForm.valid) {
-        const formData: Bus = {
-          idBus: 0,
-          nombre: this.busForm.get('nombre')?.value ?? '',
-          placa: this.busForm.get('placa')?.value ?? '',
-          modelo: this.busForm.get('modelo')?.value ?? '',
-          capacidadPiso1: Number(this.busForm.get('capacidadPiso1')?.value ?? ''),
-          capacidadPiso2: Number(this.busForm.get('capacidadPiso2')?.value ?? ''),
-          estadoBus: {
-              idEstadoBus: 1,
-              estado: 'Activo' 
-          }
-        };
+      if (this.busForm.valid) {
+          const formData: Bus = {
+              idBus: 0, // Este será generado por la base de datos
+              nombre: this.busForm.get('nombre')?.value ?? '',
+              placa: this.busForm.get('placa')?.value ?? '',
+              modelo: this.busForm.get('modelo')?.value ?? '',
+              capacidadPiso1: Number(this.busForm.get('capacidadPiso1')?.value ?? ''),
+              capacidadPiso2: Number(this.busForm.get('capacidadPiso2')?.value ?? ''),
+              estadoBus: {
+                  idEstadoBus: 1, // Asegúrate de que esto se ajuste a tu lógica de estado
+                  estado: 'Activo' 
+              }
+          };
+          console.log('Datos a enviar:', formData);
 
-        this.busService.registrarBus(formData).subscribe({
-            next: (response) => {
-                console.log('Bus registrado correctamente', response);
-                this.listar(this.filtro);
-                this.alertaCorrecto();
-            },
-            error: (error) => {
-                console.error('No se registró correctamente el bus', error);
-            }
-        });
-    }
+          // Llamar al servicio para registrar el bus
+          this.busService.registrarBus(formData).subscribe({
+              next: (response) => {
+                  console.log('Bus registrado correctamente', response);
+                  this.listar(this.filtro);
+                  this.alertaCorrecto();
+              },
+              error: (error) => {
+                  console.error('No se registró correctamente el bus', error);
+                  if (error.error && error.error.message) {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: error.error.message
+                      });
+                  }
+              }
+          });
+      } else {
+          console.log('Formulario inválido', this.busForm.errors);
+          // Mostrar qué campos no cumplen
+          Object.keys(this.busForm.controls).forEach(controlName => {
+              const control = this.busForm.get(controlName);
+              if (control && control.errors) {
+                  console.log(`El campo ${controlName} tiene errores:`, control.errors);
+              }
+          });
+      }
   }
+
 
   filtrarBuses() {
     this.busService.listarBuses().subscribe((data: Bus[]) => {

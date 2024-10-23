@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseApi } from '../Interfaces/ResponseApi'; 
 import { Bus } from '../Interfaces/Bus'; 
+import { Asiento } from '../Interfaces/Asiento'; 
 
 @Injectable({
   providedIn: 'root'
