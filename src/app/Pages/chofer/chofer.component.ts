@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { CommonModule } from '@angular/common';
 import { ChoferService } from '../../Services/chofer.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Chofer } from '../../Interfaces/Chofer';
 import bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-chofer',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './chofer.component.html',
   styleUrls: ['./chofer.component.css'] // Corregido a styleUrls
 })
@@ -20,7 +20,8 @@ export class ChoferComponent implements OnInit {
   
   choferes: Chofer[] = [];
   idEditado: number | null = null;
-  filtro:string="activo";
+  filtro:string="Activo";
+  searchTerm: string = '';
 
   cambiarFiltro(filtro:string	){
     this.filtro=filtro;
@@ -33,9 +34,9 @@ export class ChoferComponent implements OnInit {
 
   listar(filtro: string) {
     this.choferService.listarChoferes().subscribe((data: Chofer[]) => {
-      if (filtro === 'activo') {
+      if (filtro === 'Activo') {
         this.choferes = data.filter(Chofer => Chofer.estado === true); // estado como booleano
-      } else if (filtro === 'inactivo') {
+      } else if (filtro === 'Inactivo') {
         this.choferes = data.filter(Chofer => Chofer.estado === false); // estado como booleano
       } else {
         this.choferes = data; // En caso de que el filtro no sea válido
@@ -136,6 +137,24 @@ export class ChoferComponent implements OnInit {
       error: (error) => {
         console.error('Error al buscar el chofer', error);
       }
+    });
+  }
+
+  filtrarChoferes() {
+    this.choferService.listarChoferes().subscribe((data: Chofer[]) => {
+      let choferesFiltrados = data;
+      if (this.searchTerm) {
+        choferesFiltrados = data.filter(chofer =>
+          chofer.nombres.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          chofer.apellidos.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          chofer.direccion.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          chofer.estadoCivil.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          chofer.numTel.includes(this.searchTerm)
+        );
+      }
+      this.choferes = choferesFiltrados; // Asignar los choferes filtrados
+    }, error => {
+      console.error('Error al listar los choferes:', error); // Manejar el error
     });
   }
   

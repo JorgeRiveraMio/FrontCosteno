@@ -7,6 +7,7 @@ import { NuevaContrasenaComponent } from './Pages/nueva-contrasena/nueva-contras
 import { TerminalComponent } from './Pages/terminal/terminal.component';
 import { ChoferComponent } from './Pages/chofer/chofer.component';
 import { RutaComponent } from './Pages/ruta/ruta.component';
+import { BusComponent } from './Pages/bus/bus.component';
 
 export const routes: Routes = [
     {
@@ -29,7 +30,7 @@ export const routes: Routes = [
         path: 'perfil',
         component: PerfilComponent
     },
-    // { path: 'menus/buses', component: MenusComponent },
+    { path: 'menus/buses', component: BusComponent},
     { path: 'menus/rutas', component: RutaComponent },
     // { path: 'menus/viajes', component: MenusComponent },
  

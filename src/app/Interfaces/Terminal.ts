@@ -5,7 +5,7 @@ export interface Terminal{
     departamento: string;       
     provincia: string;           
     distrito: string;            
-   coordenadaLatitud: string;
+    coordenadaLatitud: string;
     coordenadaLongitud: string;
     estado: string;
 }

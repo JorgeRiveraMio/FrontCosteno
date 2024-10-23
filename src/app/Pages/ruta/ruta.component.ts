@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import Swal from 'sweetalert2';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
 import { Ruta, RutaDTO } from '../../Interfaces/Ruta';
 import { RutaService } from '../../Services/ruta.service';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { LoginService } from '../../Services/login.service';
 @Component({
   selector: 'app-ruta',
   standalone: true,
-  imports: [HeaderComponent,CommonModule,ReactiveFormsModule],
+  imports: [HeaderComponent,CommonModule,ReactiveFormsModule,FormsModule],
   templateUrl: './ruta.component.html',
   styleUrl: './ruta.component.css'
 })
@@ -26,6 +26,7 @@ private loginService =inject(LoginService)
   terminal:Terminal[]=[];
   idEditado: number | null = null;
   filtro:string="activo";
+  searchTerm: string = '';
 
   cambiarFiltro(filtro:string	){
     this.filtro=filtro;
@@ -35,7 +36,6 @@ private loginService =inject(LoginService)
   }
   ngOnInit(): void {
     this.listar(this.filtro)
-   
     this.combo();
   }
   listar(filtro:string) {
@@ -144,28 +144,43 @@ rutaForm = this.formBuild.group({
         console.error('Error al buscar el terminal', error);
       }
     });
-
-  
-}
-actualizarEstado(id:number){
-  this.rutaService.actualizarEstado(id).subscribe({
-    next: (response) => {
-      console.log('Estado actualizado correctamente', response);
-      this.listar(this.filtro)
-      this.alertaCorrecto()
-    },
-    error: (error) => {
-      console.error('Error al actualizar el estado', error);
-    }
-  });
-}
-alertaCorrecto(){
-  Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Se realizo correctamente",
-    showConfirmButton: false,
-    timer: 1500
-  });  
-}
+  }
+  filtrarRutas() {
+    this.rutaService.listarRutas().subscribe((data: Ruta[]) => {
+      let rutasFiltradas = data;
+      if (this.searchTerm) {
+        rutasFiltradas = data.filter(ruta =>
+          ruta.terminalOrigen.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          ruta.terminalDestino.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          ruta.distancia.toString().includes(this.searchTerm) ||
+          ruta.duracion.includes(this.searchTerm) ||
+          ruta.estadoRuta.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+      }
+      this.rutas = rutasFiltradas;
+    }, error => {
+      console.error('Error al listar las rutas:', error); 
+    });
+  }
+  actualizarEstado(id:number){
+    this.rutaService.actualizarEstado(id).subscribe({
+      next: (response) => {
+        console.log('Estado actualizado correctamente', response);
+        this.listar(this.filtro)
+        this.alertaCorrecto()
+      },
+      error: (error) => {
+        console.error('Error al actualizar el estado', error);
+      }
+    });
+  }
+  alertaCorrecto(){
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Se realizo correctamente",
+      showConfirmButton: false,
+      timer: 1500
+    });  
+  }
 }

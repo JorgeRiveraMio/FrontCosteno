@@ -1,0 +1,104 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <div class="custom-header">
+        <h1 class="text-center mb-0">Bus</h1>
+    </div>
+    <div class="custom-container mt-0">
+        <h2 style="color: black;">Registro de Bus</h2>
+
+        <!-- Botón para abrir el modal -->
+        <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#busModal">
+                Crear Bus
+            </button>
+            <div class="ms-auto">
+                <label for="search" class="col-form-label">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarBuses()">
+            </div>
+        </div>
+        
+        <div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
+                <label class="btn btn-outline-primary" for="btnradio1">Activos</label>            
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (change)="cambiarFiltro('inactivo')">
+                <label class="btn btn-outline-danger" for="btnradio2">Inactivos</label>            
+            </div>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="busModal" tabindex="-1" aria-labelledby="busModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="busModalLabel" style="color: black;">Nuevo Bus</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="busForm">
+                            <!-- Datos del Bus -->
+                            <div class="mb-3">
+                                <label for="nombre" class="col-form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="placa" class="col-form-label">Placa:</label>
+                                <input type="text" class="form-control" id="placa" formControlName="placa">
+                            </div>
+                            <div class="mb-3">
+                                <label for="modelo" class="col-form-label">Modelo:</label>
+                                <select class="form-control" id="modelo" formControlName="modelo" (change)="onModeloChange($event)">
+                                    <option value="" disabled selected>Selecciona un modelo</option>
+                                    <option *ngFor="let model of modelosBus" [value]="model.modelo">{{ model.modelo }}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacidadPiso1" class="col-form-label">Capacidad Piso 1:</label>
+                                <input type="number" class="form-control" id="capacidadPiso1" formControlName="capacidadPiso1" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacidadPiso2" class="col-form-label">Capacidad Piso 2:</label>
+                                <input type="number" class="form-control" id="capacidadPiso2" formControlName="capacidadPiso2" readonly>
+                            </div>
+                            <div *ngIf="busForm.invalid" class="text-danger">
+                                Por favor, completa todos los campos requeridos correctamente.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="busForm.invalid" (click)="guardar()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th>Capacidad Piso 1</th>
+                    <th>Capacidad Piso 2</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí puedes iterar sobre los datos de los buses -->
+                <tr *ngFor="let bus of buses">
+                    <td>{{ bus.nombre }}</td>
+                    <td>{{ bus.placa }}</td>
+                    <td>{{ bus.modelo }}</td>
+                    <td>{{ bus.capacidadPiso1 }}</td>
+                    <td>{{ bus.capacidadPiso2 }}</td>
+                    <td>{{ bus.estadoBus.estado}}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="actualizarEstado(bus.idBus)">Cambiar Estado</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

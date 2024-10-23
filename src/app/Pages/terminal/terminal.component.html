@@ -10,6 +10,10 @@
         <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#terminalModal">
             Crear Terminal
         </button>
+        <div class="mb-3">
+            <label for="search" class="col-form-label">Buscar:</label>
+            <input type="text" class="form-control" id="search" [(ngModel)]="searchTerm" (input)="filtrarTerminales()">
+        </div>
         <div>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
@@ -38,15 +42,21 @@
                             </div>
                             <div class="mb-3">
                                 <label for="terminal-departamento" class="col-form-label">Departamento:</label>
-                                <input type="text" class="form-control" id="terminal-departamento" formControlName="departamento">
+                                <select class="form-select" id="terminal-departamento" formControlName="departamento" (change)="onDepartamentoChange($event)">
+                                    <option *ngFor="let departamento of departamentos" [value]="departamento.nombre">{{ departamento.nombre }}</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="terminal-provincia" class="col-form-label">Provincia:</label>
-                                <input type="text" class="form-control" id="terminal-provincia" formControlName="provincia">
+                                <select class="form-select" id="terminal-provincia" formControlName="provincia" [disabled]="!provincias.length" (change)="onProvinciaChange($event)">
+                                    <option *ngFor="let provincia of provincias" [value]="provincia.nombre">{{ provincia.nombre }}</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="terminal-distrito" class="col-form-label">Distrito:</label>
-                                <input type="text" class="form-control" id="terminal-distrito" formControlName="distrito">
+                                <select class="form-select" id="terminal-distrito" formControlName="distrito" [disabled]="!distritos.length">
+                                    <option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="terminal-latitud" class="col-form-label">Coordenada Latitud:</label>

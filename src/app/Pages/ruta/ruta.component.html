@@ -7,19 +7,23 @@
         <h2 style="color: black;">Ruta</h2>
 
         <!-- Botón para abrir el modal -->
-        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#terminalModal">
-            Crear Ruta
-        </button>
+        <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#busModal">
+                Crear Bus
+            </button>
+            <div class="ms-auto">
+                <label for="search" class="col-form-label">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarRutas()">
+            </div>
+        </div>
         <div>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
                 <label class="btn btn-outline-primary" for="btnradio1">Activos</label>
-              
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (change)="cambiarFiltro('inactivo')">
                 <label class="btn btn-outline-danger" for="btnradio2">Inactivos</label>
-              
                 
-              </div>
+            </div>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="terminalModal" tabindex="-1" aria-labelledby="terminalModalLabel" aria-hidden="true">
