@@ -34,9 +34,9 @@ export class ChoferComponent implements OnInit {
 
   listar(filtro: string) {
     this.choferService.listarChoferes().subscribe((data: Chofer[]) => {
-      if (filtro === 'Activo') {
+      if (filtro === 'activo') {
         this.choferes = data.filter(Chofer => Chofer.estado === true); // estado como booleano
-      } else if (filtro === 'Inactivo') {
+      } else if (filtro === 'inactivo') {
         this.choferes = data.filter(Chofer => Chofer.estado === false); // estado como booleano
       } else {
         this.choferes = data; // En caso de que el filtro no sea válido

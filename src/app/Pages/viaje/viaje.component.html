@@ -1,0 +1,115 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <div class="custom-header">
+        <h1 class="text-center mb-0">Viajes</h1>
+    </div>
+    <div class="custom-container mt-0">
+        <h2 style="color: black;">Viajes</h2>
+
+        <!-- Botón para abrir el modal -->
+        <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#viajeModal">
+                Crear Viaje
+            </button>
+            <div class="ms-auto">
+                <label for="search" class="col-form-label">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarViajes()">
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="viajeModal" tabindex="-1" aria-labelledby="viajeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="viajeModalLabel" style="color: black;">Nuevo Viaje</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="viajeForm">
+                            <div class="mb-3">
+                                <label for="ruta" class="col-form-label">Ruta:</label>
+                                <select class="form-select" formControlName="ruta">
+                                    <option value="{{item.idRuta}}" *ngFor="let item of rutas">{{item.terminalOrigen.nombre}} - {{item.terminalDestino.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bus" class="col-form-label">Bus:</label>
+                                <select class="form-select" formControlName="bus">
+                                    <option value="{{item.idBus}}" *ngFor="let item of buses">{{item.placa}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="chofer1" class="col-form-label">Chofer Principal:</label>
+                                <select class="form-select" formControlName="chofer1">
+                                    <option value="{{item.idPersona}}" *ngFor="let item of choferes">{{item.nombres}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="chofer2" class="col-form-label">Chofer Secundario:</label>
+                                <select class="form-select" formControlName="chofer2">
+                                    <option value="{{item.idPersona}}" *ngFor="let item of choferes">{{item.nombres}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaSalida" class="col-form-label">Fecha de Salida:</label>
+                                <input type="date" class="form-control" id="fechaSalida" formControlName="fechaSalida">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaLlegada" class="col-form-label">Fecha de Llegada:</label>
+                                <input type="date" class="form-control" id="fechaLlegada" formControlName="fechaLlegada">
+                            </div>
+                            <div class="mb-3">
+                                <label for="horaSalida" class="col-form-label">Hora de Salida:</label>
+                                <input type="time" class="form-control" id="horaSalida" formControlName="horaSalida">
+                            </div>
+                            <div class="mb-3">
+                                <label for="horaLlegada" class="col-form-label">Hora de Llegada:</label>
+                                <input type="time" class="form-control" id="horaLlegada" formControlName="horaLlegada">
+                            </div>
+
+                            <div *ngIf="viajeForm.invalid" class="text-danger">
+                                Por favor, completa todos los campos requeridos correctamente.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="viajeForm.invalid" (click)="guardarViaje()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ruta</th>
+                    <th>Fecha de Salida</th>
+                    <th>Fecha de Llegada</th>
+                    <th>Hora de Salida</th>
+                    <th>Hora de Llegada</th>
+                    <th>Bus</th>
+                    <th>Chofer Principal</th>
+                    <th>Chofer Secundario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of viajes">
+                    <td>{{ item.ruta.terminalOrigen.nombre }} - {{ item.ruta.terminalDestino.nombre }}</td>
+                    <td>{{ item.fechaSalida | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ item.fechaLlegada | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ item.horaSalida }}</td>
+                    <td>{{ item.horaLlegada }}</td>
+                    <td>{{ item.bus.placa }}</td>
+                    <td>{{ item.chofer1.nombres}}</td>
+                    <td>{{ item.chofer2.nombres }}</td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
