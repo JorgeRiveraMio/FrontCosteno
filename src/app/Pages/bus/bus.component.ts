@@ -41,9 +41,9 @@ export class BusComponent {
 
   listar(filtro: string) {
     this.busService.listarBuses().subscribe((data: Bus[]) => {
-        if (filtro === 'Activo') {
+        if (filtro === 'activo') {
             this.buses = data.filter(bus => bus.estadoBus.estado === 'Activo');
-        } else if (filtro === 'Inactivo') {
+        } else if (filtro === 'inactivo') {
             this.buses = data.filter(bus => bus.estadoBus.estado === 'Inactivo');
         } else {
             this.buses = data;
@@ -62,13 +62,13 @@ export class BusComponent {
   });
 
   onModeloChange(event: Event) {
-    const selectElement = event.target as HTMLSelectElement; // Asegurarte de que es un HTMLSelectElement
-    const modelo = selectElement.value; // Obtén el valor seleccionado
+    const selectElement = event.target as HTMLSelectElement; 
+    const modelo = selectElement.value; 
 
-    const model = this.modelosBus.find(m => m.modelo === modelo); // Busca el modelo
+    const model = this.modelosBus.find(m => m.modelo === modelo); 
     if (model) {
         this.busForm.patchValue({
-            capacidadPiso1: model.capacidadPiso1.toString(), // Asigna la capacidad en el formulario
+            capacidadPiso1: model.capacidadPiso1.toString(), 
             capacidadPiso2: model.capacidadPiso2.toString()
         });
         this.busForm.get('capacidadPiso1')?.enable();
@@ -76,51 +76,57 @@ export class BusComponent {
     }
 }
 
-  guardar() {
-      if (this.busForm.valid) {
-          const formData: Bus = {
-              idBus: 0, // Este será generado por la base de datos
-              nombre: this.busForm.get('nombre')?.value ?? '',
-              placa: this.busForm.get('placa')?.value ?? '',
-              modelo: this.busForm.get('modelo')?.value ?? '',
-              capacidadPiso1: Number(this.busForm.get('capacidadPiso1')?.value ?? ''),
-              capacidadPiso2: Number(this.busForm.get('capacidadPiso2')?.value ?? ''),
-              estadoBus: {
-                  idEstadoBus: 1, // Asegúrate de que esto se ajuste a tu lógica de estado
-                  estado: 'Activo' 
-              }
-          };
-          console.log('Datos a enviar:', formData);
+guardar() {
+  if (this.busForm.valid) {
+      const formData: Bus = {
+          idBus: 0, 
+          nombre: this.busForm.get('nombre')?.value ?? '',
+          placa: this.busForm.get('placa')?.value ?? '',
+          modelo: this.busForm.get('modelo')?.value ?? '',
+          capacidadPiso1: Number(this.busForm.get('capacidadPiso1')?.value ?? ''),
+          capacidadPiso2: Number(this.busForm.get('capacidadPiso2')?.value ?? ''),
+          estadoBus: {
+              idEstadoBus: 1, 
+              estado: 'Activo' 
+          }
+      };
 
-          // Llamar al servicio para registrar el bus
-          this.busService.registrarBus(formData).subscribe({
-              next: (response) => {
-                  console.log('Bus registrado correctamente', response);
-                  this.listar(this.filtro);
-                  this.alertaCorrecto();
-              },
-              error: (error) => {
-                  console.error('No se registró correctamente el bus', error);
-                  if (error.error && error.error.message) {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Error',
-                          text: error.error.message
-                      });
-                  }
+      console.log('Datos a enviar:', formData);
+
+      this.busService.registrarBus(formData).subscribe({
+          next: (response) => {
+              console.log('Bus registrado correctamente', response);
+              this.listar(this.filtro);
+              this.alertaCorrecto();
+          },
+          error: (error) => {
+              console.error('No se registró correctamente el bus', error);
+              if (error.error && error.error.message) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: error.error.message 
+                  });
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error desconocido',
+                      text: 'Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.'
+                  });
               }
-          });
-      } else {
-          console.log('Formulario inválido', this.busForm.errors);
-          // Mostrar qué campos no cumplen
-          Object.keys(this.busForm.controls).forEach(controlName => {
-              const control = this.busForm.get(controlName);
-              if (control && control.errors) {
-                  console.log(`El campo ${controlName} tiene errores:`, control.errors);
-              }
-          });
-      }
+          }
+      });
+  } else {
+      console.log('Formulario inválido', this.busForm.errors);
+      Object.keys(this.busForm.controls).forEach(controlName => {
+          const control = this.busForm.get(controlName);
+          if (control && control.errors) {
+              console.log(`El campo ${controlName} tiene errores:`, control.errors);
+          }
+      });
   }
+}
+
 
 
   filtrarBuses() {
