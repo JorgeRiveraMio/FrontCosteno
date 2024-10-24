@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { TerminalService } from '../../Services/terminal.service';
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Terminal } from '../../Interfaces/Terminal';
-import bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 
 @Component({
