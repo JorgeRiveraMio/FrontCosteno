@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { appsettingsCliente } from '../settings/appsettings';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Ruta, RutaDTO } from '../Interfaces/Ruta';
 import { ResponseApi } from '../Interfaces/ResponseApi';
 import { Observable } from 'rxjs/internal/Observable';
@@ -31,5 +31,12 @@ export class RutaService {
   }
   actualizarEstado(id:number): Observable<ResponseApi>{
     return this.http.put<ResponseApi>(`${this.apiUrl}/actualizarEstado/${id}`,null);
+  }
+  buscarRutaPorTerminales(nombreOrigen: string, nombreDestino: string): Observable<Ruta> {
+    const params = new HttpParams()
+      .set('nombreOrigen', nombreOrigen)
+      .set('nombreDestino', nombreDestino);
+
+    return this.http.get<Ruta>(`${this.apiUrl}/buscar`, { params });
   }
 }

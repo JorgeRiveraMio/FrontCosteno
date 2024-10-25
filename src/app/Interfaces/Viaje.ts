@@ -1,4 +1,4 @@
-import { Time } from "@angular/common";
+
 import { Administrador } from "./Administrador";
 import { Ruta } from "./Ruta";
 import { Bus } from "./Bus";
