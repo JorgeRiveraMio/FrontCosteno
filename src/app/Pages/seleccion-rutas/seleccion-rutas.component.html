@@ -1,0 +1,14 @@
+<div class="input-group mt-5 ">
+    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"   [(ngModel)]="selectedTerminalOrigen" >
+        <option selected disabled value="Terminal de Origen"  >Terminal de Origen</option>
+        <option value="{{item.nombre}}"  *ngFor="let item of terminals"  >{{item.nombre}}</option>
+    </select>
+    <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon"  [(ngModel)]="selectedTerminalDestino">
+        <option selected disabled value="Terminal de Destino"  >Terminal de Destino</option>
+        <option value="{{item.nombre}}"  *ngFor="let item of terminals"  >{{item.nombre}}</option>
+    </select>
+    <input type="date" class="form-control"  [min]="today"  [(ngModel)]="selectedFechaSalida">
+    <input type="date" class="form-control"  [min]="today"  [(ngModel)]="selectedFechaLlegada">
+    <button class="btn btn-outline-primary bg-primary" type="button" (click)="buscarRutas()">
+        <span>BUSCAR</span></button>
+</div>

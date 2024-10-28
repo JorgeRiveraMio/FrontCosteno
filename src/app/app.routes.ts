@@ -9,6 +9,7 @@ import { ChoferComponent } from './Pages/chofer/chofer.component';
 import { RutaComponent } from './Pages/ruta/ruta.component';
 import { BusComponent } from './Pages/bus/bus.component';
 import { ViajeComponent } from './Pages/viaje/viaje.component';
+import { MenuRutasComponent } from './Pages/menu-rutas/menu-rutas.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,10 @@ export const routes: Routes = [
     {
         path: 'perfil',
         component: PerfilComponent
+    },
+    {
+        path: 'rutas',
+        component: MenuRutasComponent
     },
     { path: 'menus/buses', component: BusComponent},
     { path: 'menus/rutas', component: RutaComponent },
