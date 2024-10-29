@@ -1,20 +1,20 @@
 html, body {
-    height: 100%; /* Asegura que el body ocupe toda la altura de la ventana */
-    margin: 0; /* Elimina márgenes predeterminados */
+    height: 100%; 
+    margin: 0; 
 }
 
 body {
     display: flex;
-    flex-direction: column; /* Organiza los elementos en columna */
+    flex-direction: column; 
 }
 
 .container {
-    flex: 1; /* Permite que el contenedor ocupe el espacio restante */
+    flex: 1; 
     display: flex;
-    flex-direction: column; /* Asegura que el contenido dentro del contenedor también esté en columna */
+    flex-direction: column; 
 }
 
 footer.footer-content {
-    background-color: #424242; /* Color de fondo del footer */
-    /* Puedes agregar más estilos aquí si lo deseas */
+    background-color: #424242; 
+    
 }
