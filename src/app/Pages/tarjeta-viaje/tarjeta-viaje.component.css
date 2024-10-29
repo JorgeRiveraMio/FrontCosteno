@@ -8,43 +8,50 @@
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin: 15px;
-  }
+}
   
-  .card-content {
+.card-content {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: space-between;
-  }
+}
   
-  .service-info,
-  .time-info,
-  .duration-info,
-  .price-info,
-  .availability-info {
+.service-info,
+.time-info,
+.duration-info,
+.price-info,
+.availability-info {
     text-align: center;
     margin: 0 10px;
-  }
+    color: #000; /* Cambia el color del texto a negro */
+}
   
-  .service-date,
-  .direccion {
-    color: #999;
-  }
-  
-  .arrow {
+.service-date,
+.direccion {
+    color: #000; /* Cambia el color a negro */
+}
+
+/* Asegúrate de que todas las etiquetas <p> dentro de la tarjeta tengan texto negro */
+.card-content p {
+    color: #000; /* Cambia el color a negro */
+}
+
+.arrow {
     font-size: 24px;
-  }
+    color: #000; /* Cambia el color a negro */
+}
   
-  .price-button {
+.price-button {
     background-color: #007bff;
-    color: #fff;
+    color: #fff; /* Mantener el color blanco del texto en el botón */
     padding: 10px 15px;
     border: none;
     border-radius: 20px;
     cursor: pointer;
-  }
+}
   
-  .price-button:hover {
+.price-button:hover {
     background-color: #0056b3;
-  }
-  
+}
+

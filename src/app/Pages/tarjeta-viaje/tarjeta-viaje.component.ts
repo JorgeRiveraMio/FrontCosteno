@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Viaje } from '../../Interfaces/Viaje';
+import { ViajeDataService } from '../../Services/viaje-data.service';
 import { Router } from '@angular/router';
+import { Viaje } from '../../Interfaces/Viaje';
 
 @Component({
   selector: 'app-tarjeta-viaje',
@@ -10,18 +11,20 @@ import { Router } from '@angular/router';
   templateUrl: './tarjeta-viaje.component.html',
   styleUrls: ['./tarjeta-viaje.component.css']
 })
-export class TarjetaViajeComponent {
+export class TarjetaViajeComponent implements OnInit {
   data: Viaje[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private viajeDataService: ViajeDataService) {}
 
   ngOnInit(): void {
-    // Aquí es donde recibirás los datos si se navega desde otro componente
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras.state) {
-      this.data = navigation.extras.state['data'] || [];
-      console.log(this.data);
-    }
-    // Si los datos están en el mismo componente (por ejemplo, de una búsqueda), también puedes recibirlos así
+    // Suscribirse a los datos del servicio
+    this.viajeDataService.currentViajes.subscribe(viajes => {
+      this.data = viajes;
+      if (this.data.length === 0) {
+        console.error('No se han recibido datos de viajes');
+      } else {
+        console.log('Datos recibidos:', this.data);
+      }
+    });
   }
 }

@@ -6,21 +6,21 @@
     
         <div class="time-info">
             <h2>{{ viaje.horaSalida }}</h2>
-            <h4>{{ viaje.ruta.terminalOrigen }}</h4>
+            <h4>{{ viaje.ruta.terminalOrigen.nombre }}</h4> 
         </div>
     
         <div class="duration-info">
             <span class="arrow">→</span>
-            <p>{{ viaje.ruta.duracion }}</p>
+            <p>{{ viaje.ruta.duracion }}</p> 
         </div>
     
         <div class="time-info">
             <h2>{{ viaje.horaLlegada }}</h2>
-            <h4>{{ viaje.ruta.terminalDestino }}</h4>
+            <h4>{{ viaje.ruta.terminalDestino.nombre }}</h4> 
         </div>
     
         <div class="price-info">
-            <button class="price-button"></button>
+            <button class="price-button">Elegir</button>
         </div>
     </div>
 </div>
