@@ -8,7 +8,7 @@ import { ResponseApi } from '../Interfaces/ResponseApi';
 @Injectable({
   providedIn: 'root'
 })
-export class viajeService {
+export class ViajeService {
 
   private apiUrl = appsettingsCliente.apiUrl + "/viaje";
 
@@ -34,4 +34,10 @@ export class viajeService {
 
     return this.http.get<Viaje[]>(`${this.apiUrl}/buscar`, { params });
   }
+  buscarPorID(cod: number): Observable<Viaje> {
+    return this.http.get<Viaje>(`${this.apiUrl}/buscar/${cod}`);
+  }
+
+  
+
 }

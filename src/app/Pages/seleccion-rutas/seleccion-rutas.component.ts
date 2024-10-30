@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TerminalService } from '../../Services/terminal.service';
 import { RutaService } from '../../Services/ruta.service';
-import { viajeService } from '../../Services/viaje.service';
+import { ViajeService } from '../../Services/viaje.service';
 import { ViajeDataService } from '../../Services/viaje-data.service';
 import { Terminal } from '../../Interfaces/Terminal';
 import { Ruta } from '../../Interfaces/Ruta';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class SeleccionRutasComponent implements OnInit {
   private terminalService = inject(TerminalService);
   private rutaService = inject(RutaService);
-  private viajeService = inject(viajeService);
+  private viajeService = inject(ViajeService);
 
   constructor(private router: Router,  private viajeDataService: ViajeDataService) { }
 

@@ -3,7 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import Swal from 'sweetalert2';
 import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Viaje, ViajeDTO } from '../../Interfaces/Viaje';
-import { viajeService } from '../../Services/viaje.service';
+import { ViajeService } from '../../Services/viaje.service';
 import { RutaService } from '../../Services/ruta.service';
 import { BusService } from '../../Services/bus.service';
 import { ChoferService } from '../../Services/chofer.service';
@@ -21,7 +21,7 @@ import { Chofer } from '../../Interfaces/Chofer';
   styleUrl: './viaje.component.css'
 })
 export class ViajeComponent {
-  private viajeService = inject(viajeService);
+  private viajeService = inject(ViajeService);
   private formBuild = inject(FormBuilder);
   private rutaService = inject(RutaService);
   private busService = inject(BusService);

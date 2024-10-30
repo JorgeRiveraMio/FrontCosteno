@@ -25,9 +25,9 @@ export class BusComponent {
   searchTerm: string = '';
 
   modelosBus = [
-    { modelo: 'A', capacidadPiso1: 30, capacidadPiso2: 25 },
-    { modelo: 'B', capacidadPiso1: 40, capacidadPiso2: 30 },
-    { modelo: 'C', capacidadPiso1: 35, capacidadPiso2: 20 }
+    { modelo: 'A', capacidadPiso1: 25, capacidadPiso2: 25 },
+    { modelo: 'B', capacidadPiso1: 20, capacidadPiso2: 25 },
+    { modelo: 'C', capacidadPiso1: 25, capacidadPiso2: 20 }
   ];
 
   cambiarFiltro(filtro: string) {
@@ -77,6 +77,7 @@ export class BusComponent {
 }
 
 guardar() {
+  console.log(this.busForm.value); 
   if (this.busForm.valid) {
       const formData: Bus = {
           idBus: 0, 

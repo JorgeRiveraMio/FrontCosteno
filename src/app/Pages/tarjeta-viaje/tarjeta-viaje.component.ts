@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViajeDataService } from '../../Services/viaje-data.service';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { Viaje } from '../../Interfaces/Viaje';
 })
 export class TarjetaViajeComponent implements OnInit {
   data: Viaje[] = [];
-
+  router = inject(Router);
   constructor(private viajeDataService: ViajeDataService) {}
 
   ngOnInit(): void {
@@ -26,5 +26,11 @@ export class TarjetaViajeComponent implements OnInit {
         console.log('Datos recibidos:', this.data);
       }
     });
+  }
+
+  detalle(cod:Number){
+    console.log('Detalle del viaje:', cod);
+    this.router.navigate(['/detalleViaje',{cod} ]);
+    
   }
 }

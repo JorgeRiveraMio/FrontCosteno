@@ -1,0 +1,76 @@
+
+<app-header></app-header>
+<main >
+    <div class="card mt-3 card-paso2 container" >
+        <div >
+
+        </div>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5 class="card-title"><span >{{viaje?.ruta?.terminalOrigen?.nombre}} | {{viaje?.ruta?.terminalDestino?.nombre}} </span></h5>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Fecha: <span >{{viaje?.fechaSalida | date: 'dd/MM/yyyy'}}</span> </h5>
+                            <p class="card-text">Hora: <span >{{viaje?.horaSalida}}</span> <br />Precio: <span id="spPrecio"></span> </p>
+                            <p class="card-text">*Seleccione asientos*</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="divPiso1">
+                    <div class="border border-primary rounded p-3" style="width:200px;margin: auto; position: relative;" >
+                        <h6>Primer Piso</h6>
+                        <table id="tbPiso1">
+                            <tbody>
+                                <ng-container *ngFor="let asiento of asientos; let i = index">
+                                    <tr *ngIf="asiento.numeroPiso === 1 && (i % 2 === 0)">
+                                        <td>
+                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            {{ asiento.numAsiento }}
+                                        </td>
+                                        <td *ngIf="asientos[i + 1]?.numeroPiso === 1">
+                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            {{  asientos[i + 1]?.numAsiento }}
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        
+                        
+                    </div>
+                </div>
+                <div class="col-sm-4" id="divPiso2">
+                    <div class="border border-primary rounded p-3" style="width:200px;margin: auto; position: relative;" >
+                        <h6>Segundo Piso</h6>
+                        <table id="tbPiso2">
+                            <tbody>
+                                <ng-container *ngFor="let asiento of asientos; let i = index">
+                                    <tr *ngIf="asiento.numeroPiso === 2 && (i % 2 === 0)">
+                                        <td>
+                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            {{ asiento.numAsiento }}
+                                        </td>
+                                        <td *ngIf="asientos[i + 1]?.numeroPiso === 2">
+                                          
+                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            {{  asientos[i + 1]?.numAsiento }}
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+            <button class="btn btn-secondary me-2" id="btnRegresar">Regresar</button>
+            <button class="btn btn-primary" (click)="buscarViaje()" >Continuar</button>
+        </div>
+
+    </div>
+</main>
+<app-footer></app-footer>

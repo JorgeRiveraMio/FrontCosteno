@@ -10,6 +10,7 @@ import { RutaComponent } from './Pages/ruta/ruta.component';
 import { BusComponent } from './Pages/bus/bus.component';
 import { ViajeComponent } from './Pages/viaje/viaje.component';
 import { MenuRutasComponent } from './Pages/menu-rutas/menu-rutas.component';
+import { DetalleViajeComponent } from './Pages/detalle-viaje/detalle-viaje.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,6 @@ export const routes: Routes = [
     { path: 'menus/viajes', component: ViajeComponent },
  
     { path: 'menus/choferes', component: ChoferComponent },
-    { path: 'menus/terminales', component: TerminalComponent }
-    // { path: '', redirectTo: '/menus/buses', pathMatch: 'full' }, 
+    { path: 'menus/terminales', component: TerminalComponent },
+    { path: 'detalleViaje',component:DetalleViajeComponent },
 ];

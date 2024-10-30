@@ -1,4 +1,5 @@
-<div *ngFor="let viaje of data" class="card-container"> 
+<h2 style="color: black; margin-top: 20px;">Viajes Disponibles</h2>
+<div *ngFor="let viaje of data" class="card-container" style="margin: 40px;"> 
     <div class="card-content">
         <div class="service-info">
             <p class="service-date">Servicio<br> {{ viaje.fechaSalida | date: 'shortDate' }}</p>
@@ -20,7 +21,7 @@
         </div>
     
         <div class="price-info">
-            <button class="price-button">Elegir</button>
+            <button value="{{viaje.idViaje}}" class="price-button" (click)="detalle(viaje.idViaje)">Elegir</button>
         </div>
     </div>
 </div>
