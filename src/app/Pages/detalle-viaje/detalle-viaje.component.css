@@ -1,3 +1,22 @@
 *{
     color: black;
 }
+.cuadrado {
+    width: 15px;            /* Ancho del cuadrado */
+    height: 15px; 
+    border-radius: 4px;          /* Alto del cuadrado (igual al ancho para hacer un cuadrado) */
+    
+}
+.rojo {
+    background-color: #EF9A9A;
+}
+.gris {
+    background-color: #DAD9DB;
+}
+.amarrillo {
+    background-color: #F5A522;
+}
+p {
+    margin: 0;
+    padding: 10px;
+}
