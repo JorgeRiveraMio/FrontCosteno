@@ -11,6 +11,8 @@ import { BusComponent } from './Pages/bus/bus.component';
 import { ViajeComponent } from './Pages/viaje/viaje.component';
 import { MenuRutasComponent } from './Pages/menu-rutas/menu-rutas.component';
 import { DetalleViajeComponent } from './Pages/detalle-viaje/detalle-viaje.component';
+import { PasajeroComponent } from './Pages/pasajero/pasajero.component';
+import { MenuPasajeroComponent } from './Pages/menu-pasajero/menu-pasajero.component';
 
 export const routes: Routes = [
     {
@@ -44,4 +46,6 @@ export const routes: Routes = [
     { path: 'menus/choferes', component: ChoferComponent },
     { path: 'menus/terminales', component: TerminalComponent },
     { path: 'detalleViaje',component:DetalleViajeComponent },
+    { path: 'pasajero', component:MenuPasajeroComponent},
+    
 ];

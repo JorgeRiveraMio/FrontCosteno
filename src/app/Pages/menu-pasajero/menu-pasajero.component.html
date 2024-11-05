@@ -1,0 +1,22 @@
+<app-header></app-header>
+<div *ngFor="let i of [].constructor(cantidadAsientos); let index = index">
+    <app-pasajero [numeroPasajero]="index + 1"></app-pasajero>
+</div>
+
+<div class = "container">
+<div class="col-md-4">
+    <div *ngIf="viajeSeleccionado" class="card mb-4">
+        <div class="card-header">
+            Detalles del Viaje
+        </div>
+        <div class="card-body">
+            <p><strong>Fecha de Salida:</strong> {{ viajeSeleccionado.fechaSalida | date: 'shortDate' }}</p>
+            <p><strong>Hora de Salida:</strong> {{ viajeSeleccionado.horaSalida }}</p>
+            <p><strong>Origen:</strong> {{ viajeSeleccionado.ruta.terminalOrigen.nombre }}</p>
+            <p><strong>Destino:</strong> {{ viajeSeleccionado.ruta.terminalDestino.nombre }}</p>
+            <p><strong>Duración:</strong> {{ viajeSeleccionado.ruta.duracion }}</p>
+        </div>
+    </div>
+</div>
+</div>
+<app-footer></app-footer>

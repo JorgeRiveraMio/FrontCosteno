@@ -1,0 +1,63 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-header {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    padding: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.form-group {
+    display: inline-block;
+    width: 48%;
+    margin-bottom: 15px;
+}
+
+.form-group:nth-child(odd) {
+    margin-right: 4%;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilos de los inputs */
+.form-control {
+    background-color: #b0cfea;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #80bdff;
+    background-color: #a3c3e6;
+}
+
+/* Ajuste para el input de fecha */
+#fecha-nacimiento {
+    color: #555;
+}

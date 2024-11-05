@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
-import { ActivatedRoute } from '@angular/router';
-import { ViajeService } from '../../Services/viaje.service'; // Cambia a mayúscula
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { ViajeService } from '../../Services/viaje.service'; 
 import { Viaje } from '../../Interfaces/Viaje';
 import { CommonModule } from '@angular/common';
 import { Asiento } from '../../Interfaces/Asiento';
@@ -11,7 +11,7 @@ import { AsientoService } from '../../Services/asiento.service';
 @Component({
   selector: 'app-detalle-viaje',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent,CommonModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './detalle-viaje.component.html',
   styleUrls: ['./detalle-viaje.component.css'] 
 })
@@ -23,14 +23,14 @@ export class DetalleViajeComponent {
 
   private viajeService = inject(ViajeService); 
   private asientoService = inject(AsientoService); 
+  private router = inject(Router); // Inyecta el Router
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.cod = params.get('cod') || ''; // Manejar el caso null
-      console.log('Código del viaje:', this.cod);
-      if (this.cod) { // Verifica que cod no esté vacío
+      this.cod = params.get('cod') || ''; 
+      if (this.cod) { 
         this.buscarViaje();
       } else {
         console.error('Código del viaje no proporcionado');
@@ -39,20 +39,14 @@ export class DetalleViajeComponent {
   }
 
   buscarViaje() {
-    console.log('Código del viaje:', this.cod);
     const viajeId = parseInt(this.cod);
-
     if (!isNaN(viajeId)) {
       this.viajeService.buscarPorID(viajeId).subscribe({
         next: (data: Viaje) => {
           this.viaje = data;
-          // console.log('Viaje encontrado:', this.viaje);
-
-          // Asegúrate de que el viaje tenga un bus asociado antes de buscar asientos
           if (this.viaje?.bus?.idBus) {
             this.asientoService.obtenerAsientoPorCodBus(this.viaje.bus.idBus).subscribe(
               (data) => {
-                console.log('Asientos encontrados:', data);
                 this.asientos = data;
               },
               (error) => {
@@ -71,30 +65,30 @@ export class DetalleViajeComponent {
       console.error('Código del viaje no es válido para buscar');
     }
   }
+
   cambiarColor(event: Event, asiento: Asiento): void {
     const checkbox = event.target as HTMLInputElement;
-  
-    // Cambiar el color de fondo del td según el estado del checkbox
     const tdElement = (event.target as HTMLElement).closest('td');
     if (tdElement) {
       if (checkbox.checked) {
-        tdElement.style.backgroundColor = 'red'; // Cambia a rojo
-        this.seleccionados[asiento.numAsiento] = true; // Marca el asiento como seleccionado
+        tdElement.style.backgroundColor = 'red';
+        this.seleccionados[asiento.numAsiento] = true;
       } else {
-        tdElement.style.backgroundColor = ''; // Reestablece el color
-        this.seleccionados[asiento.numAsiento] = false; // Desmarca el asiento
+        tdElement.style.backgroundColor = '';
+        this.seleccionados[asiento.numAsiento] = false;
       }
     }
   }
-  
+
   Siguiente(): void {
     const asientosSeleccionados = this.obtenerAsientosSeleccionados();
-    console.log('Asientos seleccionados:', asientosSeleccionados);
-    // Aquí puedes enviar los asientosSeleccionados a donde necesites
+    const navigationExtras: NavigationExtras = {
+      state: { cantidadAsientos: asientosSeleccionados.length }
+    };
+    this.router.navigate(['/pasajero'], navigationExtras); // Navega a MenuPasajeroComponent
   }
-  
+
   obtenerAsientosSeleccionados(): string[] {
     return Object.keys(this.seleccionados).filter(numAsiento => this.seleccionados[numAsiento]);
   }
-  
 }
