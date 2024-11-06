@@ -1,0 +1,43 @@
+.reserva-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    color: black; 
+}
+
+.card-header {
+    font-weight: bold;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-bottom: none;
+    font-size: 1rem;
+    color: black; 
+}
+
+.card-body p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: black;
+}
+
+.card-body strong {
+    color: black;
+}
+
+.card-footer p {
+    color: black; 
+}
+
+.card-footer h5 {
+    font-size: 1rem; 
+    font-weight: bold;
+}
+
+.btn-continuar {
+    background-color: #ffd700;
+    color: black;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100%;
+}

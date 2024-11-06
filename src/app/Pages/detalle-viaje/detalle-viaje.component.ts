@@ -83,12 +83,24 @@ export class DetalleViajeComponent {
   Siguiente(): void {
     const asientosSeleccionados = this.obtenerAsientosSeleccionados();
     const navigationExtras: NavigationExtras = {
-      state: { cantidadAsientos: asientosSeleccionados.length }
+      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados}
     };
-    this.router.navigate(['/pasajero'], navigationExtras); // Navega a MenuPasajeroComponent
+    this.router.navigate(['/pasajero', this.cod], navigationExtras); // Navega a MenuPasajeroComponent
   }
 
   obtenerAsientosSeleccionados(): string[] {
     return Object.keys(this.seleccionados).filter(numAsiento => this.seleccionados[numAsiento]);
   }
+
+  toggleSeat(asiento: Asiento): void {
+    console.log(asiento); // Para ver si la información del asiento es correcta
+
+    // Solo permitir seleccionar si el asiento está disponible (activo)
+    if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'Activo') {
+        // Cambiar el estado de selección del asiento
+        this.seleccionados[asiento.numAsiento] = !this.seleccionados[asiento.numAsiento];
+    }
+  }
+
+  
 }

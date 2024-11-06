@@ -46,6 +46,6 @@ export const routes: Routes = [
     { path: 'menus/choferes', component: ChoferComponent },
     { path: 'menus/terminales', component: TerminalComponent },
     { path: 'detalleViaje',component:DetalleViajeComponent },
-    { path: 'pasajero', component:MenuPasajeroComponent},
+    { path: 'pasajero/:cod', component:MenuPasajeroComponent},
     
 ];

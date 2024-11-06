@@ -1,22 +1,48 @@
 <app-header></app-header>
-<div *ngFor="let i of [].constructor(cantidadAsientos); let index = index">
-    <app-pasajero [numeroPasajero]="index + 1"></app-pasajero>
-</div>
 
-<div class = "container">
-<div class="col-md-4">
-    <div *ngIf="viajeSeleccionado" class="card mb-4">
-        <div class="card-header">
-            Detalles del Viaje
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div *ngFor="let i of [].constructor(cantidadAsientos); let index = index">
+                <app-pasajero [numeroPasajero]="index + 1"></app-pasajero>
+            </div>
         </div>
-        <div class="card-body">
-            <p><strong>Fecha de Salida:</strong> {{ viajeSeleccionado.fechaSalida | date: 'shortDate' }}</p>
-            <p><strong>Hora de Salida:</strong> {{ viajeSeleccionado.horaSalida }}</p>
-            <p><strong>Origen:</strong> {{ viajeSeleccionado.ruta.terminalOrigen.nombre }}</p>
-            <p><strong>Destino:</strong> {{ viajeSeleccionado.ruta.terminalDestino.nombre }}</p>
-            <p><strong>Duración:</strong> {{ viajeSeleccionado.ruta.duracion }}</p>
+
+        <div class="col-md-4">
+            <div *ngIf="viajeSeleccionado" class="card reserva-card">
+                <div class="card-header">
+                    DETALLE DE RESERVA
+                </div>
+                <div class="card-body text-center">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <p><strong>{{ viajeSeleccionado.ruta.terminalOrigen.nombre }}</strong></p>
+                            <p>{{ viajeSeleccionado.horaSalida }} h</p>
+                            <p>{{ viajeSeleccionado.fechaSalida | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                        
+                        <!-- Icono de flecha en el centro -->
+                        <div class="col-auto">
+                            <p class="flecha-icono">➔</p> <!-- Puedes cambiar el icono según prefieras -->
+                        </div>
+                        
+                        <div class="col">
+                            <p><strong>{{ viajeSeleccionado.ruta.terminalDestino.nombre }}</strong></p>
+                            <p>{{ viajeSeleccionado.horaLlegada }} h</p>
+                            <p>{{ viajeSeleccionado.fechaLlegada | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer text-left">
+                    <h5>Asientos Seleccionados</h5>
+                    <p>{{ asientosSeleccionados.join(', ') }}</p>
+                    <button class="btn btn-primary btn-continuar">CONTINUAR CON EL PAGO</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-</div>
+
+
 <app-footer></app-footer>

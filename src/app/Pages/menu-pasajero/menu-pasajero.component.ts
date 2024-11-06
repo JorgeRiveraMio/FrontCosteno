@@ -1,9 +1,8 @@
-// menu-pasajero.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { PasajeroComponent } from '../pasajero/pasajero.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';  // Inyecta ActivatedRoute para leer los parámetros de la URL
 import { CommonModule } from '@angular/common';
 import { Viaje } from '../../Interfaces/Viaje';
 import { ViajeDataService } from '../../Services/viaje-data.service';
@@ -18,20 +17,28 @@ import { ViajeDataService } from '../../Services/viaje-data.service';
 export class MenuPasajeroComponent implements OnInit {
   cantidadAsientos: number = 0;
   viajeSeleccionado: Viaje | null = null;
+  asientosSeleccionados: string[] = [];
 
-  constructor(private router: Router, private viajeDataService: ViajeDataService) {
+  constructor(
+    private router: Router,
+    private viajeDataService: ViajeDataService,
+    private route: ActivatedRoute  // Inyectamos ActivatedRoute para acceder a los parámetros de la URL
+  ) {
     const navigation = this.router.getCurrentNavigation();
-    this.cantidadAsientos = navigation?.extras?.state?.['cantidadAsientos'] || 0; // Recibe el número de asientos seleccionados
+    this.cantidadAsientos = navigation?.extras?.state?.['cantidadAsientos'] || 0;  // Número de asientos seleccionados
+    this.asientosSeleccionados = navigation?.extras?.state?.['asientosSeleccionados'] || []; 
   }
 
   ngOnInit(): void {
-    const idViaje = this.router.getCurrentNavigation()?.extras?.state?.['idViaje'];
-    this.viajeDataService.currentViajes.subscribe(viajes => {
-      this.viajeSeleccionado = viajes.find(viaje => viaje.idViaje === idViaje) || null;
-  
-      if (!this.viajeSeleccionado) {
-        console.error('No se encontró el viaje seleccionado');
-      }
-    });
+    
+    const idViaje = this.route.snapshot.paramMap.get('cod'); // Usando 'cod' como parámetro
+
+    if (idViaje) {
+      this.viajeDataService.currentViajes.subscribe(viajes => {
+        this.viajeSeleccionado = viajes.find(viaje => viaje.idViaje === Number(idViaje)) || null;
+      });
+    } else {
+      console.error('No se pasó el ID del viaje en la URL');
+    }
   }
 }
