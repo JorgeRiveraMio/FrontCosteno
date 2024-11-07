@@ -13,6 +13,7 @@ import { MenuRutasComponent } from './Pages/menu-rutas/menu-rutas.component';
 import { DetalleViajeComponent } from './Pages/detalle-viaje/detalle-viaje.component';
 import { PasajeroComponent } from './Pages/pasajero/pasajero.component';
 import { MenuPasajeroComponent } from './Pages/menu-pasajero/menu-pasajero.component';
+import { MenuPagoComponent } from './Pages/menu-pago/menu-pago.component';
 
 export const routes: Routes = [
     {
@@ -47,5 +48,5 @@ export const routes: Routes = [
     { path: 'menus/terminales', component: TerminalComponent },
     { path: 'detalleViaje',component:DetalleViajeComponent },
     { path: 'pasajero/:cod', component:MenuPasajeroComponent},
-    
+    { path: 'menu-pago', component:MenuPagoComponent}
 ];

@@ -18,6 +18,7 @@ export class MenuPasajeroComponent implements OnInit {
   cantidadAsientos: number = 0;
   viajeSeleccionado: Viaje | null = null;
   asientosSeleccionados: string[] = [];
+  pasajerosData: any[] = []; // Array para almacenar los datos de cada pasajero
 
   constructor(
     private router: Router,
@@ -40,5 +41,37 @@ export class MenuPasajeroComponent implements OnInit {
     } else {
       console.error('No se pasó el ID del viaje en la URL');
     }
+  }
+  actualizarDatosPasajero(index: number, datos: any) {
+    this.pasajerosData[index] = datos;
+  }
+
+  continuarConElPago() {
+    // Validación opcional para asegurar que todos los datos estén completos
+    if (
+      this.pasajerosData.length !== this.cantidadAsientos ||
+      this.pasajerosData.some(p => !p.numDocumento || !p.nombres || !p.apellidos || !p.fecNacimiento)
+    ) {
+      alert('Por favor, complete todos los datos de los pasajeros.');
+      return;
+    }
+  
+    // Lógica para continuar con el proceso de pago o enviar los datos al backend
+    console.log('Datos que se están enviando:', {
+      pasajerosData: this.pasajerosData, 
+      viajeSeleccionado: this.viajeSeleccionado,       
+      cantidadAsientos: this.cantidadAsientos, 
+      asientosSeleccionados: this.asientosSeleccionados
+    });
+    
+    this.router.navigate(['/menu-pago'], { 
+      state: { 
+        pasajerosData: this.pasajerosData, 
+        viajeSeleccionado: this.viajeSeleccionado,       
+        cantidadAsientos: this.cantidadAsientos, 
+        asientosSeleccionados: this.asientosSeleccionados 
+      } 
+    });
+    
   }
 }

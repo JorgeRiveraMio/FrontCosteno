@@ -8,23 +8,23 @@
                 <div class="card-body">
                 <div class="form-group">
                     <label for="numero-documento">Número de Documento:</label>
-                    <input type="text" class="form-control" id="numero-documento" [(ngModel)]="pasajero.numDocumento">
+                    <input type="text" class="form-control" id="numero-documento" [(ngModel)]="pasajero.numDocumento"  (ngModelChange)="emitirDatos()">
                 </div>
                 <div class="form-group">
                     <label for="nombres">Nombres:</label>
-                    <input type="text" class="form-control" id="nombres" [(ngModel)]="pasajero.nombres">
+                    <input type="text" class="form-control" id="nombres" [(ngModel)]="pasajero.nombres"  (ngModelChange)="emitirDatos()">
                 </div>
                 <div class="form-group">
                     <label for="apellido-paterno">Apellido Paterno:</label>
-                    <input type="text" class="form-control" id="apellido-paterno" [(ngModel)]="pasajero.apellidos">
+                    <input type="text" class="form-control" id="apellido-paterno" [(ngModel)]="pasajero.apellidos" (ngModelChange)="emitirDatos()">
                 </div>
                 <div class="form-group">
                     <label for="apellido-materno">Apellido Materno:</label>
-                    <input type="text" class="form-control" id="apellido-materno" [(ngModel)]="pasajero.apellidos">
+                    <input type="text" class="form-control" id="apellido-materno" [(ngModel)]="pasajero.apellidos"  (ngModelChange)="emitirDatos()">
                 </div>
                 <div class="form-group">
                     <label for="fecha-nacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" class="form-control" id="fecha-nacimiento" [(ngModel)]="pasajero.fecNacimiento">
+                    <input type="date" class="form-control" id="fecha-nacimiento" [(ngModel)]="pasajero.fecNacimiento"  (ngModelChange)="emitirDatos()">
                 </div>
                 
             </div>

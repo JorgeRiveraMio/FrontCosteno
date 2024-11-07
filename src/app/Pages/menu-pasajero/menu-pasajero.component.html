@@ -4,7 +4,8 @@
     <div class="row">
         <div class="col-md-8">
             <div *ngFor="let i of [].constructor(cantidadAsientos); let index = index">
-                <app-pasajero [numeroPasajero]="index + 1"></app-pasajero>
+                <app-pasajero [numeroPasajero]="index + 1"
+                (datosPasajeroChange)="actualizarDatosPasajero(index, $event)"></app-pasajero>
             </div>
         </div>
 
@@ -37,7 +38,7 @@
                 <div class="card-footer text-left">
                     <h5>Asientos Seleccionados</h5>
                     <p>{{ asientosSeleccionados.join(', ') }}</p>
-                    <button class="btn btn-primary btn-continuar">CONTINUAR CON EL PAGO</button>
+                    <button class="btn btn-primary btn-continuar" (click)="continuarConElPago()">CONTINUAR CON EL PAGO</button>
                 </div>
             </div>
         </div>

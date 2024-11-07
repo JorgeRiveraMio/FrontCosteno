@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PasajeroService } from '../../Services/pasajero.service';
 import { Pasajero } from '../../Interfaces/Pasajero';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PasajeroComponent {
   @Input() numeroPasajero: number = 1; 
+  @Output() datosPasajeroChange = new EventEmitter<any>();
   pasajero: Pasajero = {
     idPasajero: 0,
     numDocumento: '',
@@ -31,5 +32,9 @@ export class PasajeroComponent {
         console.error('Error al registrar el pasajero:', error);
       }
     });
+  }
+   // Método que emite los datos actuales del pasajero
+   emitirDatos() {
+    this.datosPasajeroChange.emit(this.pasajero);
   }
 }
