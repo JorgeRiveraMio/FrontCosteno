@@ -1,43 +1,126 @@
 <app-header></app-header>
-<main class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card-header">
-               Selecciona el Metodo de pago             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div *ngIf="viajeSeleccionado" class="card reserva-card">
-                <div class="card-header">
-                    Resumen de la Orden                </div>
-                <div class="card-body text-center">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <p><strong>SubTotal</strong></p>
-                            <p><strong>Total</strong></p>
-                        </div>
-                        
-                    
-                        <!-- <div class="col-auto">
-                            <p class="flecha-icono">➔</p> 
-                        </div> -->
-                        
-                        <div class="col">
-                            <p>xx</p>
-                            <p>xx</p>
-                        </div>
-                    </div>
+<main class="container d-flex " style="min-height:75vh;">
+  <div class="row">
+    <!-- Columna de Métodos de Pago -->
+    <div class="col-md-8">
+      <div class="card reserva-card">
+        <div class="card-header">
+          <h2>Selecciona el Método de Pago</h2>
+        </div>
+        <div class="card-body ">
+          <div class="row align-items-center">
+            <!-- Opción 1: Tarjeta de Crédito/Débito -->
+             <h3 class="mt-4" style="color: black;">Tarjeta de Crédito/Débito</h3>
+            <div class="col mb-2 d-flex justify-content-evenly align-items-center">
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/mastercard.png" alt="">
                 </div>
-                
-                <div class="card-footer text-left">
-                 
-                  
-                    <button class="btn btn-primary btn-continuar">Realizar Compra</button>
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/visa.png" alt="">
                 </div>
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/america.png" alt="">
+                </div>
+              <button
+                class="btn btn-primary  p-3 "type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+                style="border: 1px solid #ccc; border-radius: 8px; background-color: #295F98;">
+              
+                <span style="color: #fff;">Seleccionar</span>
+              </button>
             </div>
-        </div>
-    </div>
-</main>
 
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 style="color: #6c757d;" class="modal-title fs-5" id="staticBackdropLabel">Agregar Información de Tarjeta</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- Formulario para ingresar los datos de la tarjeta -->
+                    <form [formGroup]="cardForm">
+                      <div class="mb-3">
+                        <label style="color: #6c757d;" for="cardName" class="form-label">Nombre en la tarjeta</label>
+                        <input type="text" class="form-control" id="cardName" formControlName="cardName" placeholder="Nombre completo" required>
+                      </div>
+                      <div class="mb-3">
+                        <label style="color: #6c757d;" for="cardNumber" class="form-label">Número de tarjeta</label>
+                        <input type="text" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="0000 0000 0000 0000" required>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label style="color: #6c757d;" for="expiryDate" class="form-label">Fecha de vencimiento</label>
+                          <input type="text" class="form-control" id="expiryDate" formControlName="expiryDate" placeholder="MM/AA" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label style="color: #6c757d;" for="cvv" class="form-label">Código CVV</label>
+                          <input type="password" class="form-control" id="cvv" formControlName="cvv" placeholder="123" required>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="validar()">Guardar Tarjeta</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Opción 2: PayPal -->
+            <h3  class="mt-4" style="color: black;">Carteras electronicas</h3>
+            <div class="col mb-2  d-flex justify-content-evenly align-items-center">
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/yape.png" alt="">
+                </div>
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/plin.png" alt="">
+                </div>
+                <div class="imagen">
+                    <img src="../../../assets/Contenido/tunki.png" alt="">
+                </div>
+              <button
+                class="btn btn-primary  p-3 "type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+                style="border: 1px solid #ccc; border-radius: 8px; background-color: #295F98;">
+              
+                <span style="color: #fff;">Seleccionar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna del Resumen de la Orden -->
+    <div class="col-md-4">
+      <div *ngIf="viajeSeleccionado" class="card reserva-card">
+        <div class="card-header">
+          <h2>Resumen de la Orden</h2>
+        </div>
+        <div class="card-body text-center">
+          <div class="row align-items-center">
+            <div class="col">
+              <p><strong>SubTotal</strong></p>
+              <p><strong>Total</strong></p>
+            </div>
+            <div class="col">
+              <p>xx</p>
+              <p>xx</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-left">
+          <button class="btn btn-primary btn-continuar" (click)="pagar()">Realizar Compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <app-footer></app-footer>

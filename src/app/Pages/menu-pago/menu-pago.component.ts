@@ -3,13 +3,15 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 
 
 @Component({
   selector: 'app-menu-pago',
   standalone: true,
-  imports: [HeaderComponent,FooterComponent, CommonModule],
+  imports: [HeaderComponent,FooterComponent, CommonModule,ReactiveFormsModule],
   templateUrl: './menu-pago.component.html',
   styleUrl: './menu-pago.component.css'
 })
@@ -18,8 +20,10 @@ export class MenuPagoComponent implements OnInit {
   viajeSeleccionado: any = {};
   cantidadAsientos: number = 0;
   asientosSeleccionados: string[] = [];
+  cardForm!: FormGroup;
+  tarjetaValor:boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private formBuilder: FormBuilder) {
     const navigation = this.router.getCurrentNavigation();
 
     if (navigation?.extras?.state) {
@@ -40,7 +44,54 @@ export class MenuPagoComponent implements OnInit {
     }
   }
 
+  
+
   ngOnInit(): void {
+    this.cardForm = this.formBuilder.group({
+      cardName: ['', Validators.required],  // Nombre en la tarjeta
+      cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]{16}$')]],  // 16 dígitos
+      expiryDate: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\/([0-9]{2})$')]],  // MM/AA
+      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]]  // Código CVV de 3 dígitos
+    });
+  }
+  validar(){
+    if(this.cardForm.valid){
+        console.log('Datos correctos');
+        this.correcto( "Se realizo el correcto pago");
+        this.tarjetaValor=true;
+        // this.cardForm.reset();
+    }else{
+      this.tarjetaValor=false;
+      this.error("Los datos de la tarjeta son incorrectos");
+    }
     
+  }
+
+  correcto(message?: string) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title : message ,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+  error(message?: string){
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: message
+    
+    });
+  }
+  pagar(){
+    if(this.tarjetaValor){
+      this.correcto("Pago realizado con exito");
+      this.tarjetaValor=false;
+      
+   }else
+   {
+    this.error("Falta ingresar metodo de pago");
+   }
   }
 }
