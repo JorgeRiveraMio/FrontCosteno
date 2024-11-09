@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { BoletoService } from '../../Services/boleto.service';
+import { LoginService } from '../../Services/login.service';
 
 
 
@@ -23,6 +25,8 @@ export class MenuPagoComponent implements OnInit {
   cardForm!: FormGroup;
   tarjetaValor:boolean = false;
 
+  private  boletoService= inject(BoletoService);
+  private  loginService= inject(LoginService);
   constructor(private router: Router, private formBuilder: FormBuilder) {
     const navigation = this.router.getCurrentNavigation();
 
@@ -86,6 +90,34 @@ export class MenuPagoComponent implements OnInit {
   }
   pagar(){
     if(this.tarjetaValor){
+      console.log("idCliente :"+this.loginService.getUser().idPersona);
+      for (const idAsiento of this.asientosSeleccionados) {
+        this.boletoService.registrarBoleto({
+        idBoleto: 0,
+        precio: this.viajeSeleccionado.precio,
+        fechaEmision: new Date(),
+        horaEmision: new Date().toLocaleTimeString(),
+        idCliente: this.loginService.getUser().idPersona, // ID del cliente
+        idViaje: this.viajeSeleccionado.idViaje,
+        idAsiento:parseInt( idAsiento), // ID del asiento
+        idBus:  this.viajeSeleccionado.bus.idBus, // ID del bus
+        idEstadoBoleto: 1 // ID del estado del boleto
+      }).subscribe({
+        next: (response) => {
+          console.log('Boleto registrado correctamente:', response);
+          this.correcto("Pago realizado con exito");
+          this.tarjetaValor=false;
+        },
+        error: (error) => {
+          console.error('Error al registrar el boleto:', error);
+          this.error("Error al registrar el boleto");
+        }
+      });
+        console.log("idAsiento :"+idAsiento);
+      }
+      console.log("idBus :"+ this.viajeSeleccionado.bus.idBus)
+      
+
       this.correcto("Pago realizado con exito");
       this.tarjetaValor=false;
       
