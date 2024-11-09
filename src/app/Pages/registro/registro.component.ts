@@ -107,7 +107,7 @@ export class RegistroComponent {
         fechaCreacion: new Date(),
         correo: this.correo?.value ?? '',
         password: this.password?.value ?? '',
-        estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
+        estadoCliente: { idEstadoCliente: 1 }
       };
 
       this.pantallaCarga();

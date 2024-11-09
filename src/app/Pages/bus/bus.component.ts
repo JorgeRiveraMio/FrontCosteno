@@ -21,7 +21,7 @@ export class BusComponent {
 
   buses: Bus[] = [];
   idEditado: number | null = null;
-  filtro: string = "activo";
+  filtro: string = "ACTIVO";
   searchTerm: string = '';
 
   modelosBus = [
@@ -41,10 +41,10 @@ export class BusComponent {
 
   listar(filtro: string) {
     this.busService.listarBuses().subscribe((data: Bus[]) => {
-        if (filtro === 'activo') {
-            this.buses = data.filter(bus => bus.estadoBus.estado === 'Activo');
-        } else if (filtro === 'inactivo') {
-            this.buses = data.filter(bus => bus.estadoBus.estado === 'Inactivo');
+        if (filtro === 'ACTIVO') {
+            this.buses = data.filter(bus => bus.estadoBus.estado === filtro);
+        } else if (filtro === 'INACTIVO') {
+            this.buses = data.filter(bus => bus.estadoBus.estado === 'INACTIVO');
         } else {
             this.buses = data;
         }
@@ -88,7 +88,7 @@ guardar() {
           capacidadPiso2: Number(this.busForm.get('capacidadPiso2')?.value ?? ''),
           estadoBus: {
               idEstadoBus: 1, 
-              estado: 'Activo' 
+              estado: 'ACTIVO' 
           }
       };
 
@@ -138,7 +138,7 @@ guardar() {
           bus.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           bus.placa.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
           bus.modelo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          bus.estadoBus.estado.toLowerCase().includes(this.searchTerm.toLowerCase())
+          bus.estadoBus.estado.toUpperCase().includes(this.searchTerm.toUpperCase())
         );
       }
       this.buses = busesFiltrados;

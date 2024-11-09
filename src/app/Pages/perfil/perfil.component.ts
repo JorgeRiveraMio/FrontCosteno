@@ -91,7 +91,7 @@ export class PerfilComponent {
         fechaCreacion:this.data.fechaCreacion,
         correo:this.data.correo,
         password:this.data.contrasena,
-        estadoCliente: { idEstadoCliente: 1, estado: 'Activo' }
+        estadoCliente: { idEstadoCliente: 1 }
        
        };
        //se actualiza el token
