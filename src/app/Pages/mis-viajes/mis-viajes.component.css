@@ -1,0 +1,124 @@
+.mis-viajes-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+.titulo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.ticket-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.ticket-number {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.mis-viajes-container p,
+.mis-viajes-container strong {
+    color: #000;
+}
+
+.trip-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+.boarding-info-container {
+    width: 48%;
+    text-align: left;
+}
+
+.boarding-info {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.time-info {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+}
+
+.city-time {
+    
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    padding: 0;
+}
+
+.city {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.time {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.date {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+.trip-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.bus-info {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.bus-info i {
+    margin-right: 5px;
+}
+
+.seats {
+    font-weight: bold;
+}
+
+.view-details-btn {
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.view-details-btn i {
+    font-size: 20px;
+    color: white;
+}

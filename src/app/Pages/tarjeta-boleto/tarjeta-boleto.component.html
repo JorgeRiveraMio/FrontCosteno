@@ -1,0 +1,52 @@
+<!-- tarjeta-boleto.component.html -->
+<div class="boleto-list">    
+    <div *ngFor="let boleto of boletos" class="ticket-card">
+        <p class="ticket-number">PNR/Ticket No: {{ boleto.idBoleto }}</p>
+
+        <div class="trip-info">
+        <div class="boarding-info-container">
+            <div class="boarding-info">
+            <p><strong>Punto de abordaje</strong></p>
+            <p>{{  boleto.viaje.ruta.terminalOrigen.direccion}}</p>
+            </div>
+            <div class="boarding-info">
+            <p><strong>Punto de destino</strong></p>
+            <p>{{ boleto.viaje.ruta.terminalDestino.direccion }}</p>
+            </div>
+        </div>
+
+        <div class="time-info">
+            <div class="city-time">
+            <p class="city">{{ boleto.viaje.ruta.terminalOrigen.nombre }}</p>
+            <p class="time">{{ boleto.horaEmision }}</p>
+            <p class="date">{{ boleto.fechaEmision | date: 'shortDate' }}</p>
+            </div>
+            <div class="city-time">
+            <p class="city">{{ boleto.viaje.ruta.terminalDestino.nombre }}</p>
+            <p class="time">{{ boleto.horaEmision }}</p>
+            <p class="date">{{ boleto.fechaEmision | date: 'shortDate' }}</p>
+            </div>
+        </div>
+        </div>
+
+        <div class="trip-details">
+            
+            <i class="bi bi-bus-front" style="color: black;"></i>
+            <div class="bus-info">
+                <p>{{ boleto.bus.modelo }}</p>
+                <p>Asiento {{ boleto.asiento.numAsiento }}</p>
+            </div>
+            <div class="trip-details-info">
+                <p><strong>Precio</strong></p>
+                <p>$ {{ boleto.precio}}</p>
+            </div>
+            <div>
+                <p><strong>Estado</strong></p>
+                <p>{{ boleto.estadoBoleto.estado }}</p>
+            </div>
+            <button class="view-details-btn">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+    </div>
+</div>

@@ -14,6 +14,7 @@ import { DetalleViajeComponent } from './Pages/detalle-viaje/detalle-viaje.compo
 import { PasajeroComponent } from './Pages/pasajero/pasajero.component';
 import { MenuPasajeroComponent } from './Pages/menu-pasajero/menu-pasajero.component';
 import { MenuPagoComponent } from './Pages/menu-pago/menu-pago.component';
+import { MisViajesComponent } from './Pages/mis-viajes/mis-viajes.component';
 
 export const routes: Routes = [
     {
@@ -48,5 +49,6 @@ export const routes: Routes = [
     { path: 'menus/terminales', component: TerminalComponent },
     { path: 'detalleViaje',component:DetalleViajeComponent },
     { path: 'pasajero/:cod', component:MenuPasajeroComponent},
-    { path: 'menu-pago', component:MenuPagoComponent}
+    { path: 'menu-pago', component:MenuPagoComponent},
+    { path: 'mis-viajes', component:MisViajesComponent}
 ];
