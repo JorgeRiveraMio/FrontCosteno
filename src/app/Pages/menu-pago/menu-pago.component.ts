@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import Swal from 'sweetalert2';
 import { BoletoService } from '../../Services/boleto.service';
 import { LoginService } from '../../Services/login.service';
-
+import { AsientoService } from '../../Services/asiento.service';
 
 
 @Component({
@@ -27,6 +27,7 @@ export class MenuPagoComponent implements OnInit {
 
   private  boletoService= inject(BoletoService);
   private  loginService= inject(LoginService);
+  private asientoService = inject(AsientoService);
   constructor(private router: Router, private formBuilder: FormBuilder) {
     const navigation = this.router.getCurrentNavigation();
 
@@ -88,42 +89,53 @@ export class MenuPagoComponent implements OnInit {
     
     });
   }
-  pagar(){
-    if(this.tarjetaValor){
-      console.log("idCliente :"+this.loginService.getUser().idPersona);
+  pagar() {
+    if (this.tarjetaValor) {
+      console.log("idCliente :" + this.loginService.getUser().idPersona);
+      
       for (const idAsiento of this.asientosSeleccionados) {
         this.boletoService.registrarBoleto({
-        idBoleto: 0,
-        precio: this.viajeSeleccionado.precio,
-        fechaEmision: new Date(),
-        horaEmision: new Date().toLocaleTimeString(),
-        idCliente: this.loginService.getUser().idPersona, // ID del cliente
-        idViaje: this.viajeSeleccionado.idViaje,
-        idAsiento:parseInt( idAsiento), // ID del asiento
-        idBus:  this.viajeSeleccionado.bus.idBus, // ID del bus
-        idEstadoBoleto: 1 // ID del estado del boleto
-      }).subscribe({
-        next: (response) => {
-          console.log('Boleto registrado correctamente:', response);
-          this.correcto("Pago realizado con exito");
-          this.tarjetaValor=false;
-        },
-        error: (error) => {
-          console.error('Error al registrar el boleto:', error);
-          this.error("Error al registrar el boleto");
-        }
-      });
-        console.log("idAsiento :"+idAsiento);
+          idBoleto: 0,
+          precio: this.viajeSeleccionado.precio,
+          fechaEmision: new Date(),
+          horaEmision: new Date().toLocaleTimeString(),
+          idCliente: this.loginService.getUser().idPersona,
+          idViaje: this.viajeSeleccionado.idViaje,
+          idAsiento: parseInt(idAsiento),
+          idBus: this.viajeSeleccionado.bus.idBus,
+          idEstadoBoleto: 1
+        }).subscribe({
+          next: (response) => {
+            console.log('Boleto registrado correctamente:', response);
+            this.correcto("Pago realizado con éxito");
+  
+            // Actualiza el estado del asiento a OCUPADO
+            this.asientoService.actualizarEstadoAsiento(parseInt(idAsiento), 2).subscribe({
+              next: () => {
+                console.log(`Asiento ${idAsiento} actualizado a OCUPADO`);
+              },
+              error: (error) => {
+                console.error(`Error al actualizar el estado del asiento ${idAsiento}:`, error);
+              }
+            });
+  
+            this.tarjetaValor = false;
+          },
+          error: (error) => {
+            console.error('Error al registrar el boleto:', error);
+            this.error("Error al registrar el boleto");
+          }
+        });
+        
+        console.log("idAsiento :" + idAsiento);
       }
-      console.log("idBus :"+ this.viajeSeleccionado.bus.idBus)
-      
-
-      this.correcto("Pago realizado con exito");
-      this.tarjetaValor=false;
-      
-   }else
-   {
-    this.error("Falta ingresar metodo de pago");
-   }
+      console.log("idBus :" + this.viajeSeleccionado.bus.idBus);
+  
+      this.correcto("Pago realizado con éxito");
+      this.tarjetaValor = false;
+  
+    } else {
+      this.error("Falta ingresar método de pago");
+    }
   }
 }

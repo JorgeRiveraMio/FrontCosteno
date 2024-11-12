@@ -1,20 +1,18 @@
 
 <app-header></app-header>
-<main style="height: 75vh; display: flex; justify-content: center; align-items: center;" >
-    <div class="card mt-3 card-paso2 container" >
-        <div >
-
-        </div>
+<main style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+    <div class="card mt-3 card-paso2 container" style="max-width: 1000px; margin-bottom: 20px;">
+        <div></div>
         <div class="card-body">
             <div class="row justify-content-center">
                 <div class="col-sm-4">
                     <div class="card text-center">
                         <div class="card-header">
-                            <h5 class="card-title"><span >{{viaje?.ruta?.terminalOrigen?.nombre}} | {{viaje?.ruta?.terminalDestino?.nombre}} </span></h5>
+                            <h5 class="card-title"><span>{{viaje?.ruta?.terminalOrigen?.nombre}} | {{viaje?.ruta?.terminalDestino?.nombre}}</span></h5>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Fecha: <span >{{viaje?.fechaSalida | date: 'dd/MM/yyyy'}}</span> </h5>
-                            <p class="card-text">Hora: <span >{{viaje?.horaSalida}}</span> <br />Precio: <span id="spPrecio"></span> </p>
+                            <h5 class="card-title">Fecha: <span>{{viaje?.fechaSalida | date: 'dd/MM/yyyy'}}</span> </h5>
+                            <p class="card-text">Hora: <span>{{viaje?.horaSalida}}</span> <br />Precio: <span id="spPrecio"></span> </p>
                             <p class="card-text">*Seleccione asientos*</p>
                         </div>
                     </div>
@@ -27,74 +25,80 @@
                             <div class="cuadrado gris"></div>
                             <p>Disponible</p>
                         </div>
-                        <div class="d-flex justify-content-center  align-items-center">
-                            <div class="cuadrado amarrillo" ></div>
-                            <p>Tu Asiento</p>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="divPiso1">
+                    <div class="card shadow-light p-3 mb-5 bg-body rounded" style="width: 200px; margin: auto; position: relative;">
+                        <h6 class="text-center">Primer Piso</h6>
+                        <div class="seat-grid">
+                            <ng-container *ngFor="let asiento of asientos; let i = index">
+                                <!-- Mostrar solo los asientos del primer piso -->
+                                <div *ngIf="asiento.numeroPiso === 1 && (i % 2 === 0)">
+                                    <div class="seat" 
+                                        [ngClass]="{
+                                            'selected-seat': seleccionados[asiento.numAsiento], 
+                                            'occupied-seat': asiento.estadoAsiento && asiento.estadoAsiento.estado === 'OCUPADO'
+                                        }" 
+                                        (click)="toggleSeat(asiento)">
+                                        {{ asiento.numAsiento }}
+                                    </div>
+                                </div>
+                                <div *ngIf="asiento.numeroPiso === 1 && (i % 2 !== 0)">
+                                    <div class="seat" 
+                                        [ngClass]="{
+                                            'selected-seat': seleccionados[asiento.numAsiento], 
+                                            'occupied-seat': asiento.estadoAsiento && asiento.estadoAsiento.estado === 'OCUPADO'
+                                        }" 
+                                        (click)="toggleSeat(asiento)">
+                                        {{ asiento.numAsiento }}
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
-                <!-- Primer Piso -->
-                <div class="col-sm-4" id="divPiso1">
-                    <div class="border border-primary rounded p-3" style="width:200px; margin: auto; position: relative;">
-                        <h6>Primer Piso</h6>
-                        <table id="tbPiso1">
-                            <tbody>
-                                <ng-container *ngFor="let asiento of asientos; let i = index">
-                                    <!-- Mostrar solo los asientos del primer piso -->
-                                    <tr *ngIf="asiento.numeroPiso === 1 && (i % 2 === 0)">
-                                        <td>
-                                            <input type="checkbox" 
-                                                [disabled]="isSeatDisabled(asiento)" 
-                                                (change)="cambiarColor($event, asiento)" />
-                                            {{ asiento.numAsiento }}
-                                        </td>
-                                        <td *ngIf="asientos[i + 1]?.numeroPiso === 1">
-                                            <input type="checkbox" 
-                                                [disabled]="isSeatDisabled(asientos[i + 1])" 
-                                                (change)="cambiarColor($event, asientos[i + 1])" />
-                                            {{ asientos[i + 1].numAsiento }}
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
+                
+                <div class="col-sm-3" id="divPiso2">
+                    <div class="card shadow-light p-3 mb-5 bg-body rounded" style="width: 200px; margin: auto; position: relative;">
+                        <h6 class="text-center">Segundo Piso</h6>
+                        <div class="seat-grid">
+                            <ng-container *ngFor="let asiento of asientos; let i = index">
+                                <!-- Mostrar solo los asientos del segundo piso -->
+                                <div *ngIf="asiento.numeroPiso === 2 && (i % 2 === 0)">
+                                    <div class="seat" 
+                                        [ngClass]="{
+                                            'selected-seat': seleccionados[asiento.numAsiento], 
+                                            'occupied-seat': asiento.estadoAsiento && asiento.estadoAsiento.estado === 'OCUPADO'
+                                        }" 
+                                        (click)="toggleSeat(asiento)">
+                                        {{ asiento.numAsiento }}
+                                    </div>
+                                </div>
+                                <div *ngIf="asiento.numeroPiso === 2 && (i % 2 !== 0)">
+                                    <div class="seat" 
+                                        [ngClass]="{
+                                            'selected-seat': seleccionados[asiento.numAsiento], 
+                                            'occupied-seat': asiento.estadoAsiento && asiento.estadoAsiento.estado === 'OCUPADO'
+                                        }" 
+                                        (click)="toggleSeat(asiento)">
+                                        {{ asiento.numAsiento }}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Segundo Piso -->
-                <div class="col-sm-4" id="divPiso2">
-                    <div class="border border-primary rounded p-3" style="width:200px; margin: auto; position: relative;">
-                        <h6>Segundo Piso</h6>
-                        <table id="tbPiso2">
-                            <tbody>
-                                <ng-container *ngFor="let asiento of asientos; let i = index">
-                                    <!-- Mostrar solo los asientos del segundo piso -->
-                                    <tr *ngIf="asiento.numeroPiso === 2 && (i % 2 === 0)">
-                                        <td>
-                                            <input type="checkbox" 
-                                                [disabled]="isSeatDisabled(asiento)" 
-                                                (change)="cambiarColor($event, asiento)" />
-                                            {{ asiento.numAsiento }}
-                                        </td>
-                                        <td *ngIf="asientos[i + 1]?.numeroPiso === 2">
-                                            <input type="checkbox" 
-                                                [disabled]="isSeatDisabled(asientos[i + 1])" 
-                                                (change)="cambiarColor($event, asientos[i + 1])" />
-                                            {{ asientos[i + 1].numAsiento }}
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>  
             </div>
+        </div>
+        <!-- Mensaje de error si no se seleccionan asientos -->
+        <div *ngIf="!hayAsientosSeleccionados()" class="alert alert-warning mt-3" role="alert">
+            ¡Por favor, selecciona al menos un asiento para continuar!
         </div>
         <div class="card-footer d-flex justify-content-end">
             <button class="btn btn-secondary me-2" id="btnRegresar">Regresar</button>
-            <button class="btn btn-primary" (click)="Siguiente()" >Continuar</button>
+            <button class="btn btn-primary" (click)="Siguiente()">Continuar</button>
         </div>
-
+        
     </div>
 </main>
 <app-footer></app-footer>

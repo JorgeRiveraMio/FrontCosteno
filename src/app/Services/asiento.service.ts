@@ -15,4 +15,14 @@ export class AsientoService {
   obtenerAsientoPorCodBus(id:number):Observable<Asiento[]>{
     return this.http.get<Asiento[]>(`${this.apiUrl}/buscarPorCodBus/${id}`);
   }
+
+  actualizarEstadoAsiento(idAsiento: number, nuevoEstadoId: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/actualizarEstado`, null, {
+      params: {
+        idAsiento: idAsiento.toString(),
+        nuevoEstadoId: nuevoEstadoId.toString()
+      }
+    });
+  }
+  
 }

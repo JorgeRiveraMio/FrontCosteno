@@ -66,24 +66,20 @@ export class DetalleViajeComponent {
     }
   }
 
-  cambiarColor(event: Event, asiento: Asiento): void {
-    const checkbox = event.target as HTMLInputElement;
-    const tdElement = (event.target as HTMLElement).closest('td');
-    if (tdElement) {
-      if (checkbox.checked) {
-        tdElement.style.backgroundColor = 'red';
-        this.seleccionados[asiento.numAsiento] = true;
-      } else {
-        tdElement.style.backgroundColor = '';
-        this.seleccionados[asiento.numAsiento] = false;
-      }
-    }
+  hayAsientosSeleccionados(): boolean {
+    return this.obtenerAsientosSeleccionados().length > 0;
   }
-
+  
   Siguiente(): void {
     const asientosSeleccionados = this.obtenerAsientosSeleccionados();
+    
+    // Si no hay asientos seleccionados, no hace nada y no navega
+    if (asientosSeleccionados.length === 0) {
+      return; // No navega si no hay asientos seleccionados
+    }
+  
     const navigationExtras: NavigationExtras = {
-      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados}
+      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados }
     };
     this.router.navigate(['/pasajero', this.cod], navigationExtras); // Navega a MenuPasajeroComponent
   }
@@ -94,11 +90,17 @@ export class DetalleViajeComponent {
 
   toggleSeat(asiento: Asiento): void {
     console.log(asiento); // Para ver si la información del asiento es correcta
-
-    // Solo permitir seleccionar si el asiento está disponible (activo) y no ha sido seleccionado previamente
-    if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'LIBRE' && !this.seleccionados[asiento.numAsiento]) {
-        // Cambiar el estado de selección del asiento
-        this.seleccionados[asiento.numAsiento] = !this.seleccionados[asiento.numAsiento];
+  
+    // Solo permitir seleccionar o deseleccionar si el asiento está disponible (activo)
+    if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'LIBRE') {
+      // Si el asiento ya está seleccionado, deseleccionarlo
+      if (this.seleccionados[asiento.numAsiento]) {
+        // Cambiar el estado de selección a false
+        this.seleccionados[asiento.numAsiento] = false;
+      } else {
+        // Si el asiento no está seleccionado, seleccionarlo
+        this.seleccionados[asiento.numAsiento] = true;
+      }
     }
   }
 
