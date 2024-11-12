@@ -95,12 +95,15 @@ export class DetalleViajeComponent {
   toggleSeat(asiento: Asiento): void {
     console.log(asiento); // Para ver si la información del asiento es correcta
 
-    // Solo permitir seleccionar si el asiento está disponible (activo)
-    if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'Activo') {
+    // Solo permitir seleccionar si el asiento está disponible (activo) y no ha sido seleccionado previamente
+    if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'LIBRE' && !this.seleccionados[asiento.numAsiento]) {
         // Cambiar el estado de selección del asiento
         this.seleccionados[asiento.numAsiento] = !this.seleccionados[asiento.numAsiento];
     }
   }
 
-  
+  // Este método puede deshabilitar los checkboxes de asientos ocupados o ya seleccionados
+  isSeatDisabled(asiento: Asiento): boolean {
+    return asiento.estadoAsiento.estado === 'OCUPADO';
+  }
 }

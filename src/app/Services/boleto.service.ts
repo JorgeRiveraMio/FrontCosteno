@@ -22,6 +22,10 @@ export class BoletoService {
     return this.http.get<Boleto[]>(`${this.apiUrl}/listar`);
   }
 
+  listarBoletosPorCliente(idCliente: number): Observable<Boleto[]> {
+    return this.http.get<Boleto[]>(`${this.apiUrl}/listar/${idCliente}`);
+  }
+
   // Método para buscar un boleto por su ID
   buscarBoletoPorId(id: number): Observable<Boleto> {
     return this.http.get<Boleto>(`${this.apiUrl}/buscar/${id}`);

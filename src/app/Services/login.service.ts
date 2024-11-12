@@ -43,6 +43,8 @@ export class LoginService {
     return null;   
   }
 
+  
+
   public isLoggedIn(): boolean {
     if (typeof window !== 'undefined' && localStorage) {
       const token = localStorage.getItem('token');

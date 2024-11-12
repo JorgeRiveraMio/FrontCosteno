@@ -1,34 +1,45 @@
-// tarjeta-boleto.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Necesario para los pipes como 'date'
+import { CommonModule } from '@angular/common';
 import { BoletoService } from '../../Services/boleto.service';
 import { Boleto } from '../../Interfaces/Boleto';
-import { HttpClientModule } from '@angular/common/http'; // Si usas HttpClient en el servicio
+import { HttpClientModule } from '@angular/common/http';
+import { LoginService } from '../../Services/login.service';
 
 @Component({
   selector: 'app-tarjeta-boleto',
   standalone: true,
-  imports: [
-    CommonModule, // Importamos CommonModule para poder usar el pipe 'date' en el template
-    HttpClientModule, // Si usas HttpClientModule para hacer las peticiones
-  ],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './tarjeta-boleto.component.html',
   styleUrls: ['./tarjeta-boleto.component.css']
 })
 export class TarjetaBoletoComponent implements OnInit {
-  boletos: Boleto[] = []; // Almacena los boletos
+  boletos: Boleto[] = [];
 
-  constructor(private boletoService: BoletoService) {}
+  constructor(
+    private boletoService: BoletoService,
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
-    // Al cargar el componente, realizamos la llamada para obtener los boletos
-    this.boletoService.listarBoletos().subscribe(
-      (boletos) => {
-        this.boletos = boletos; // Guardamos los boletos recibidos
-      },
-      (error) => {
-        console.error('Error al obtener los boletos', error); // Si ocurre un error, lo logueamos
-      }
-    );
+    // Obtener el usuario logueado
+    const userId = this.loginService.getUser();
+
+    if (userId) {
+      // Imprimir el ID para verificar que estamos obteniendo correctamente
+      console.log('User ID:', userId.idPersona); // Imprimir el ID del usuario
+      const idCliente = userId.idPersona; // Asignamos el idPersona a idCliente
+
+      // Llamamos a listar los boletos del cliente logueado
+      this.boletoService.listarBoletosPorCliente(idCliente).subscribe(
+        (boletos) => {
+          this.boletos = boletos; // Guardamos los boletos obtenidos
+        },
+        (error) => {
+          console.error('Error al obtener los boletos por cliente', error); // Si ocurre un error, lo mostramos
+        }
+      );
+    } else {
+      console.error('No se pudo obtener el ID del usuario logueado');
+    }
   }
 }

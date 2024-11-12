@@ -33,8 +33,7 @@
                         </div>
                     </div>
                 </div>
-   
-                
+                <!-- Primer Piso -->
                 <div class="col-sm-4" id="divPiso1">
                     <div class="border border-primary rounded p-3" style="width:200px; margin: auto; position: relative;">
                         <h6>Primer Piso</h6>
@@ -44,11 +43,15 @@
                                     <!-- Mostrar solo los asientos del primer piso -->
                                     <tr *ngIf="asiento.numeroPiso === 1 && (i % 2 === 0)">
                                         <td>
-                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            <input type="checkbox" 
+                                                [disabled]="isSeatDisabled(asiento)" 
+                                                (change)="cambiarColor($event, asiento)" />
                                             {{ asiento.numAsiento }}
                                         </td>
                                         <td *ngIf="asientos[i + 1]?.numeroPiso === 1">
-                                            <input type="checkbox" (change)="cambiarColor($event, asientos[i + 1])" />
+                                            <input type="checkbox" 
+                                                [disabled]="isSeatDisabled(asientos[i + 1])" 
+                                                (change)="cambiarColor($event, asientos[i + 1])" />
                                             {{ asientos[i + 1].numAsiento }}
                                         </td>
                                     </tr>
@@ -57,7 +60,8 @@
                         </table>
                     </div>
                 </div>
-                
+
+                <!-- Segundo Piso -->
                 <div class="col-sm-4" id="divPiso2">
                     <div class="border border-primary rounded p-3" style="width:200px; margin: auto; position: relative;">
                         <h6>Segundo Piso</h6>
@@ -67,11 +71,15 @@
                                     <!-- Mostrar solo los asientos del segundo piso -->
                                     <tr *ngIf="asiento.numeroPiso === 2 && (i % 2 === 0)">
                                         <td>
-                                            <input type="checkbox" (change)="cambiarColor($event, asiento)" />
+                                            <input type="checkbox" 
+                                                [disabled]="isSeatDisabled(asiento)" 
+                                                (change)="cambiarColor($event, asiento)" />
                                             {{ asiento.numAsiento }}
                                         </td>
                                         <td *ngIf="asientos[i + 1]?.numeroPiso === 2">
-                                            <input type="checkbox" (change)="cambiarColor($event, asientos[i + 1])" />
+                                            <input type="checkbox" 
+                                                [disabled]="isSeatDisabled(asientos[i + 1])" 
+                                                (change)="cambiarColor($event, asientos[i + 1])" />
                                             {{ asientos[i + 1].numAsiento }}
                                         </td>
                                     </tr>
@@ -79,7 +87,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
         <div class="card-footer d-flex justify-content-end">

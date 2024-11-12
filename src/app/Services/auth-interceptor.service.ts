@@ -11,9 +11,9 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
- 
+    
      // Verifica que estamos en el entorno del navegador
-     if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token'); // Aquí estás llamando a getToken()
 
       // Verifica que el token no sea null

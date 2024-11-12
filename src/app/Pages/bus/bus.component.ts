@@ -25,9 +25,9 @@ export class BusComponent {
   searchTerm: string = '';
 
   modelosBus = [
-    { modelo: 'A', capacidadPiso1: 25, capacidadPiso2: 25 },
-    { modelo: 'B', capacidadPiso1: 20, capacidadPiso2: 25 },
-    { modelo: 'C', capacidadPiso1: 25, capacidadPiso2: 20 }
+    { modelo: 'Costeño Ejecutivo', capacidadPiso1: 18, capacidadPiso2: 40 },
+    { modelo: 'Costeño VIP', capacidadPiso1: 11, capacidadPiso2: 23 },
+    { modelo: 'Costeño Premium', capacidadPiso1: 10, capacidadPiso2: 23 }
   ];
 
   cambiarFiltro(filtro: string) {
