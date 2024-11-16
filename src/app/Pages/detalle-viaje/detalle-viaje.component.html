@@ -13,6 +13,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Fecha: <span>{{viaje?.fechaSalida | date: 'dd/MM/yyyy'}}</span> </h5>
                             <p class="card-text">Hora: <span>{{viaje?.horaSalida}}</span> <br />Precio: <span id="spPrecio"></span> </p>
+                            <p class="card-text">Precio: S/. {{ precioTotal | number:'1.2-2' }} </p>
+
                             <p class="card-text">*Seleccione asientos*</p>
                         </div>
                     </div>

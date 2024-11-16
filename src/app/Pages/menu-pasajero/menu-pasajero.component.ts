@@ -18,6 +18,7 @@ export class MenuPasajeroComponent implements OnInit {
   cantidadAsientos: number = 0;
   viajeSeleccionado: Viaje | null = null;
   asientosSeleccionados: string[] = [];
+  totalAPagar: number = 0;
   pasajerosData: any[] = []; // Array para almacenar los datos de cada pasajero
 
   constructor(
@@ -28,6 +29,7 @@ export class MenuPasajeroComponent implements OnInit {
     const navigation = this.router.getCurrentNavigation();
     this.cantidadAsientos = navigation?.extras?.state?.['cantidadAsientos'] || 0;  // Número de asientos seleccionados
     this.asientosSeleccionados = navigation?.extras?.state?.['asientosSeleccionados'] || []; 
+    this.totalAPagar = navigation?.extras?.state?.['precioTotal'] || 0; 
   }
 
   ngOnInit(): void {
@@ -69,7 +71,8 @@ export class MenuPasajeroComponent implements OnInit {
         pasajerosData: this.pasajerosData, 
         viajeSeleccionado: this.viajeSeleccionado,       
         cantidadAsientos: this.cantidadAsientos, 
-        asientosSeleccionados: this.asientosSeleccionados 
+        asientosSeleccionados: this.asientosSeleccionados ,
+        precioTotal: this.totalAPagar
       } 
     });
     

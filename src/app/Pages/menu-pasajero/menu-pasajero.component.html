@@ -35,8 +35,14 @@
                 </div>
                 
                 <div class="card-footer text-left">
-                    <h5>Asientos Seleccionados</h5>
-                    <p>{{ asientosSeleccionados.join(', ') }}</p>
+                    <div>
+                        <h5 style="color: black;">Asientos Seleccionados</h5>
+                        <p>{{ asientosSeleccionados.join(', ') }}</p>
+                    </div>
+                    <div>
+                        <h5 style="color: black;">Total</h5>
+                        <p> S/.{{ totalAPagar }}</p>
+                    </div>
                     <button class="btn btn-primary btn-continuar" (click)="continuarConElPago()">CONTINUAR CON EL PAGO</button>
                 </div>
             </div>

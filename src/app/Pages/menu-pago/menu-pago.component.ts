@@ -24,6 +24,8 @@ export class MenuPagoComponent implements OnInit {
   asientosSeleccionados: string[] = [];
   cardForm!: FormGroup;
   tarjetaValor:boolean = false;
+  subtotal: number = 0;
+  precioTotal: number = 0;
 
   private  boletoService= inject(BoletoService);
   private  loginService= inject(LoginService);
@@ -39,6 +41,7 @@ export class MenuPagoComponent implements OnInit {
       this.viajeSeleccionado = navigation.extras.state['viajeSeleccionado'];
       this.cantidadAsientos = navigation.extras.state['cantidadAsientos'];
       this.asientosSeleccionados = navigation.extras.state['asientosSeleccionados'];
+      this.subtotal= navigation.extras.state['precioTotal'];
       
       console.log('Pasajeros Data:', this.pasajerosData);
       console.log('Viaje Seleccionado:', this.viajeSeleccionado);
@@ -47,6 +50,9 @@ export class MenuPagoComponent implements OnInit {
     } else {
       console.error('No se recibieron datos desde la página anterior.');
     }
+    this.precioTotal = Math.round(this.subtotal * 1.18 * 100) / 100;
+
+
   }
 
   

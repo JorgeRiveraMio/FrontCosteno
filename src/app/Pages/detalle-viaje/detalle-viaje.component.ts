@@ -20,6 +20,7 @@ export class DetalleViajeComponent {
   viaje: Viaje | null = null;
   asientos: Asiento[] = [];
   seleccionados: { [numAsiento: string]: boolean } = {};
+  precioTotal: number = 0;
 
   private viajeService = inject(ViajeService); 
   private asientoService = inject(AsientoService); 
@@ -36,8 +37,15 @@ export class DetalleViajeComponent {
         console.error('Código del viaje no proporcionado');
       }
     });
+    this.actualizarPrecioTotal();
   }
-
+ // Función para calcular y actualizar el precio total
+  actualizarPrecioTotal(): void {
+    // Si viaje y su precio están disponibles
+    if (this.viaje?.precio) {
+      this.precioTotal = this.viaje.precio * this.contarAsientosSeleccionados();
+    }
+  }
   buscarViaje() {
     const viajeId = parseInt(this.cod);
     if (!isNaN(viajeId)) {
@@ -79,7 +87,9 @@ export class DetalleViajeComponent {
     }
   
     const navigationExtras: NavigationExtras = {
-      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados }
+      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados,
+        precioTotal:this.precioTotal
+       }
     };
     this.router.navigate(['/pasajero', this.cod], navigationExtras); // Navega a MenuPasajeroComponent
   }
@@ -102,10 +112,16 @@ export class DetalleViajeComponent {
         this.seleccionados[asiento.numAsiento] = true;
       }
     }
+    // Actualizar el precio total después de cada cambio en los asientos seleccionados
+    this.actualizarPrecioTotal();
   }
 
   // Este método puede deshabilitar los checkboxes de asientos ocupados o ya seleccionados
   isSeatDisabled(asiento: Asiento): boolean {
     return asiento.estadoAsiento.estado === 'OCUPADO';
   }
+  contarAsientosSeleccionados(): number {
+    return this.obtenerAsientosSeleccionados().length;
+  }
+  
 }

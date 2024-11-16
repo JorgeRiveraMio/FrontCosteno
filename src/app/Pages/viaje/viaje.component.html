@@ -52,6 +52,10 @@
                                 </select>
                             </div>
                             <div class="mb-3">
+                                <label for="precio" class="col-form-label">Precio:</label>
+                                <input type="number" class="form-control" id="precio" formControlName="precio">
+                            </div>
+                            <div class="mb-3">
                                 <label for="fechaSalida" class="col-form-label">Fecha de Salida:</label>
                                 <input type="date" class="form-control" id="fechaSalida" formControlName="fechaSalida">
                             </div>
@@ -92,6 +96,7 @@
                     <th>Bus</th>
                     <th>Chofer Principal</th>
                     <th>Chofer Secundario</th>
+                    <th>Precio</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -105,6 +110,7 @@
                     <td>{{ item.bus.placa }}</td>
                     <td>{{ item.chofer1.nombres}}</td>
                     <td>{{ item.chofer2.nombres }}</td>
+                    <td>{{ item.precio }}</td>
                     <td>
                         
                     </td>

@@ -10,6 +10,7 @@ export interface Viaje {
     fechaLlegada: Date;
     horaSalida: string;
     horaLlegada: string;
+    precio:number;
     ruta: Ruta;
     administrador: Administrador;
     bus: Bus;
@@ -22,6 +23,7 @@ export interface ViajeDTO {
     fechaLlegada: Date;
     horaSalida: string;
     horaLlegada: string;
+    precio:number;
     idRuta: number;
     idAdministrador: number;
     idBus: number;

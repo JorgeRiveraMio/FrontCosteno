@@ -69,6 +69,8 @@ export class ViajeComponent {
   }
 
   viajeForm = this.formBuild.group({
+    precio: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]],
+
     ruta: ['', Validators.required],
     bus: ['', Validators.required],
     chofer1: ['', Validators.required],
@@ -84,6 +86,7 @@ export class ViajeComponent {
       // Convertir los valores del formulario a cadenas en formato "HH:mm:ss"
       const horaSalida: string = this.formatTime(this.viajeForm.get('horaSalida')?.value ?? '');
       const horaLlegada: string = this.formatTime(this.viajeForm.get('horaLlegada')?.value ?? '');
+      const precio: number = parseFloat(this.viajeForm.get('precio')?.value ?? '') 
   
       const formData: ViajeDTO = {
         idViaje: 0,
@@ -91,6 +94,7 @@ export class ViajeComponent {
         fechaLlegada: new Date(this.viajeForm.get('fechaLlegada')?.value ?? ''),
         horaSalida: horaSalida, // Enviar como cadena
         horaLlegada: horaLlegada, // Enviar como cadena
+        precio: precio, // Se calcula en el backend
         idRuta: Number(this.viajeForm.get('ruta')?.value ?? ''),
         idAdministrador: Number(this.loginService.getUser().idPersona),
         idBus: Number(this.viajeForm.get('bus')?.value ?? ''),
