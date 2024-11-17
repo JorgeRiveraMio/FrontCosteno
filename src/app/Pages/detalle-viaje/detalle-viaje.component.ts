@@ -7,6 +7,7 @@ import { Viaje } from '../../Interfaces/Viaje';
 import { CommonModule } from '@angular/common';
 import { Asiento } from '../../Interfaces/Asiento';
 import { AsientoService } from '../../Services/asiento.service';
+import { ValidacionesService } from '../../Services/validaciones.service';
 
 @Component({
   selector: 'app-detalle-viaje',
@@ -25,6 +26,7 @@ export class DetalleViajeComponent {
   private viajeService = inject(ViajeService); 
   private asientoService = inject(AsientoService); 
   private router = inject(Router); // Inyecta el Router
+  private validator = inject(ValidacionesService)
 
   constructor(private route: ActivatedRoute) {}
 
@@ -83,7 +85,11 @@ export class DetalleViajeComponent {
     
     // Si no hay asientos seleccionados, no hace nada y no navega
     if (asientosSeleccionados.length === 0) {
+      this.validator.tarjeta("Debe seleccionar un asiento para continuar",false);
       return; // No navega si no hay asientos seleccionados
+    }else if (asientosSeleccionados.length > 5){
+      this.validator.tarjeta("No puedes seleccionar mas de 5 asientos",false);
+      return; 
     }
   
     const navigationExtras: NavigationExtras = {
@@ -123,5 +129,5 @@ export class DetalleViajeComponent {
   contarAsientosSeleccionados(): number {
     return this.obtenerAsientosSeleccionados().length;
   }
-  
+
 }
