@@ -9,6 +9,7 @@ import { Viaje } from '../../Interfaces/Viaje';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { Router } from '@angular/router';
+import { ValidacionesService } from '../../Services/validaciones.service';
 
 @Component({
   selector: 'app-seleccion-rutas',
@@ -21,7 +22,7 @@ export class SeleccionRutasComponent implements OnInit {
   private terminalService = inject(TerminalService);
   private rutaService = inject(RutaService);
   private viajeService = inject(ViajeService);
-
+  private validatorService = inject(ValidacionesService);
   constructor(private router: Router,  private viajeDataService: ViajeDataService) { }
 
   terminals: Terminal[] = [];
@@ -56,7 +57,8 @@ export class SeleccionRutasComponent implements OnInit {
 
   buscarRutas() {
     if (this.selectedTerminalDestino === '' || this.selectedTerminalOrigen === '') {
-        console.log("Debe seleccionar una terminal de origen y destino");
+       
+        this.validatorService.tarjeta("Debe seleccionar una terminal de origen y destino",false)
         return;
     }
 
@@ -65,8 +67,13 @@ export class SeleccionRutasComponent implements OnInit {
         console.log('Fecha de Llegada seleccionada:', this.selectedFechaLlegada); 
 
         console.log('Datos de ruta obtenidos:', data);
+        if( data==null ){
+          this.validatorService.tarjeta("No existe esa ruta asignada a un viaje",false)
+         
+          return;
+        }
         this.idRuta = data.idRuta;
-
+        
         const fechaSalida = new Date(this.selectedFechaSalida + 'T19:00:00'); 
         const fechaLlegada = new Date(this.selectedFechaLlegada + 'T19:00:00'); 
         if (isNaN(fechaSalida.getTime()) || isNaN(fechaLlegada.getTime())) {
