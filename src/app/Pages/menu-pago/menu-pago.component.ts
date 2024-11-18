@@ -104,7 +104,8 @@ export class MenuPagoComponent implements OnInit {
           idBoleto: 0,
           precio: this.viajeSeleccionado.precio,
           fechaEmision: new Date(),
-          horaEmision: new Date().toLocaleTimeString(),
+      
+          horaEmision: new Date().toLocaleTimeString('en-GB'),
           idCliente: this.loginService.getUser().idPersona,
           idViaje: this.viajeSeleccionado.idViaje,
           idAsiento: parseInt(idAsiento),
