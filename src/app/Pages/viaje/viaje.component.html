@@ -16,7 +16,15 @@
                 <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarViajes()">
             </div>
         </div>
-
+        <div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
+                <label class="btn btn-outline-primary" for="btnradio1">Activos</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (change)="cambiarFiltro('inactivo')">
+                <label class="btn btn-outline-danger" for="btnradio2">Inactivos</label>
+                
+            </div>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="viajeModal" tabindex="-1" aria-labelledby="viajeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -112,7 +120,7 @@
                     <td>{{ item.chofer2.nombres }}</td>
                     <td>{{ item.precio }}</td>
                     <td>
-                        
+                        <button class="btn btn-danger btn-sm" (click)="actualizarEstado(item.idViaje)">Cambiar Estado</button>
                     </td>
                 </tr>
             </tbody>

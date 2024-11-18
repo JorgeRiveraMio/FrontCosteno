@@ -11,6 +11,7 @@ export interface Viaje {
     horaSalida: string;
     horaLlegada: string;
     precio:number;
+    estadoViaje: string;
     ruta: Ruta;
     administrador: Administrador;
     bus: Bus;
@@ -24,6 +25,7 @@ export interface ViajeDTO {
     horaSalida: string;
     horaLlegada: string;
     precio:number;
+    estadoViaje: string;
     idRuta: number;
     idAdministrador: number;
     idBus: number;

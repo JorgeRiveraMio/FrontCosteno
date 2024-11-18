@@ -21,6 +21,15 @@ import { Chofer } from '../../Interfaces/Chofer';
   styleUrl: './viaje.component.css'
 })
 export class ViajeComponent {
+  filtro:string="activo";
+
+
+  cambiarFiltro(filtro:string	){
+    this.filtro=filtro;
+    console.log(this.filtro)
+     this.listarViajes(this.filtro)
+  
+  }
   private viajeService = inject(ViajeService);
   private formBuild = inject(FormBuilder);
   private rutaService = inject(RutaService);
@@ -36,17 +45,37 @@ export class ViajeComponent {
   searchTerm: string = '';
 
   ngOnInit(): void {
-    this.listarViajes();
+    this.listarViajes(this.filtro);
     this.cargarCombos();
   }
 
-  listarViajes() {
-    this.viajeService.listarViajes().subscribe((data: Viaje[]) => {
-      this.viajes = data;
-    }, error => {
-      console.error('Error al listar los viajes:', error);
+  actualizarEstado(id:number){
+    this.viajeService.actualizarEstado(id).subscribe({
+      next: (response) => {
+        console.log('Estado actualizado correctamente', response);
+        this.listarViajes(this.filtro)
+        this.alertaCorrecto()
+      },
+      error: (error) => {
+        console.error('Error al actualizar el estado', error);
+      }
     });
   }
+  listarViajes(filtro:string) {
+    this.viajeService.listarViajes().subscribe((data: Viaje[]) => {
+      if (filtro === 'activo') {
+        this.viajes = data.filter(ruta => ruta.estadoViaje === 'activo');
+      } else if (filtro === 'inactivo') {
+        this.viajes = data.filter(ruta => ruta.estadoViaje === 'inactivo');
+      } else {
+        this.viajes = data; // En caso de que el filtro no sea válido
+      }
+      console.log( "viaje"+ JSON.stringify(this.viajes)); // Mover aquí para asegurarte de que muestre los datos correctos
+    }, error => {
+      console.error('Error al listar las viajes:', error); // Manejar el error
+    });
+  }
+  
 
   cargarCombos() {
     this.rutaService.listarRutas().subscribe((data: Ruta[]) => {
@@ -95,6 +124,7 @@ export class ViajeComponent {
         horaSalida: horaSalida, // Enviar como cadena
         horaLlegada: horaLlegada, // Enviar como cadena
         precio: precio, // Se calcula en el backend
+        estadoViaje: 'activo',
         idRuta: Number(this.viajeForm.get('ruta')?.value ?? ''),
         idAdministrador: Number(this.loginService.getUser().idPersona),
         idBus: Number(this.viajeForm.get('bus')?.value ?? ''),
@@ -104,7 +134,7 @@ export class ViajeComponent {
   
       this.viajeService.registrarViaje(formData).subscribe({
         next: () => {
-          this.listarViajes();
+          this.listarViajes(this.filtro);
           this.alertaCorrecto();
         },
         error: (error) => {
