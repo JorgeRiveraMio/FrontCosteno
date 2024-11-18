@@ -14,6 +14,7 @@ import { LoginService } from '../../Services/login.service';
 })
 export class TarjetaBoletoComponent implements OnInit {
   boletos: Boleto[] = [];
+  boletosAgrupados: { key: string; boletos: Boleto[] }[] = [];
 
   constructor(
     private boletoService: BoletoService,
@@ -21,25 +22,51 @@ export class TarjetaBoletoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener el usuario logueado
     const userId = this.loginService.getUser();
 
     if (userId) {
-      // Imprimir el ID para verificar que estamos obteniendo correctamente
-      console.log('User ID:', userId.idPersona); // Imprimir el ID del usuario
-      const idCliente = userId.idPersona; // Asignamos el idPersona a idCliente
+      const idCliente = userId.idPersona;
 
-      // Llamamos a listar los boletos del cliente logueado
       this.boletoService.listarBoletosPorCliente(idCliente).subscribe(
         (boletos) => {
-          this.boletos = boletos; // Guardamos los boletos obtenidos
+          this.boletos = boletos;
+          this.agruparBoletos();
         },
         (error) => {
-          console.error('Error al obtener los boletos por cliente', error); // Si ocurre un error, lo mostramos
+          console.error('Error al obtener los boletos por cliente', error);
         }
       );
     } else {
       console.error('No se pudo obtener el ID del usuario logueado');
     }
+  }
+
+  agruparBoletos(): void {
+    const agrupados = new Map<string, Boleto[]>();
+
+    this.boletos.forEach((boleto) => {
+      // Construir la clave de agrupación
+      const key = `${boleto.viaje}-${boleto.fechaEmision}`;
+
+      // Verificar si la clave ya existe y agregar el boleto al grupo
+      if (!agrupados.has(key)) {
+        agrupados.set(key, []);
+      }
+      agrupados.get(key)!.push(boleto);
+    });
+
+    // Convertir el Map en un arreglo para usar en la plantilla
+    this.boletosAgrupados = Array.from(agrupados.entries()).map(([key, boletos]) => ({
+      key,
+      boletos,
+    }));
+  }
+
+  getAsientos(group: any): string {
+    return group.boletos.map((boleto: any) => boleto.asiento.numAsiento).join(', ');
+  }
+
+  getTotalPrecio(group: any): number {
+    return group.boletos.reduce((total: number, boleto: any) => total + boleto.precio, 0);
   }
 }

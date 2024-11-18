@@ -44,11 +44,12 @@ export const routes: Routes = [
     { path: 'menus/buses', component: BusComponent},
     { path: 'menus/rutas', component: RutaComponent },
     { path: 'menus/viajes', component: ViajeComponent },
- 
     { path: 'menus/choferes', component: ChoferComponent },
     { path: 'menus/terminales', component: TerminalComponent },
     { path: 'detalleViaje',component:DetalleViajeComponent },
     { path: 'pasajero/:cod', component:MenuPasajeroComponent},
     { path: 'menu-pago', component:MenuPagoComponent},
-    { path: 'mis-viajes', component:MisViajesComponent}
+    { path: 'mis-viajes', component:MisViajesComponent},
+    { path: 'pasajero/:cod/mis-viajes', component: MisViajesComponent },                                                                                                            
+    { path: 'rutas/mis-viajes', component: MisViajesComponent },
 ];

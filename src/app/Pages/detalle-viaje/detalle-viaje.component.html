@@ -34,7 +34,6 @@
                         <h6 class="text-center">Primer Piso</h6>
                         <div class="seat-grid">
                             <ng-container *ngFor="let asiento of asientos; let i = index">
-                                <!-- Mostrar solo los asientos del primer piso -->
                                 <div *ngIf="asiento.numeroPiso === 1 && (i % 2 === 0)">
                                     <div class="seat" 
                                         [ngClass]="{
@@ -65,7 +64,6 @@
                         <h6 class="text-center">Segundo Piso</h6>
                         <div class="seat-grid">
                             <ng-container *ngFor="let asiento of asientos; let i = index">
-                                <!-- Mostrar solo los asientos del segundo piso -->
                                 <div *ngIf="asiento.numeroPiso === 2 && (i % 2 === 0)">
                                     <div class="seat" 
                                         [ngClass]="{
@@ -92,7 +90,6 @@
                 </div>
             </div>
         </div>
-        <!-- Mensaje de error si no se seleccionan asientos -->
         <div *ngIf="!hayAsientosSeleccionados()" class="alert alert-warning mt-3" role="alert">
             ¡Por favor, selecciona al menos un asiento para continuar!
         </div>
