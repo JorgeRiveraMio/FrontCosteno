@@ -140,7 +140,7 @@ export class MenuPagoComponent implements OnInit {
   
       this.correcto("Pago realizado con éxito");
       this.tarjetaValor = false;
-  
+      this.router.navigate(['/mis-viajes']);
     } else {
       this.error("Falta ingresar método de pago");
     }
