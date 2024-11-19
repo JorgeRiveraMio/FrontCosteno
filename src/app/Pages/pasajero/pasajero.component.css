@@ -61,3 +61,12 @@
 #fecha-nacimiento {
     color: #555;
 }
+
+.text-danger {
+    color: #dc3545; /* Rojo para mensajes de error */
+}
+
+/* Sobrescribir el color solo para los campos con error */
+.text-danger small {
+    color: #dc3545; /* Rojo para los mensajes de error en los elementos pequeños */
+}

@@ -43,18 +43,18 @@ export class TarjetaBoletoComponent implements OnInit {
 
   agruparBoletos(): void {
     const agrupados = new Map<string, Boleto[]>();
-
+  
     this.boletos.forEach((boleto) => {
-      // Construir la clave de agrupación
-      const key = `${boleto.viaje}-${boleto.fechaEmision}`;
-
+      // Construir la clave de agrupación incluyendo la hora
+      const key = `${boleto.viaje}-${boleto.fechaEmision}-${boleto.horaEmision}`;
+  
       // Verificar si la clave ya existe y agregar el boleto al grupo
       if (!agrupados.has(key)) {
         agrupados.set(key, []);
       }
       agrupados.get(key)!.push(boleto);
     });
-
+  
     // Convertir el Map en un arreglo para usar en la plantilla
     this.boletosAgrupados = Array.from(agrupados.entries()).map(([key, boletos]) => ({
       key,

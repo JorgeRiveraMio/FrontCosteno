@@ -57,42 +57,44 @@ export class SeleccionRutasComponent implements OnInit {
 
   buscarRutas() {
     if (this.selectedTerminalDestino === '' || this.selectedTerminalOrigen === '') {
-       
-        this.validatorService.tarjeta("Debe seleccionar una terminal de origen y destino",false)
-        return;
+      this.validatorService.tarjeta("Debe seleccionar una terminal de origen y destino", false);
+      return;
     }
-
+  
     this.rutaService.buscarRutaPorTerminales(this.selectedTerminalOrigen, this.selectedTerminalDestino).subscribe((data: Ruta) => {
-        console.log('Fecha de Salida seleccionada:', this.selectedFechaSalida);
-        console.log('Fecha de Llegada seleccionada:', this.selectedFechaLlegada); 
-
-        console.log('Datos de ruta obtenidos:', data);
-        if( data==null ){
-          this.validatorService.tarjeta("No existe esa ruta asignada a un viaje",false)
-         
+      console.log('Fecha de Salida seleccionada:', this.selectedFechaSalida);
+      console.log('Fecha de Llegada seleccionada:', this.selectedFechaLlegada); 
+  
+      console.log('Datos de ruta obtenidos:', data);
+      if (data == null) {
+        this.validatorService.tarjeta("Lo sentimos, no encontramos viajes disponibles para esta ruta. Intenta con otras opciones.", false); 
+        return;
+      }
+      this.idRuta = data.idRuta;
+      
+      const fechaSalida = new Date(this.selectedFechaSalida + 'T19:00:00');
+      const fechaLlegada = new Date(this.selectedFechaLlegada + 'T19:00:00');
+      if (isNaN(fechaSalida.getTime()) || isNaN(fechaLlegada.getTime())) {
+          console.error('Fechas inválidas:', this.selectedFechaSalida, this.selectedFechaLlegada);
+          return;
+      }
+  
+      console.log('Buscando viajes con:', fechaSalida.toISOString(), fechaLlegada.toISOString(), this.idRuta);
+      this.viajeService.buscarViajes(fechaSalida, fechaLlegada, this.idRuta).subscribe((data: Viaje[]) => {
+        console.log('Datos de viajes obtenidos:', data);
+        if (data.length === 0) {
+          this.validatorService.tarjeta("No se encontraron viajes disponibles para esta ruta", false);  // Custom error message for no available trips
           return;
         }
-        this.idRuta = data.idRuta;
-        
-        const fechaSalida = new Date(this.selectedFechaSalida + 'T19:00:00'); 
-        const fechaLlegada = new Date(this.selectedFechaLlegada + 'T19:00:00'); 
-        if (isNaN(fechaSalida.getTime()) || isNaN(fechaLlegada.getTime())) {
-            console.error('Fechas inválidas:', this.selectedFechaSalida, this.selectedFechaLlegada);
-            return;
-        }
-
-        console.log('Buscando viajes con:', fechaSalida.toISOString(), fechaLlegada.toISOString(), this.idRuta);
-        this.viajeService.buscarViajes(fechaSalida, fechaLlegada, this.idRuta).subscribe((data: Viaje[]) => {
-          console.log('Datos de viajes obtenidos:', data);
-          this.viajeDataService.updateViajes(data); // Actualiza el servicio con los datos
-          this.router.navigate(['/rutas']);
-        }, error => {
-          console.error('Error al buscar los viajes:', error);
-        });
-
+        this.viajeDataService.updateViajes(data); // Actualiza el servicio con los datos
+        this.router.navigate(['/rutas']);
+      }, error => {
+        console.error('Error al buscar los viajes:', error);
+      });
+  
     }, error => {
         console.error('Error al buscar las rutas:', error);
     });
-}
+  }
 
 }
