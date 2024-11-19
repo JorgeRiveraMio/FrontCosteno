@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PasajeroService } from '../../Services/pasajero.service';
-import { Pasajero } from '../../Interfaces/Pasajero';
+import { Pasajero, PasajeroDTO } from '../../Interfaces/Pasajero';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Boleto } from '../../Interfaces/Boleto';
 
 @Component({
   selector: 'app-pasajero',
@@ -20,7 +21,8 @@ export class PasajeroComponent {
     numDocumento: '',
     nombres: '',
     apellidos: '',
-    fecNacimiento: new Date()
+    fecNacimiento: new Date(),
+    Boleto: {idBoleto:0} as Boleto  // Aquí se usa el modelo completo, con el boleto
   };
 
   edadMensaje: string | null = null;
@@ -28,7 +30,18 @@ export class PasajeroComponent {
   constructor(private pasajeroService: PasajeroService) {}
 
   registrarPasajero() {
-    this.pasajeroService.registrarPasajero(this.pasajero).subscribe({
+    // Crear el objeto PasajeroDTO, asegurándose de incluir el idBoleto
+    const pasajeroDTO: PasajeroDTO = {
+      idPasajero: this.pasajero.idPasajero,
+      numDocumento: this.pasajero.numDocumento,
+      nombres: this.pasajero.nombres,
+      apellidos: this.pasajero.apellidos,
+      fecNacimiento: this.pasajero.fecNacimiento,
+      idBoleto: this.pasajero.Boleto.idBoleto,  // Verificar que se esté enviando correctamente
+    };
+  
+    // Enviar el PasajeroDTO al servicio para ser registrado
+    this.pasajeroService.registrarPasajero(pasajeroDTO).subscribe({
       next: (response) => {
         console.log('Pasajero registrado:', response);
       },
@@ -50,7 +63,7 @@ export class PasajeroComponent {
   
     const hoy = new Date();
     const nacimiento = new Date(this.pasajero.fecNacimiento);
-    let edad = hoy.getFullYear() - nacimiento.getFullYear(); // Cambié 'const' por 'let'
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
     const mes = hoy.getMonth() - nacimiento.getMonth();
     const dia = hoy.getDate() - nacimiento.getDate();
   

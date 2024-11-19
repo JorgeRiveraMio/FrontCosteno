@@ -21,20 +21,24 @@ export class PerfilComponent {
   private clienteService = inject(ClienteService);
   private loginService = inject(LoginService);
   private datePipe = inject(DatePipe);
-  
+
   public fechaCreacionFormateada: string | null = null;
   public data = this.loginService.getUser();
-  
   public fechaCreacion = this.data?.fechaCreacion ?? null;
 
   ngOnInit() {
     if (this.data) {
+      const fechaNacimientoFormateada = this.data.fechaNac
+        ? this.datePipe.transform(new Date(this.data.fechaNac), 'yyyy-MM-dd')
+        : '';
+
       this.perfilForm.patchValue({
         estadoCivil: this.data.estadoCivil || '',
         direccion: this.data.direccion || '',
         numero: this.data.numTel || '',
-        fechaNacimiento: new Date(this.data.fechaNac) || ''
+        fechaNacimiento: fechaNacimientoFormateada
       });
+
       this.fechaCreacionFormateada = this.datePipe.transform(this.fechaCreacion, 'MMMM d, y');
     }
   }
@@ -43,39 +47,14 @@ export class PerfilComponent {
     estadoCivil: [this.data?.estadoCivil || '', Validators.required],
     direccion: [this.data?.direccion || '', Validators.required],
     numero: [this.data?.numTel || '', [Validators.required, Validators.pattern('[0-9]*')]],
-    fechaNacimiento: [new Date(this.data?.fechaNac) || '', Validators.required],
-    
+    fechaNacimiento: ['', Validators.required],
     nuevaContrasena: ['', [Validators.required, Validators.minLength(6)]],
     confirmarContrasena: ['', Validators.required]
   });
 
-  get estadoCivil() {
-    return this.perfilForm.get('estadoCivil');
-  }
-
-  get direccion() {
-    return this.perfilForm.get('direccion');
-  }
-
-  get numero() {
-    return this.perfilForm.get('numero');
-  }
-
-  get fechaNacimiento() {
-    return this.perfilForm.get('fechaNacimiento');
-  }
-
-  get nuevaContrasena() {
-    return this.perfilForm.get('nuevaContrasena');
-  }
-
-  get confirmarContrasena() {
-    return this.perfilForm.get('confirmarContrasena');
-  }
-
   actualizar() {
     if (this.perfilForm.valid) {
-      if (this.nuevaContrasena?.value !== this.confirmarContrasena?.value) {
+      if (this.perfilForm.get('nuevaContrasena')?.value !== this.perfilForm.get('confirmarContrasena')?.value) {
         Swal.fire({
           position: "center",
           icon: "error",
@@ -88,10 +67,13 @@ export class PerfilComponent {
 
       const formData = {
         ...this.data,
-        password: this.nuevaContrasena?.value,  
+        estadoCivil: this.perfilForm.get('estadoCivil')?.value,
+        direccion: this.perfilForm.get('direccion')?.value,
+        numTel: this.perfilForm.get('numero')?.value,
+        fechaNac: this.perfilForm.get('fechaNacimiento')?.value,
+        password: this.perfilForm.get('nuevaContrasena')?.value
       };
 
-      
       this.clienteService.actualizarCliente(this.data.idPersona, formData).subscribe({
         next: (response) => {
           console.log('Cliente actualizado correctamente:', response);
