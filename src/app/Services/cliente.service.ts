@@ -29,4 +29,8 @@ export class ClienteService {
   actualizarContrasena(password:string,correo:string): Observable<ResponseApi> {
     return this.http.put<ResponseApi>(`${this.apiUrl}/cambiarContrasena`, {password,correo});
   }
+
+  cambiarContrasena(correo: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/cambiarContrasena`, { correo });
+  }
 }
