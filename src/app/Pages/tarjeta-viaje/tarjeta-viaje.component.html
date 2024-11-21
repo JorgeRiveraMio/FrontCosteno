@@ -19,13 +19,15 @@
             <h2>{{ viaje.horaLlegada }}</h2>
             <h4>{{ viaje.ruta.terminalDestino.nombre }}</h4> 
         </div>
+        
+        <!-- Mostrar los asientos disponibles por viaje -->
         <div class="asientos-info">
-            <p>Asientos disponibles: {{ asientosLibres }}</p>
+            <p>Asientos disponibles: {{ asientosDisponiblesPorViaje[viaje.idViaje] || 0 }}</p>
         </div>
+
         <div class="price-info">
-            <button value="{{viaje.idViaje}}" class="price-button" (click)="detalle(viaje.idViaje)">S/.{{viaje.precio}}></button>
+            <button value="{{viaje.idViaje}}" class="price-button" (click)="detalle(viaje.idViaje)">S/.{{viaje.precio}}</button>
         </div>
       
-        
     </div>
 </div>

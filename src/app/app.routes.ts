@@ -15,6 +15,7 @@ import { PasajeroComponent } from './Pages/pasajero/pasajero.component';
 import { MenuPasajeroComponent } from './Pages/menu-pasajero/menu-pasajero.component';
 import { MenuPagoComponent } from './Pages/menu-pago/menu-pago.component';
 import { MisViajesComponent } from './Pages/mis-viajes/mis-viajes.component';
+import { ValidaPagoComponent } from './Pages/valida-pago/valida-pago.component';
 
 export const routes: Routes = [
     {
@@ -52,4 +53,5 @@ export const routes: Routes = [
     { path: 'mis-viajes', component:MisViajesComponent},
     { path: 'pasajero/:cod/mis-viajes', component: MisViajesComponent },                                                                                                            
     { path: 'rutas/mis-viajes', component: MisViajesComponent },
+    { path: 'validarPago', component:ValidaPagoComponent},
 ];

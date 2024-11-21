@@ -103,8 +103,7 @@ export class MenuPagoComponent implements OnInit {
         this.boletoService.registrarBoleto({
           idBoleto: 0,
           precio: this.viajeSeleccionado.precio,
-          fechaEmision: new Date(),
-      
+          fechaEmision: new Date(),      
           horaEmision: new Date().toLocaleTimeString('en-GB'),
           idCliente: this.loginService.getUser().idPersona,
           idViaje: this.viajeSeleccionado.idViaje,

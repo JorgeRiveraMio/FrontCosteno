@@ -15,11 +15,10 @@ import { Asiento } from '../../Interfaces/Asiento';
 })
 export class TarjetaViajeComponent implements OnInit {
   data: Viaje[] = [];
-  asientos: Asiento[] = [];
+  asientosDisponiblesPorViaje: { [idViaje: number]: number } = {}; // Almacenar los asientos disponibles por viaje
   asientosLibres:number = 0;
   router = inject(Router);
   constructor(private viajeDataService: ViajeDataService, private asientoService:AsientoService) {}
-
   ngOnInit(): void {
     // Suscribirse a los datos del servicio
     this.viajeDataService.currentViajes.subscribe(viajes => {
@@ -29,22 +28,26 @@ export class TarjetaViajeComponent implements OnInit {
       } else {
         console.log('Datos recibidos:', this.data);
         
-        // Suponiendo que quieres obtener los asientos del primer viaje
-        // Asegúrate de que cada objeto en 'this.data' tiene un 'idBus' o el campo correcto
-        const idBus = this.data[0].bus.idBus; // Usamos el id del primer viaje como ejemplo
-  
-        // Llamar al servicio para obtener los asientos
-        this.asientoService.obtenerAsientoPorCodBus(idBus).subscribe(
-          (asientos: Asiento[]) => {
-            console.log(asientos);  // Aquí puedes manejar los asientos recibidos
-               // Filtrar los asientos con estado '1' y contar cuántos hay
-          const asientosConEstado1 = asientos.filter(asiento => asiento.estadoAsiento.idEstadoAsiento == 1);
-          this.asientosLibres = asientosConEstado1.length;
-          },
-          (error) => {
-            console.error('Error al obtener los asientos:', error);
-          }
-        );
+        // Para cada viaje, obtener los asientos disponibles
+        this.data.forEach(viaje => {
+          const idBus = viaje.bus.idBus; // Usamos el id del bus de cada viaje
+          
+          // Llamar al servicio para obtener los asientos para cada viaje
+          this.asientoService.obtenerAsientoPorCodBus(idBus).subscribe(
+            (asientos: Asiento[]) => {
+              console.log(`Asientos para el viaje ${viaje.idViaje}:`, asientos);
+              
+              // Filtrar los asientos con estado '1' (libre) y contar cuántos hay
+              const asientosLibres = asientos.filter(asiento => asiento.estadoAsiento.idEstadoAsiento == 1).length;
+              
+              // Almacenar el número de asientos disponibles para cada viaje
+              this.asientosDisponiblesPorViaje[viaje.idViaje] = asientosLibres;
+            },
+            (error) => {
+              console.error(`Error al obtener los asientos para el viaje ${viaje.idViaje}:`, error);
+            }
+          );
+        });
       }
     });
   }

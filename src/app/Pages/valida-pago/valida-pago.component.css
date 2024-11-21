@@ -1,0 +1,22 @@
+/* Centra el contenedor vertical y horizontalmente */
+.container {
+    max-width: 600px;
+    margin-top: 100px;
+  }
+  
+  /* Agregar sombra a las alertas */
+  .alert {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para el botón */
+  .btn {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Efecto hover para el botón */
+  .btn:hover {
+    background-color: #007bff;
+    transform: scale(1.05);
+  }
+  

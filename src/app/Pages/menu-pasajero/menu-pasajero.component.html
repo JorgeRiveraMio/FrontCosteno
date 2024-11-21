@@ -43,7 +43,15 @@
                         <h5 style="color: black;">Total</h5>
                         <p> S/.{{ totalAPagar }}</p>
                     </div>
-                    <button class="btn btn-primary btn-continuar" (click)="continuarConElPago()">CONTINUAR CON EL PAGO</button>
+                
+                   <!-- Botón para validar los datos de los pasajeros -->
+                   <button (click)="continuarConElPago()" class="btn btn-primary btn-lg rounded shadow-sm hover-shadow">Validar y Continuar</button>
+
+
+<!-- Contenedor para el botón de pago de MercadoPago -->
+<div *ngIf="preferenceId && pasajerosValidos" id="wallet_container"></div>
+
+                    
                 </div>
             </div>
         </div>

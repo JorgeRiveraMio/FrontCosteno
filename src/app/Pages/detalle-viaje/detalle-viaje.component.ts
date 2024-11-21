@@ -80,32 +80,57 @@ export class DetalleViajeComponent {
     return this.obtenerAsientosSeleccionados().length > 0;
   }
   
+  // Siguiente(): void {
+  //   const asientosSeleccionados = this.obtenerAsientosSeleccionados();
+    
+  //   // Si no hay asientos seleccionados, no hace nada y no navega
+  //   if (asientosSeleccionados.length === 0) {
+  //     this.validator.tarjeta("Debe seleccionar un asiento para continuar",false);
+  //     return; // No navega si no hay asientos seleccionados
+  //   }else if (asientosSeleccionados.length > 5){
+  //     this.validator.tarjeta("No puedes seleccionar mas de 5 asientos",false);
+  //     return; 
+  //   }
+  
+  //   const navigationExtras: NavigationExtras = {
+  //     state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados,
+  //       precioTotal:this.precioTotal
+  //      }
+  //   };
+  //   this.router.navigate(['/pasajero', this.cod], navigationExtras); // Navega a MenuPasajeroComponent
+  // }
   Siguiente(): void {
     const asientosSeleccionados = this.obtenerAsientosSeleccionados();
     
     // Si no hay asientos seleccionados, no hace nada y no navega
     if (asientosSeleccionados.length === 0) {
-      this.validator.tarjeta("Debe seleccionar un asiento para continuar",false);
+      this.validator.tarjeta("Debe seleccionar un asiento para continuar", false);
       return; // No navega si no hay asientos seleccionados
-    }else if (asientosSeleccionados.length > 5){
-      this.validator.tarjeta("No puedes seleccionar mas de 5 asientos",false);
+    } else if (asientosSeleccionados.length > 5) {
+      this.validator.tarjeta("No puedes seleccionar mas de 5 asientos", false);
       return; 
     }
   
+    // Crear un array con los idAsiento de los asientos seleccionados
+    const asientosIds = asientosSeleccionados.map(numAsiento => {
+      const asiento = this.asientos.find(a => a.numAsiento.toString() === numAsiento.toString());
+
+      return asiento ? asiento.idAsiento : null;
+    }).filter(id => id !== null);
+  
     const navigationExtras: NavigationExtras = {
-      state: { cantidadAsientos: asientosSeleccionados.length, asientosSeleccionados: asientosSeleccionados,
-        precioTotal:this.precioTotal
-       }
+      state: { cantidadAsientos: asientosIds.length, asientosSeleccionados: asientosIds, precioTotal: this.precioTotal }
     };
     this.router.navigate(['/pasajero', this.cod], navigationExtras); // Navega a MenuPasajeroComponent
   }
+  
 
   obtenerAsientosSeleccionados(): string[] {
     return Object.keys(this.seleccionados).filter(numAsiento => this.seleccionados[numAsiento]);
   }
 
   toggleSeat(asiento: Asiento): void {
-    console.log(asiento); // Para ver si la información del asiento es correcta
+    console.log("togle"+asiento); // Para ver si la información del asiento es correcta
   
     // Solo permitir seleccionar o deseleccionar si el asiento está disponible (activo)
     if (asiento.estadoAsiento && asiento.estadoAsiento.estado === 'LIBRE') {

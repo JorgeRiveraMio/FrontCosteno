@@ -1,0 +1,26 @@
+<app-header></app-header>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <!-- Título del estado del pago -->
+        <h2 [ngClass]="{'text-success': paymentStatus === 'Aprobado', 'text-warning': paymentStatus === 'Pendiente', 'text-danger': paymentStatus === 'Fallido'}">
+          Estado del Pago: {{ paymentStatus }}
+        </h2>
+        <!-- Mensaje que indica el resultado del pago -->
+        <div class="alert" [ngClass]="{
+          'alert-success': paymentStatus === 'Aprobado',
+          'alert-warning': paymentStatus === 'Pendiente',
+          'alert-danger': paymentStatus === 'Fallido'
+        }">
+          <p>{{ message }}</p>
+        </div>
+        
+        <!-- Botón para regresar a la página principal -->
+        <a routerLink="/home" class="btn btn-lg btn-primary mt-4">
+          Volver a la página principal
+        </a>
+      </div>
+    </div>
+  </div>
+  
+<app-footer></app-footer>
