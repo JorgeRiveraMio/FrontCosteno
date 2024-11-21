@@ -15,7 +15,9 @@ export class PasajeroService {
   
   constructor(private http: HttpClient) { }
 
- 
+  registrarPasajero(pasajero: Pasajero): Observable<ResponseApi> {
+    return this.http.post<ResponseApi>(`${this.apiUrl}/registrar`, pasajero);
+  }
 
   listarPasajero(): Observable<Pasajero[]> {
     return this.http.get<Pasajero[]>(`${this.apiUrl}/listar`);
@@ -23,8 +25,5 @@ export class PasajeroService {
 
   buscarPasajero(id: number): Observable<Pasajero> {
     return this.http.get<Pasajero>(`${this.apiUrl}/buscar/${id}`);
-  }
-  registrarPasajero(pasajeroDTO: PasajeroDTO): Observable<ResponseApi> {
-    return this.http.post<ResponseApi>(`${this.apiUrl}/registrar`, pasajeroDTO);
   }
 }

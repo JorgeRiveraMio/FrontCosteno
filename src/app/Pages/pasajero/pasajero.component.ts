@@ -62,7 +62,7 @@ export class PasajeroComponent {
   
     const hoy = new Date();
     const nacimiento = new Date(this.pasajero.fecNacimiento);
-    let edad = hoy.getFullYear() - nacimiento.getFullYear(); // Cambié 'const' por 'let'
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
     const mes = hoy.getMonth() - nacimiento.getMonth();
     const dia = hoy.getDate() - nacimiento.getDate();
   
