@@ -1,26 +1,62 @@
 <app-header></app-header>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8 text-center">
-        <!-- Título del estado del pago -->
-        <h2 [ngClass]="{'text-success': paymentStatus === 'Aprobado', 'text-warning': paymentStatus === 'Pendiente', 'text-danger': paymentStatus === 'Fallido'}">
-          Estado del Pago: {{ paymentStatus }}
-        </h2>
-        <!-- Mensaje que indica el resultado del pago -->
-        <div class="alert" [ngClass]="{
+
+<div  style="height: 62vh;">
+<div class="container mt-5  d-flex justify-content-center align-items-center">
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="col-md-8 text-center">
+      <!-- Título del estado del pago -->
+      <h2 
+        [ngClass]="{
+          'text-success': paymentStatus === 'Aprobado', 
+          'text-warning': paymentStatus === 'Pendiente', 
+          'text-danger': paymentStatus === 'Fallido'
+        }">
+        Estado del Pago: {{ paymentStatus }}
+      </h2>
+
+      <!-- Mensaje que indica el resultado del pago -->
+      <div 
+        class="alert" 
+        [ngClass]="{
           'alert-success': paymentStatus === 'Aprobado',
           'alert-warning': paymentStatus === 'Pendiente',
           'alert-danger': paymentStatus === 'Fallido'
         }">
-          <p>{{ message }}</p>
-        </div>
-        
-        <!-- Botón para regresar a la página principal -->
-        <a routerLink="/home" class="btn btn-lg btn-primary mt-4">
-          Volver a la página principal
-        </a>
+        <p style="color: black;">{{ message }}</p>
+      </div>
+
+      <!-- Botones condicionales según el estado del pago -->
+      <div class="row">
+     <!-- Botón Volver a la página principal (si no es Fallido) -->
+<div *ngIf="paymentStatus !== 'Fallido'" class="col-12 mb-3">
+  <button 
+    (click)="navigateToHome()" 
+    class="btn btn-lg btn-primary w-100">
+    Volver a la página principal
+  </button>
+</div>
+
+<!-- Botón Intentar nuevamente (si es Fallido) -->
+<div *ngIf="paymentStatus === 'Fallido'" class="col-12 mb-3">
+  <button 
+    (click)="navigateToHome()" 
+    class="btn btn-lg btn-danger w-100">
+    Intentar nuevamente
+  </button>
+</div>
+
+<!-- Botón Ver mis boletos (si es Aprobado) -->
+<div *ngIf="paymentStatus === 'Aprobado'" class="col-12 mb-3">
+  <button 
+    (click)="navigateToMisViajes()" 
+    class="btn btn-lg btn-success w-100">
+    Ver mis boletos
+  </button>
+</div>
+
       </div>
     </div>
   </div>
-  
+</div>
+</div>
 <app-footer></app-footer>

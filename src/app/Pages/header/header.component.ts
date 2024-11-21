@@ -48,5 +48,8 @@ export class HeaderComponent {
     this.viewChange.emit(view); // Emitir el nombre de la vista seleccionada
     //console.log(view);
   }
+  misViajes() {
+    this.router.navigate(['/login']);
+  }
   
 }

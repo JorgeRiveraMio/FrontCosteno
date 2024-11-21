@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../Services/login.service';
 import { BoletoService } from '../../Services/boleto.service';
@@ -20,7 +20,7 @@ export class ValidaPagoComponent  implements OnInit{
   private  boletoService= inject(BoletoService);
   private  loginService= inject(LoginService);
   private asientoService = inject(AsientoService);
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,private router: Router) {}
 
   ngOnInit(): void {
     // Obtener los parámetros de la URL
@@ -95,6 +95,13 @@ export class ValidaPagoComponent  implements OnInit{
       console.log('localStorage no está disponible');
     }
 
+    }
+    navigateToHome() {
+      this.router.navigate(['/']);
+    }
+    
+    navigateToMisViajes() {
+      this.router.navigate(['/mis-viajes']);
     }
   }
 
