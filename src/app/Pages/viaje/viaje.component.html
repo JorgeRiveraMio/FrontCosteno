@@ -109,7 +109,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of viajes">
+                <tr *ngFor="let item of viajes | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
                     <td>{{ item.ruta.terminalOrigen.nombre }} - {{ item.ruta.terminalDestino.nombre }}</td>
                     <td>{{ item.fechaSalida | date: 'yyyy-MM-dd' }}</td>
                     <td>{{ item.fechaLlegada | date: 'yyyy-MM-dd' }}</td>
@@ -125,5 +125,8 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-3">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
     </div>
 </div>

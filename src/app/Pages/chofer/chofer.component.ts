@@ -7,10 +7,12 @@ import { Chofer } from '../../Interfaces/Chofer';
 import bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @Component({
   selector: 'app-chofer',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule,NgxPaginationModule],
   templateUrl: './chofer.component.html',
   styleUrls: ['./chofer.component.css'] // Corregido a styleUrls
 })
@@ -23,8 +25,13 @@ export class ChoferComponent implements OnInit {
   filtro:string="Activo";
   searchTerm: string = '';
 
+      // Propiedades para la paginación
+      p: number = 1; // Página actual
+      itemsPerPage: number = 10; // Número de elementos por página
+
   cambiarFiltro(filtro:string	){
     this.filtro=filtro;
+    this.p = 1; // Reinicia a la primera página
     console.log(this.filtro)
     this.listar(this.filtro)
   }
@@ -141,6 +148,7 @@ export class ChoferComponent implements OnInit {
   }
 
   filtrarChoferes() {
+    this.p = 1; // Reinicia a la primera página
     this.choferService.listarChoferes().subscribe((data: Chofer[]) => {
       let choferesFiltrados = data;
       if (this.searchTerm) {

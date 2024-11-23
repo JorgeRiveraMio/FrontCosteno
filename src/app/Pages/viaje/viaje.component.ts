@@ -13,10 +13,12 @@ import { Ruta } from '../../Interfaces/Ruta';
 import { Bus } from '../../Interfaces/Bus';
 import { Chofer } from '../../Interfaces/Chofer';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @Component({
   selector: 'app-viaje',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule,NgxPaginationModule],
   templateUrl: './viaje.component.html',
   styleUrl: './viaje.component.css'
 })
@@ -26,6 +28,7 @@ export class ViajeComponent {
 
   cambiarFiltro(filtro:string	){
     this.filtro=filtro;
+    this.p = 1; // Reinicia a la primera página
     console.log(this.filtro)
      this.listarViajes(this.filtro)
   
@@ -43,6 +46,10 @@ export class ViajeComponent {
   choferes: Chofer[] = [];
   idEditado: number | null = null;
   searchTerm: string = '';
+
+  // Propiedades para la paginación
+  p: number = 1; // Página actual
+  itemsPerPage: number = 10; // Número de elementos por página
 
   ngOnInit(): void {
     this.listarViajes(this.filtro);
@@ -151,6 +158,7 @@ export class ViajeComponent {
   }
   
   filtrarViajes() {
+    this.p = 1; //Reinicia a la primera página
     this.viajeService.listarViajes().subscribe((data: Viaje[]) => {
       let viajesFiltrados = data;
       if (this.searchTerm) {

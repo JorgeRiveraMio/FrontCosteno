@@ -9,10 +9,12 @@ import { TerminalService } from '../../Services/terminal.service';
 import { Terminal } from '../../Interfaces/Terminal';
 import { LoginService } from '../../Services/login.service';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @Component({
   selector: 'app-ruta',
   standalone: true,
-  imports: [HeaderComponent,CommonModule,ReactiveFormsModule,FormsModule],
+  imports: [HeaderComponent,CommonModule,ReactiveFormsModule,FormsModule,NgxPaginationModule],
   templateUrl: './ruta.component.html',
   styleUrl: './ruta.component.css'
 })
@@ -28,8 +30,13 @@ private loginService =inject(LoginService)
   filtro:string="activo";
   searchTerm: string = '';
 
+  // Propiedades para la paginación
+  p: number = 1; // Página actual
+  itemsPerPage: number = 10; // Número de elementos por página
+
   cambiarFiltro(filtro:string	){
     this.filtro=filtro;
+    this.p = 1; // Reinicia a la primera página
     console.log(this.filtro)
     this.listar(this.filtro)
   
@@ -146,6 +153,7 @@ rutaForm = this.formBuild.group({
     });
   }
   filtrarRutas() {
+    this.p = 1; //Reinicia a la primera página
     this.rutaService.listarRutas().subscribe((data: Ruta[]) => {
       let rutasFiltradas = data;
       if (this.searchTerm) {

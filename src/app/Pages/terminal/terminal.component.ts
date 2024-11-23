@@ -6,12 +6,16 @@ import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angu
 import { Terminal } from '../../Interfaces/Terminal';
 import Swal from 'sweetalert2';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
+
 @Component({
   selector: 'app-terminal',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './terminal.component.html',
-  styleUrl: './terminal.component.css'
+  styleUrls: ['./terminal.component.css']
+  
 })
 export class TerminalComponent implements OnInit {
   private terminalService = inject(TerminalService);
@@ -20,6 +24,10 @@ export class TerminalComponent implements OnInit {
   idEditado: number | null = null;
   filtro: string = 'activo';
   searchTerm: string = '';
+
+    // Propiedades para la paginación
+    p: number = 1; // Página actual
+    itemsPerPage: number = 10; // Número de elementos por página
 
   departamentos = [
     { 
@@ -155,6 +163,7 @@ export class TerminalComponent implements OnInit {
 
   cambiarFiltro(filtro: string) {
     this.filtro = filtro;
+      this.p = 1; // Reinicia a la primera página
     console.log(this.filtro);
     this.listar(this.filtro);
   }
@@ -206,6 +215,7 @@ export class TerminalComponent implements OnInit {
   }
 
   filtrarTerminales() {
+    this.p = 1; //Reinicia a la primera página
     this.terminalService.listarTerminales().subscribe((data: Terminal[]) => {
         let filteredTerminals = data;
         if (this.searchTerm) {

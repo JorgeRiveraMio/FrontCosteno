@@ -7,10 +7,12 @@ import { BusService } from '../../Services/bus.service';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../../Services/login.service';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @Component({
   selector: 'app-bus',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
   templateUrl: './bus.component.html',
   styleUrls: ['./bus.component.css']
 })
@@ -24,6 +26,10 @@ export class BusComponent {
   filtro: string = "ACTIVO";
   searchTerm: string = '';
 
+  // Propiedades para la paginación
+  p: number = 1; // Página actual
+  itemsPerPage: number = 10; // Número de elementos por página
+
   modelosBus = [
     { modelo: 'Costeño Ejecutivo', capacidadPiso1: 18, capacidadPiso2: 40 },
     { modelo: 'Costeño VIP', capacidadPiso1: 11, capacidadPiso2: 23 },
@@ -32,6 +38,7 @@ export class BusComponent {
 
   cambiarFiltro(filtro: string) {
     this.filtro = filtro;
+    this.p = 1; // Reiniciar la página a la primera
     this.listar(this.filtro);
   }
 
@@ -131,6 +138,7 @@ guardar() {
 
 
   filtrarBuses() {
+    this.p = 1; // Reiniciar la página a la primera
     this.busService.listarBuses().subscribe((data: Bus[]) => {
       let busesFiltrados = data;
       if (this.searchTerm) {

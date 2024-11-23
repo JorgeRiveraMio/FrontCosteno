@@ -87,7 +87,7 @@
             </thead>
             <tbody>
                 <!-- Aquí puedes iterar sobre los datos de los buses -->
-                <tr *ngFor="let bus of buses">
+                <tr *ngFor="let bus of buses | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
                     <td>{{ bus.nombre }}</td>
                     <td>{{ bus.placa }}</td>
                     <td>{{ bus.modelo }}</td>
@@ -100,5 +100,8 @@
                 </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-3">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
     </div>
 </div>
