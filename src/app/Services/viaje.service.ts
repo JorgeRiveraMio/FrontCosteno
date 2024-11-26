@@ -32,7 +32,8 @@ export class ViajeService {
       .set('fechaLlegada', fechaLlegada.toISOString().split('T')[0]) // Formatear como 'YYYY-MM-DD'
       .set('idRuta', idRuta.toString()); // Convertir a string
 
-    return this.http.get<Viaje[]>(`${this.apiUrl}/buscar`, { params });
+    //return this.http.get<Viaje[]>(`${this.apiUrl}/buscar`, { params });
+    return this.http.get<Viaje[]>(`${this.apiUrl}/buscarProximos`, { params });
   }
   buscarPorID(cod: number): Observable<Viaje> {
     return this.http.get<Viaje>(`${this.apiUrl}/buscar/${cod}`);
