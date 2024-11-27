@@ -26,10 +26,9 @@ export class ViajeService {
   actualizarEstado(id:number): Observable<ResponseApi>{
     return this.http.put<ResponseApi>(`${this.apiUrl}/actualizarEstado/${id}`,null);
   }
-  buscarViajes(fechaSalida: Date, fechaLlegada: Date, idRuta: number): Observable<Viaje[]> {
+  buscarViajes(fechaSalida: Date, idRuta: number): Observable<Viaje[]> {
     const params = new HttpParams()
       .set('fechaSalida', fechaSalida.toISOString().split('T')[0]) // Formatear como 'YYYY-MM-DD'
-      .set('fechaLlegada', fechaLlegada.toISOString().split('T')[0]) // Formatear como 'YYYY-MM-DD'
       .set('idRuta', idRuta.toString()); // Convertir a string
 
     //return this.http.get<Viaje[]>(`${this.apiUrl}/buscar`, { params });

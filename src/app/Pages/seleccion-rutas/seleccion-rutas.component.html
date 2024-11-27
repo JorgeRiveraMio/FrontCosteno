@@ -8,7 +8,6 @@
         <option value="{{item.nombre}}"  *ngFor="let item of terminals"  >{{item.nombre}}</option>
     </select>
     <input type="date" class="form-control"  [min]="today"  [(ngModel)]="selectedFechaSalida">
-    <input type="date" class="form-control"  [min]="today"  [(ngModel)]="selectedFechaLlegada">
     <button class="btn btn-outline-primary bg-primary" type="button" (click)="buscarRutas()">
         <span>BUSCAR</span></button>
 </div>
